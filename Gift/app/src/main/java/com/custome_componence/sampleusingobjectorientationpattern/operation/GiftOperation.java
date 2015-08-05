@@ -12,15 +12,15 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by channy
  */
-public class ContactOperation implements IOperation {
+public class GiftOperation implements IOperation {
     AsyncHttpClient client = new AsyncHttpClient();
 
-    public void updateContact (String name, final IOperationListener iOperationListener){
+    public void updateContact (String description, final IOperationListener iOperationListener){
      RequestParams requestParams = new RequestParams();
-        requestParams.add("name", name);
+        requestParams.add("description", description);
 //      requestParams.add("phone", phone);
 
-        client.put(Constant.BASE_URL + "contacts/18.json", requestParams,new AsyncHttpResponseHandler() {
+        client.put(Constant.BASE_URL + "gifts/1.json", requestParams,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -54,7 +54,7 @@ public class ContactOperation implements IOperation {
        // requestParams.add("name", name);
 //      requestParams.add("phone", phone);
 
-        client.get(Constant.BASE_URL + "contacts.json",new AsyncHttpResponseHandler() {
+        client.get(Constant.BASE_URL + "gifts.json",new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -88,7 +88,7 @@ public class ContactOperation implements IOperation {
      //   requestParams.add("age", age);
 //      requestParams.add("phone", phone);
 
-        client.get(Constant.BASE_URL + "contacts/19.json",new AsyncHttpResponseHandler() {
+        client.get(Constant.BASE_URL + "gifts/1.json",new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

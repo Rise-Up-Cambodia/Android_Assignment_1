@@ -12,9 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.converter.ContactDataConverter;
-import com.custome_componence.sampleusingobjectorientationpattern.model.Contact;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.ContactOperation;
+import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
+import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
+import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 
 import org.json.JSONObject;
@@ -22,14 +22,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
+
     private Button btnAdd;
     private String name = "";
     private String phone = "";
     TextView tv;
     EditText edt;
     ListView lv;
-    public static ArrayList<Contact> contacts = null;
-    public static Contact contact = null;
+    public static ArrayList<Gift> gifts = null;
+    public static Gift gift = null;
 
     ArrayList<String> names = new ArrayList<String>();
 
@@ -41,18 +42,18 @@ public class MainActivity extends Activity {
         edt = (EditText)findViewById(R.id.changename);
         tv = (TextView)findViewById(R.id.age);
         lv = (ListView)findViewById(R.id.listView);
-        final ContactOperation contactOperation = new ContactOperation();
+        final GiftOperation contactOperation = new GiftOperation();
 
 
         contactOperation.getContactById(new IOperationListener() {
             @Override
             public void success(JSONObject json) {
                         /* These two line of code will be use next time */
-               ContactDataConverter contactDataConverter = new ContactDataConverter();
-                contact = contactDataConverter.convertJSONToDetail(json);
-                String age = contact.getAge();
+               GiftDataConverter giftDataConverter = new GiftDataConverter();
+                gift = giftDataConverter.convertJSONToDetail(json);
+                String date = gift.getDate();
 
-                Toast.makeText(getApplicationContext(), age, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void fail(int statusCode, String responseBody) {
@@ -64,11 +65,11 @@ public class MainActivity extends Activity {
             @Override
             public void success(JSONObject json) {
                 /* These two line of code will be use next time */
-                ContactDataConverter contactDataConverter = new ContactDataConverter();
-                contacts = contactDataConverter.convertJSONToContact(json);
+                GiftDataConverter giftDataConverter = new GiftDataConverter();
+                gifts = giftDataConverter.convertJSONToContact(json);
                 String name1 = "", phone1 = "";
-                for (int i = 0; i < contacts.size(); i++) {
-                    name1 = contacts.get(i).getName();
+                for (int i = 0; i < gifts.size(); i++) {
+                    name1 = gifts.get(i).getDescription();
                     names.add(name1);
 //                    phone1 = contacts.get(i).getPhone();
 //                    Toast.makeText(getApplicationContext(), name1 + ", " + phone1, Toast.LENGTH_LONG).show();
@@ -128,12 +129,10 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
