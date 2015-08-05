@@ -40,8 +40,32 @@
             ));
         }
 
+        //* Vanda 05/08/2015
+        // Get data from database //
+
+
         public function view($id) {
-            $gifts =  $this->Gift->findById($id
+
+            $gifts =  $this->Gift->find('all',array(
+                    'fields' => array('Gift.id', 'Gift.cat_id','Gift.description','Gift.from','Gift.date','Gift.status','Gift.receive_date','Gift.gift_name','category.cat_name','user.name'),
+                    'joins' => array(
+                        array('table' => 'categories',
+                        'alias' => 'category',
+                        'type' => 'INNER',
+                        'conditions' => array('category.id = Gift.cat_id')
+
+                         ),
+                        array('table' => 'users',
+                            'alias' => 'user',
+                            'type' => 'INNER',
+                            'conditions' => array('user.id = Gift.user_id')
+
+                        )
+                    ),
+                    'conditions' => array(
+                        'Gift.id' => $id
+                    )
+                )
         );
 
             $this->set(array(
