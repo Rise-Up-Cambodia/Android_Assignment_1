@@ -10,7 +10,7 @@ import com.custome_componence.sampleusingobjectorientationpattern.config.Constan
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by channy
+ * Created by sreyeleak 05/08/2015
  */
 public class GiftOperation implements IOperation {
     AsyncHttpClient client = new AsyncHttpClient();
