@@ -7,7 +7,11 @@
     tools:context="com.custome_componence.sampleusingobjectorientationpattern.sample.ShareGift">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
+        android:id="@+id/giftimage"
+        android:layout_marginTop="@dimen/activity_field_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:src="@mipmap/flowers1"/>
     <Button
         android:layout_width="match_parent"
@@ -26,17 +30,45 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_field_padding"
         android:paddingBottom="@dimen/activity_field_padding"
-        android:layout_marginTop="@dimen/activity_field_margin"
         android:id="@+id/description"
         android:hint="Description"/>
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_field_padding"
-        android:paddingBottom="@dimen/activity_field_padding"
-        android:layout_marginTop="@dimen/activity_field_margin"
         android:id="@+id/category"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:id="@+id/from"/>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginRight="@dimen/activity_horizontal_margin"
+       android:layout_marginLeft="@dimen/activity_horizontal_margin"
+>
+       <EditText
+           android:layout_width="250dp"
+           android:layout_marginTop="18dp"
+           android:hint="Reveived Date"
+           android:id="@+id/receive_date"
+           android:layout_height="wrap_content" />
 
+       <ImageView
+           android:layout_width="65dp"
+           android:layout_height="65dp"
+           android:id="@+id/imgcalendar"
+           android:src="@mipmap/calendar"/>
+       </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share Gift"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_field_margin"
+        android:id="@+id/btnshare"/>
 </LinearLayout>
