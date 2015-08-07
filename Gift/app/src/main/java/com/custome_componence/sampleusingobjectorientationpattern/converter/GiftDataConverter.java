@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by Channy on 8/3/2015.
  */
 public class GiftDataConverter implements IDataConverter {
-    public ArrayList<Gift> convertJSONToContact(JSONObject jsonObject){
+    public ArrayList<Gift> convertJSONToAllGift(JSONObject jsonObject){
         //Contact contact = null;
         ArrayList<Gift> gifts = new ArrayList<Gift>();
         try {
@@ -25,9 +25,12 @@ public class GiftDataConverter implements IDataConverter {
                 for(int i = 0; i < lg; i++){
                 JSONObject job = json.getJSONObject(i);
                 String description = job.getJSONObject("Gift").getString("description");
+                String name = job.getJSONObject("user").getString("name");
+                String post = job.getJSONObject("Gift").getString("date");
                 String from = job.getJSONObject("Gift").getString("from");
-                String date = job.getJSONObject("Gift").getString("date");
-                gifts.add(new Gift(description,from,date));
+                String category = job.getJSONObject("category").getString("cat_name");
+                String gift_name = job.getJSONObject("Gift").getString("gift_name");
+                gifts.add(new Gift(name,post,from,description,category,gift_name));
                 }
         }catch (Exception e){
             e.printStackTrace();
