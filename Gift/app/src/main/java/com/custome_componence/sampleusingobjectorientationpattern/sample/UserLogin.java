@@ -10,16 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
-import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
 import com.custome_componence.sampleusingobjectorientationpattern.model.User;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
 
@@ -27,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class UserLogin extends Activity {
 
     private Button btnAdd;
     EditText username;
@@ -40,7 +35,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
         btnAdd = (Button) findViewById(R.id.btnadd);
         username = (EditText) findViewById(R.id.name);
         password = (EditText) findViewById(R.id.password);
@@ -76,7 +71,7 @@ public class MainActivity extends Activity {
                                 edt.commit();
 
                                 Intent e = new Intent();
-                                e.setClass(MainActivity.this, TestActivity.class);
+                                e.setClass(UserLogin.this, TestActivity.class);
 
 
                                 startActivity(e);
@@ -108,7 +103,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar gift_item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();

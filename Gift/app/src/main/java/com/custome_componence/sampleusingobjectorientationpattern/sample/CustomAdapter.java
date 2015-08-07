@@ -1,19 +1,14 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +30,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
 
     public CustomAdapter(Activity activity, ArrayList<String> names) {
 
-        super(activity, R.layout.item, names);
+        super(activity, R.layout.gift_item, names);
         this.activity = activity;
         this.names = names;
     }
@@ -44,7 +39,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.item, null, true);
+        View rowView = inflater.inflate(R.layout.gift_item, null, true);
 
         TextView name1 = (TextView) rowView.findViewById(R.id.txtname);
 
