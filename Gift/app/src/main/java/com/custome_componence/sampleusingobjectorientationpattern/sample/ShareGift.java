@@ -1,5 +1,6 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -39,7 +40,7 @@ import java.util.Random;
 /*
 * Created by Sreyleak 06/08/2015
 * */
-public class ShareGift extends ActionBarActivity {
+public class ShareGift extends ActionBarActivity{
     Button btnshare, btnchoose;
     ImageView calendarimage, giftimage;
     EditText description, received_date;
