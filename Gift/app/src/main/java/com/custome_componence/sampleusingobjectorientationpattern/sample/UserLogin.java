@@ -71,8 +71,8 @@ public class UserLogin extends Activity {
                                 edt.commit();
 
                                 Intent e = new Intent();
-                                e.setClass(UserLogin.this, GiftHome.class);
 
+                                e.setClass(UserLogin.this, GiftHome.class);
 
                                 startActivity(e);
 
