@@ -27,7 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".sample.GiftDetail"
+            android:label="@string/title_activity_gift_detail" >
+        </activity>
+        <activity
+            android:name=".sample.UpdateGift"
+            android:label="@string/title_activity_update_gift" >
+        </activity>
     </application>
 
 </manifest>

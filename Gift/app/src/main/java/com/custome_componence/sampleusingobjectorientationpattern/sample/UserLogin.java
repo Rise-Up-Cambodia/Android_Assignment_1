@@ -71,7 +71,7 @@ public class UserLogin extends Activity {
                                 edt.commit();
 
                                 Intent e = new Intent();
-                                e.setClass(UserLogin.this, TestActivity.class);
+
 
 
                                 startActivity(e);
