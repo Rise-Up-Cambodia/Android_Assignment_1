@@ -23,9 +23,7 @@ class UsersController extends AppController{
         ));
         if ($users) {
             $users = $users;
-        } else {
-            $users = 'Incorrect username or password !';
-        }
+        } 
         $this->set(array(
             'users' => $users,
             '_serialize' => array('users')

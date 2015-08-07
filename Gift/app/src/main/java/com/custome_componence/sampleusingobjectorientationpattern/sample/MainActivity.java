@@ -1,6 +1,9 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +16,12 @@ import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
+import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
 import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
+import com.custome_componence.sampleusingobjectorientationpattern.model.User;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
 
 import org.json.JSONObject;
 
@@ -24,95 +30,72 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private Button btnAdd;
-    private String name = "";
-    private String phone = "";
-    TextView tv;
-    EditText edt;
-    ListView lv;
-    public static ArrayList<Gift> gifts = null;
-    public static Gift gift = null;
+    EditText username;
+    EditText password;
+    public static ArrayList<User> gifts = null;
+    public static User gift = null;
 
     ArrayList<String> names = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
-        edt = (EditText)findViewById(R.id.changename);
-        tv = (TextView)findViewById(R.id.age);
-        lv = (ListView)findViewById(R.id.listView);
-        final GiftOperation contactOperation = new GiftOperation();
+        setContentView(R.layout.login_activity);
+        btnAdd = (Button) findViewById(R.id.btnadd);
+        username = (EditText) findViewById(R.id.name);
+        password = (EditText) findViewById(R.id.password);
+        final UserOperation userOperation = new UserOperation();
 
-
-        contactOperation.getContactById(new IOperationListener() {
-            @Override
-            public void success(JSONObject json) {
-                        /* These two line of code will be use next time */
-               GiftDataConverter giftDataConverter = new GiftDataConverter();
-                gift = giftDataConverter.convertJSONToDetail(json);
-                String date = gift.getDate();
-
-                Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void fail(int statusCode, String responseBody) {
-                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        contactOperation.getContact( new IOperationListener() {
-            @Override
-            public void success(JSONObject json) {
-                /* These two line of code will be use next time */
-                GiftDataConverter giftDataConverter = new GiftDataConverter();
-                gifts = giftDataConverter.convertJSONToContact(json);
-                String name1 = "", phone1 = "";
-                for (int i = 0; i < gifts.size(); i++) {
-                    name1 = gifts.get(i).getDescription();
-                    names.add(name1);
-//                    phone1 = contacts.get(i).getPhone();
-//                    Toast.makeText(getApplicationContext(), name1 + ", " + phone1, Toast.LENGTH_LONG).show();
-                }
-                CustomAdapter ad = new CustomAdapter(MainActivity.this,names);
-                lv.setAdapter(ad);
-               // Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void fail(int statusCode, String responseBody) {
-                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-//                name = "NaNa";
-//                phone = "077987654";
+            public void onClick(View view) {
 
-                contactOperation.updateContact(edt.getText().toString(),new IOperationListener() {
+                userOperation.login(username.getText().toString(), password.getText().toString(), new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
                         /* These two line of code will be use next time */
-//                        ContactDataConverter contactDataConverter = new ContactDataConverter();
-//                        contacts = contactDataConverter.convertJSONToContact(json);
-//                        String name1 = "", phone1 = "";
-//                        for (int i = 0; i < contacts.size(); i++) {
-//                            name1 = contacts.get(i).getName();
-//                            phone1 = contacts.get(i).getPhone();
-//                            Toast.makeText(getApplicationContext(), name1 + ", " + phone1, Toast.LENGTH_LONG).show();
-//                        }
-                        Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                        UserDataConverter userDataConverter = new UserDataConverter();
+                        gifts = userDataConverter.convertJSONToLogin(json);
+                        // if(gift != "")
+
+                        String name1 = "", password = "";
+
+
+                        for (int i = 0; i < gifts.size(); i++) {
+                            name1 = gifts.get(i).getName();
+
+                            if (name1 == "username password are not match!") {
+                                Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
+                            } else {
+
+
+                                SharedPreferences sh = getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor edt = sh.edit();
+                                edt.putString("name", name1);
+
+                                edt.commit();
+
+                                Intent e = new Intent();
+                                e.setClass(MainActivity.this, TestActivity.class);
+
+
+                                startActivity(e);
+
+                            }
+
+                        }
                     }
 
                     @Override
                     public void fail(int statusCode, String responseBody) {
-                        Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
                     }
+
                 });
 
             }
         });
+
 
     }
 
