@@ -120,7 +120,7 @@ public class ShareGift extends ActionBarActivity{
                             from.getSelectedItem().toString().equals("From whom")) {
                         Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
                     } else {
-                        //to insert category number into database base on spinner item selected
+                        //to insert category number into database base on spinner gift_item selected
                         switch (category.getSelectedItem().toString()) {
                             case "Other":
                                 CategoryNumber = 2;
@@ -207,7 +207,7 @@ public class ShareGift extends ActionBarActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar gift_item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
