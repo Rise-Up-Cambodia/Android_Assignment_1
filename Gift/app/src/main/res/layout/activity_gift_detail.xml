@@ -34,51 +34,5 @@
         android:layout_height="200dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:src="@mipmap/flowers1"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_field_margin">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@style/txtstyle"
-            android:text="Received Date : "/>
-        <TextView
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_marginLeft="100dp"
-            android:text="2015-08-09"
-            android:id = "@+id/receive_date"/>
-        <TextView
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:textColor="@style/txtstyle"
-            android:text="Category : "
-            android:layout_marginTop="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Family"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/category"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="family"
-            android:id="@+id/from"
-            android:layout_alignParentRight="true"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From "
-            android:textColor="@style/txtstyle"
-            android:layout_marginRight="50dp"
-            android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:text="Hello everyone do you enjoy the gift i have given you"
-        android:layout_marginTop="@dimen/activity_field_margin"/>
+    
 </LinearLayout>
