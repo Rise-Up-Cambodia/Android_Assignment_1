@@ -63,16 +63,13 @@ public class UserLogin extends Activity {
                                 Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
                             } else {
 
-
                                 SharedPreferences sh = getSharedPreferences("user", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor edt = sh.edit();
                                 edt.putString("name", name1);
 
                                 edt.commit();
-
                                 Intent e = new Intent();
-
-                                e.setClass(UserLogin.this, GiftHome.class);
+                               e.setClass(UserLogin.this, GiftHome.class);
 
                                 startActivity(e);
 

@@ -1,9 +1,12 @@
 package com.custome_componence.sampleusingobjectorientationpattern.operation;
 
 import com.loopj.android.http.*;
+
 import org.apache.http.Header;
 import org.json.JSONObject;
+
 import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -45,9 +48,11 @@ public class GiftOperation implements IOperation {
         });
     }
 
-
-    public void shareGift (String description, String from, String category, String date, String receive_date,
-                           String image_path, final IOperationListener iOperationListener){
+    /*
+    * Created by Sreyleak 07/08/2015
+    * */
+    public void shareGift(String description, String from, String category, String date, String receive_date,
+                          String image_path, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("description", description);
         requestParams.add("from", from);
@@ -56,9 +61,9 @@ public class GiftOperation implements IOperation {
         requestParams.add("status", "1");
         requestParams.add("date", date);
         requestParams.add("receive_date", receive_date);
-        requestParams.add("gift_name",image_path );
+        requestParams.add("gift_name", image_path);
 
-        Giftclient.post(Constant.BASE_URL1 + "gifts.json",requestParams,new AsyncHttpResponseHandler() {
+        Giftclient.post(Constant.BASE_URL1 + "gifts.json", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -86,11 +91,63 @@ public class GiftOperation implements IOperation {
 
         });
     }
-    public void deleteGift (final IOperationListener iOperationListener){
+
+    /*
+    * Created by Sreyleak 07/08/2015
+    * */
+    public void deleteGift(final IOperationListener iOperationListener) {
+        Giftclient.delete(Constant.BASE_URL1 + "gifts/10.json", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject obj = new JSONObject(data);
+                        iOperationListener.success(obj);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    iOperationListener.fail(statusCode, data);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+    /*
+    * Created by Sreyleak 07/08/2015
+    * */
+    public void updateGift(final IOperationListener iOperationListener) {
 //        RequestParams requestParams = new RequestParams();
 //        requestParams.add("description", description);
-//      requestParams.add("phone", phone);
-        Giftclient.delete(Constant.BASE_URL1 + "gifts/10.json",new AsyncHttpResponseHandler() {
+//        requestParams.add("from", from);
+//        requestParams.add("cat_id", category);
+//        requestParams.add("user_id", "1");
+//        requestParams.add("status", "1");
+//        requestParams.add("date", date);
+//        requestParams.add("receive_date", receive_date);
+//        requestParams.add("gift_name",image_path );
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("description", "aa");
+        requestParams.add("from", "friend");
+        requestParams.add("cat_id", "1");
+        requestParams.add("user_id", "1");
+        requestParams.add("status", "1");
+        requestParams.add("date", "2015-08-04");
+        requestParams.add("receive_date", "2015-08-04");
+        requestParams.add("gift_name", "aa.jpg");
+        Giftclient.put(Constant.BASE_URL1 + "gifts/9.json", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
