@@ -41,6 +41,7 @@ import java.util.Random;
 * Created by Sreyleak 06/08/2015
 * */
 public class ShareGift extends ActionBarActivity{
+    GiftOperation giftOperation = new GiftOperation();
     Button btnshare, btnchoose;
     ImageView calendarimage, giftimage;
     EditText description, received_date;
@@ -60,7 +61,7 @@ public class ShareGift extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_gift);
-        final GiftOperation giftOperation = new GiftOperation();
+
 
         btnshare = (Button) findViewById(R.id.btnshare);
         btnchoose = (Button)findViewById(R.id.btnchooseimage);

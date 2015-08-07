@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_share_gift">ShareGift</string>
     <string name="title_activity_gift_detail">GiftDetail</string>
+    <string name="title_activity_update_gift">UpdateGift</string>
 
 </resources>

@@ -156,4 +156,36 @@ public class GiftOperation implements IOperation {
 
         });
     }
+    public void deleteGift (final IOperationListener iOperationListener){
+//        RequestParams requestParams = new RequestParams();
+//        requestParams.add("description", description);
+//      requestParams.add("phone", phone);
+        Giftclient.delete(Constant.BASE_URL + "gifts/10.json",new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject obj = new JSONObject(data);
+                        iOperationListener.success(obj);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    iOperationListener.fail(statusCode, data);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
 }

@@ -4,39 +4,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 
-import org.json.JSONObject;
-
-public class GiftDetail extends ActionBarActivity {
-    GiftOperation giftOperation = new GiftOperation();
+public class UpdateGift extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gift_detail);
-        giftOperation.deleteGift(new IOperationListener() {
-            @Override
-            public void success(JSONObject json) {
-                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void fail(int statusCode, String responseBody) {
-                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
+        setContentView(R.layout.activity_update_gift);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_gift_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_update_gift, menu);
         return true;
     }
 
