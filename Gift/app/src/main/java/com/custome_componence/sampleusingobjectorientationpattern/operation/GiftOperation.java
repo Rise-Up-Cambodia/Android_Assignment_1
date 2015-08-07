@@ -14,11 +14,8 @@ public class GiftOperation implements IOperation {
 
 
 
-    public void getContact (final IOperationListener iOperationListener){
+    public void getAllGift(final IOperationListener iOperationListener){
         RequestParams requestParams = new RequestParams();
-       // requestParams.add("name", name);
-//      requestParams.add("phone", phone);
-
         Giftclient.get(Constant.BASE_URL + "gifts.json",new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

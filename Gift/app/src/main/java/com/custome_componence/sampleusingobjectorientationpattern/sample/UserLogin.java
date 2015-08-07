@@ -46,7 +46,7 @@ public class UserLogin extends Activity {
             public void onClick(View view) {
 
                 userOperation.login(username.getText().toString(), password.getText().toString(), new IOperationListener() {
-                    @Override
+                        @Override
                     public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                         UserDataConverter userDataConverter = new UserDataConverter();
@@ -72,7 +72,7 @@ public class UserLogin extends Activity {
 
                                 Intent e = new Intent();
 
-
+                                e.setClass(UserLogin.this, GiftHome.class);
 
                                 startActivity(e);
 

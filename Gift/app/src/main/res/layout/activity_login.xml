@@ -9,7 +9,7 @@
         android:layout_height="200dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:src="@mipmap/christmas_18"
         android:layout_weight="0.21"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
