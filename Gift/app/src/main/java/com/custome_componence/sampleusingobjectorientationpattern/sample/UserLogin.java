@@ -46,7 +46,7 @@ public class UserLogin extends Activity {
             public void onClick(View view) {
 
                 userOperation.login(username.getText().toString(), password.getText().toString(), new IOperationListener() {
-                        @Override
+                    @Override
                     public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                         UserDataConverter userDataConverter = new UserDataConverter();
@@ -74,6 +74,7 @@ public class UserLogin extends Activity {
                             }
                         }
                     }
+
                     @Override
                     public void fail(int statusCode, String responseBody) {
                         Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();

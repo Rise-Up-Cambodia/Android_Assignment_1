@@ -40,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Created by Vanda on 8/7/2015.
  */
-public class GiftHome extends ActionBarActivity{
+public class GiftHome extends ActionBarActivity {
 
     public static ArrayList<Gift> gifts = null;
     ArrayList<String> names = new ArrayList<String>();
@@ -52,6 +52,7 @@ public class GiftHome extends ActionBarActivity{
     ArrayList<Bitmap> Image = new ArrayList<Bitmap>();
     ArrayList<String> gift_path = new ArrayList<String>();
     ListView lv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        /* SharedPreferences shf = getSharedPreferences("AuthenticationLogout",Context.MODE_PRIVATE);
@@ -115,7 +116,8 @@ public class GiftHome extends ActionBarActivity{
             }
         });
     }
-    private  class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         int position;
 
         protected Bitmap doInBackground(String... urls) {
@@ -150,6 +152,7 @@ public class GiftHome extends ActionBarActivity{
             return null;
         }
     }
+
     /*
     * Created by Sreyleak 10/08/2015
     * */
@@ -158,6 +161,7 @@ public class GiftHome extends ActionBarActivity{
         getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -172,7 +176,7 @@ public class GiftHome extends ActionBarActivity{
                 Intent intentToUserLoginActivity = new Intent(GiftHome.this, UserLogin.class);
                 startActivity(intentToUserLoginActivity);
                 finish();
-            return true;
+                return true;
             case R.id.cancel:
                 closeOptionsMenu();
                 return true;
