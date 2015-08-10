@@ -15,11 +15,44 @@ import java.io.UnsupportedEncodingException;
 public class GiftOperation implements IOperation {
     AsyncHttpClient Giftclient = new AsyncHttpClient();
 
-
-
     public void getAllGift(final IOperationListener iOperationListener){
         RequestParams requestParams = new RequestParams();
         Giftclient.get(Constant.BASE_URL + "gifts.json",new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject obj = new JSONObject(data);
+                        iOperationListener.success(obj);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    iOperationListener.fail(statusCode, data);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+    /*
+    * Created by Sreyleak 07/08/2015
+    * */
+    public void getGiftById(String id, final IOperationListener iOperationListener){
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("id", id);
+        Giftclient.get(Constant.BASE_URL + "gifts/"+id+".json",requestParams,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

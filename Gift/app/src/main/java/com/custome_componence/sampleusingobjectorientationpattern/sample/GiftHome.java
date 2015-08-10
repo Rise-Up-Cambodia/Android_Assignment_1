@@ -12,9 +12,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
@@ -37,7 +39,6 @@ import java.util.ArrayList;
  */
 public class GiftHome extends Activity{
 
-
     public static ArrayList<Gift> gifts = null;
 
 
@@ -46,6 +47,7 @@ public class GiftHome extends Activity{
     ArrayList<String> froms = new ArrayList<String>();
     ArrayList<String> categories = new ArrayList<String>();
     ArrayList<String> descriptions = new ArrayList<String>();
+    ArrayList<String> giftid = new ArrayList<String>();
     ArrayList<Bitmap> Image = new ArrayList<Bitmap>();
     ArrayList<String> gift_path = new ArrayList<String>();
     ListView lv;
@@ -55,7 +57,17 @@ public class GiftHome extends Activity{
         setContentView(R.layout.activity_gift_home);
         lv = (ListView) findViewById(R.id.listView);
         final GiftOperation giftOperation = new GiftOperation();
-
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String gid = ((TextView) view.findViewById(R.id.giftid)).getText().toString();
+                SharedPreferences sh = getSharedPreferences("id", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edt = sh.edit();
+                edt.putString("id", gid);
+                Intent intent = new Intent(GiftHome.this, GiftDetail.class);
+                startActivity(intent);
+            }
+        });
         giftOperation.getAllGift(new IOperationListener() {
             @Override
             public void success(JSONObject json) {
@@ -63,33 +75,33 @@ public class GiftHome extends Activity{
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
                 gifts = giftDataConverter.convertJSONToAllGift(json);
 
-
                 for (int i = 0; i < gifts.size(); i++) {
                     String name1 = gifts.get(i).getName();
                     String post = gifts.get(i).getPost();
                     String category = gifts.get(i).getCategory();
                     String from = gifts.get(i).getFrom();
                     String description = gifts.get(i).getDescription();
+                    String id = gifts.get(i).getId();
                     String gift_name = gifts.get(i).getIm();
                     names.add(name1);
                     posts.add(post);
                     categories.add(category);
                     froms.add(from);
                     descriptions.add(description);
+                    giftid.add(id);
                     gift_path.add(gift_name);
                     Image.add(BitmapFactory.decodeResource(GiftHome.this.getResources(), R.mipmap.christmas_18));
 
                     if (gift_name.equals(null) || gift_name.equals("no image")) {
 
                     } else {
-
                         new DownloadImageTask().execute("http://192.168.1.15:8585/Android_Assignment_1/GiftApi/app/webroot/img/" + gift_name, String.valueOf(names.size() - 1));
                     }
 
 
                 }
 
-                CustomAdapter adt = new CustomAdapter(GiftHome.this, names, posts, categories, froms, descriptions, gift_path,Image);
+                CustomAdapter adt = new CustomAdapter(GiftHome.this, names, posts, categories, froms, descriptions, gift_path,Image,giftid);
                 lv.setAdapter(adt);
 
             }
