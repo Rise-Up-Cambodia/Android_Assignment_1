@@ -162,7 +162,11 @@ public class UserRegister extends ActionBarActivity{
                                         userOperation.registerUser(name,emails,passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
                                             @Override
                                             public void success(JSONObject json) {
-                                                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                                               // Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                                                Intent e = new Intent();
+                                                e.setClass(UserRegister.this, UserLogin.class);
+
+                                                startActivity(e);
                                             }
 
                                             @Override
