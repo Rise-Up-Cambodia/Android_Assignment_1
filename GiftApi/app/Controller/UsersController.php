@@ -29,6 +29,23 @@ class UsersController extends AppController{
             '_serialize' => array('users')
         ));
     }
+    public function signupauthentication($email) {
+
+        //  $users =  $this->User->findById($id);
+        $users = $this->User->find('all',array(
+            'conditions' => array(
+                'email' => $email
+
+            )
+        ));
+        if ($users) {
+            $users = $users;
+        }
+        $this->set(array(
+            'users' => $users,
+            '_serialize' => array('users')
+        ));
+    }
     public function signup() {
 
         $this->User->create();

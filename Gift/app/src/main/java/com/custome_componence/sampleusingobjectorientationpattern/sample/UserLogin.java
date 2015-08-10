@@ -36,7 +36,7 @@ public class UserLogin extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        btnAdd = (Button) findViewById(R.id.btnadd);
+        btnAdd = (Button) findViewById(R.id.register);
         username = (EditText) findViewById(R.id.name);
         password = (EditText) findViewById(R.id.password);
         final UserOperation userOperation = new UserOperation();
@@ -57,7 +57,7 @@ public class UserLogin extends Activity {
 
 
                         for (int i = 0; i < gifts.size(); i++) {
-                            name1 = gifts.get(i).getName();
+                            name1 = gifts.get(i).getParam();
 
                             if (name1 == "username password are not match!") {
                                 Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();

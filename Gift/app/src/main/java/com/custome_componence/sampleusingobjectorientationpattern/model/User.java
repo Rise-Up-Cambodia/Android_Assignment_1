@@ -5,27 +5,27 @@ package com.custome_componence.sampleusingobjectorientationpattern.model;
  */
 public class User {
 
-    private  String name = "";
+    private  String param = "";
     private  String password = "";
 
 
     public User(String name){
-        this.name = name;
+        this.param = name;
     }
 
-    public User(String name,String password){
-        this.name = name;
+    public User(String param,String password){
+        this.param = param;
         this.password = password;
     }
 
 
 
 
-    public void setName(String date) {
-        this.name = name;
+    public void setParam(String param) {
+        this.param = param;
     }
-    public String getName() {
-        return name;
+    public String getParam() {
+        return param;
     }
 
     public void setPassword(String password) {
