@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +35,8 @@ public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     TextView description, date, receivedDate, username, from, category;
     public static Gift gifts = null;
-
+    private  String  name1;
+    private String getName1 = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,19 +50,20 @@ public class GiftDetail extends ActionBarActivity {
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
+        name1 = intent.getStringExtra("username");
+        Toast.makeText(getApplicationContext(),name1, Toast.LENGTH_LONG).show();
         GiftOperation.getGiftById(id,new IOperationListener() {
             @Override
             public void success(JSONObject json) {
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
                 gifts = giftDataConverter.convertJSONToGiftDetail(json);
                 String description1 = "";
-                String name1 = "";
                 String date1 = "";
                 String category1 = "";
                 String from1 = "";
                 String receivedDate1 = "";
                 String giftName = "";
-                name1 = gifts.getName();
+                String username1 = gifts.getName();
                 date1 = gifts.getPost();
                 category1 = gifts.getCategory();
                 from1 = gifts.getFrom();
@@ -69,7 +73,7 @@ public class GiftDetail extends ActionBarActivity {
 
                 description.setText(description1);
                 from.setText(from1);
-                username.setText(name1);
+                username.setText(username1);
                 date.setText(date1);
                 category.setText(category1);
                 receivedDate.setText(receivedDate1);
@@ -118,8 +122,16 @@ public class GiftDetail extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_gift_detail, menu);//Menu Resource, Menu
+        SharedPreferences sh = getSharedPreferences("username",Context.MODE_PRIVATE);
+        String test = name1;
+        String username2 = sh.getString("name", "");
+        if (!test.equals(username2)){
+
+        }
+        else {
+            getMenuInflater().inflate(R.menu.menu_gift_detail, menu);
+        }
+
         return true;
     }
 

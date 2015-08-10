@@ -63,7 +63,7 @@ public class UserLogin extends Activity {
                                 Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
                             } else {
 
-                                SharedPreferences sh = getSharedPreferences("AuthenticationLogout", Context.MODE_PRIVATE);
+                                SharedPreferences sh = getSharedPreferences("username", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor edt = sh.edit();
                                 edt.putString("name", name1);
 

@@ -62,11 +62,14 @@ public class GiftHome extends ActionBarActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String gid = ((TextView) view.findViewById(R.id.giftid)).getText().toString();
+                String username = ((TextView) view.findViewById(R.id.name)).getText().toString();
                 Intent intent = new Intent(GiftHome.this, GiftDetail.class);
                 intent.putExtra("id", gid);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
+
         giftOperation.getAllGift(new IOperationListener() {
             @Override
             public void success(JSONObject json) {
