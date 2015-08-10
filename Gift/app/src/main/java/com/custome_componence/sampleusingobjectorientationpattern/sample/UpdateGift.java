@@ -18,12 +18,12 @@ import android.widget.Toast;
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
-
 import org.json.JSONObject;
-
 import java.util.Calendar;
 import java.util.Random;
-
+/*
+* Created by Sreyleak 10/08/2015
+* */
 public class UpdateGift extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     Button btnShare, btnChoose;
