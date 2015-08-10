@@ -338,7 +338,7 @@ public class ShareGift extends ActionBarActivity {
             dialog.dismiss();
             e.printStackTrace();
             Toast.makeText(ShareGift.this, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("Upload file to server Exception", "Exception : " + e.getMessage(), e);
+            Log.e("Upload file Exception", "Exception : " + e.getMessage(), e);
         }
         dialog.dismiss();
         return serverResponseCode;
