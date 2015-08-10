@@ -52,8 +52,8 @@ public class ShareGift extends ActionBarActivity {
     private String selectedImagePath = null;
     private ProgressDialog dialog = null;
     String imagePath = "no image";
-    String[] categories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
-    String[] fromWho = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
+    String[] arrCategories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
+    String[] arrFrom = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
@@ -63,6 +63,7 @@ public class ShareGift extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_gift);
 
+        getSupportActionBar().setTitle("Share Gift");
 
         btnShare = (Button) findViewById(R.id.btnshare);
         btnChoose = (Button) findViewById(R.id.btnchooseimage);
@@ -72,8 +73,8 @@ public class ShareGift extends ActionBarActivity {
         giftImage = (ImageView) findViewById(R.id.giftimage);
         category = (Spinner) findViewById(R.id.category);
         from = (Spinner) findViewById(R.id.from);
-        ArrayAdapter<String> cat1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, categories);
-        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromWho);
+        ArrayAdapter<String> cat1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrCategories);
+        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrFrom);
         category.setAdapter(cat1);
         from.setAdapter(fr1);
 
@@ -148,15 +149,16 @@ public class ShareGift extends ActionBarActivity {
 
                         //to get current date of post
                         Date d = new Date();
-                        String crrentdate = new SimpleDateFormat("yyyy-MM-dd").format(d);
+                        String crrentDate = new SimpleDateFormat("yyyy-MM-dd").format(d);
 
                         String des = description.getText().toString();
                         String rdate = receivedDate.getText().toString();
 
-                        GiftOperation.shareGift(des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentdate, rdate, imagePath, new IOperationListener() {
+                        GiftOperation.shareGift(des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentDate, rdate, imagePath, new IOperationListener() {
                             @Override
                             public void success(JSONObject json) {
-                                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                                Intent intentToHome = new Intent(ShareGift.this, GiftHome.class);
+                                startActivity(intentToHome);
                             }
 
                             @Override
@@ -184,8 +186,6 @@ public class ShareGift extends ActionBarActivity {
 
                     }
                 }
-                Intent intentToHome = new Intent(ShareGift.this, GiftHome.class);
-                startActivity(intentToHome);
             }
         });
     }

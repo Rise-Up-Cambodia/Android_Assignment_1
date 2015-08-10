@@ -22,13 +22,13 @@ import com.custome_componence.sampleusingobjectorientationpattern.converter.Gift
 import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
-
 import org.json.JSONObject;
-
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 
+/*
+* Created by Sreyleak 10/08/2015
+* */
 public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     TextView description, date, receivedDate, username, from, category;
@@ -44,6 +44,8 @@ public class GiftDetail extends ActionBarActivity {
         receivedDate = (TextView)findViewById(R.id.receive_date);
         username = (TextView)findViewById(R.id.username);
         category = (TextView)findViewById(R.id.category);
+
+        getSupportActionBar().setTitle("Gift Detail");
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");

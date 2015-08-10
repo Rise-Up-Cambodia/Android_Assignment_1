@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.custome_componence.sampleusingobjectorientationpattern.sample.GiftDetail">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="always" >
+        android:orderInCategory="100" app:showAsAction="always"
+        android:icon="@mipmap/iconoption">
         <menu>
             <item  android:id="@+id/update"
                 android:title="Update"/>

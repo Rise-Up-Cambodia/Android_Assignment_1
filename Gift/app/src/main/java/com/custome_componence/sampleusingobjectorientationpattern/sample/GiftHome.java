@@ -38,7 +38,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by riseupcambodia on 8/7/2015.
+ * Created by Vanda on 8/7/2015.
  */
 public class GiftHome extends ActionBarActivity{
 
@@ -54,10 +54,15 @@ public class GiftHome extends ActionBarActivity{
     ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       /* SharedPreferences shf = getSharedPreferences("AuthenticationLogout",Context.MODE_PRIVATE);
+        String username = shf.getString("name","");*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gift_home);
         lv = (ListView) findViewById(R.id.listView);
         final GiftOperation giftOperation = new GiftOperation();
+
+        getSupportActionBar().setTitle("Gift Home");
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -97,10 +102,9 @@ public class GiftHome extends ActionBarActivity{
                         new DownloadImageTask().execute("http://192.168.1.15:8585/Android_Assignment_1/GiftApi/app/webroot/img/" + gift_name, String.valueOf(names.size() - 1));
                     }
 
-
                 }
 
-                CustomAdapter adt = new CustomAdapter(GiftHome.this, names, posts, categories, froms, descriptions, gift_path,Image,giftid);
+                CustomAdapter adt = new CustomAdapter(GiftHome.this, names, posts, categories, froms, descriptions, gift_path, Image, giftid);
                 lv.setAdapter(adt);
                 lv.deferNotifyDataSetChanged();
             }
@@ -146,7 +150,9 @@ public class GiftHome extends ActionBarActivity{
             return null;
         }
     }
-
+    /*
+    * Created by Sreyleak 10/08/2015
+    * */
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
@@ -155,16 +161,17 @@ public class GiftHome extends ActionBarActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.post:
-                Intent intentToShareGift = new Intent(GiftHome.this, ShareGift.class);
-                startActivity(intentToShareGift);
+            case R.id.postGift:
+                Intent intentToShareGiftActivity = new Intent(GiftHome.this, ShareGift.class);
+                startActivity(intentToShareGiftActivity);
                 return true;
             case R.id.logout:
-                SharedPreferences logout = getApplicationContext()
-                        .getSharedPreferences("AuthenticationLogout", Context.MODE_PRIVATE);
-                logout.edit().clear().commit();
-                Intent intentToUserLogin = new Intent(GiftHome.this, UserLogin.class);
-                startActivity(intentToUserLogin);
+                SharedPreferences shpf = getApplicationContext()
+                        .getSharedPreferences("username", Context.MODE_PRIVATE);
+                shpf.edit().clear().commit();
+                Intent intentToUserLoginActivity = new Intent(GiftHome.this, UserLogin.class);
+                startActivity(intentToUserLoginActivity);
+                finish();
             return true;
             case R.id.cancel:
                 closeOptionsMenu();
