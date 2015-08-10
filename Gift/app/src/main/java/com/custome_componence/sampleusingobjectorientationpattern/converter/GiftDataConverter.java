@@ -14,11 +14,6 @@ public class GiftDataConverter implements IDataConverter {
         //Contact contact = null;
         ArrayList<Gift> gifts = new ArrayList<Gift>();
         try {
-
-//            String name = "";
-//            String phone = "";
-//            String date = "";
-            //JSONObject json = null;
            JSONArray  json = jsonObject.getJSONArray("gifts");
            // JSONArray arrjson = json.getJSONArray("Contact");
             int lg = json.length();
@@ -30,29 +25,34 @@ public class GiftDataConverter implements IDataConverter {
                 String from = job.getJSONObject("Gift").getString("from");
                 String category = job.getJSONObject("category").getString("cat_name");
                 String gift_name = job.getJSONObject("Gift").getString("gift_name");
-                gifts.add(new Gift(name,post,from,description,category,gift_name));
+                String received_date = job.getJSONObject("Gift").getString("receive_date");
+                String id = job.getJSONObject("Gift").getString("id");
+                gifts.add(new Gift(name,post,from,description,category,gift_name,id,received_date));
                 }
         }catch (Exception e){
             e.printStackTrace();
         }
         return gifts;
     }
-    public Gift convertJSONToDetail(JSONObject jsonObject){
+    public Gift convertJSONToGiftDetail(JSONObject jsonObject){
+        //Contact contact = null;
         Gift gift = null;
         try {
-            String date = "";
-            //JSONObject json = null;
-            JSONObject  json = jsonObject.getJSONObject("Gift");
-                JSONObject job = json.getJSONObject("Gift");
-                date = job.getString("date");
-                gift = new Gift(date);
+            JSONArray  json = jsonObject.getJSONArray("gifts");
+            // JSONArray arrjson = json.getJSONArray("Contact");
+                String description = json.getJSONObject(0).getJSONObject("Gift").getString("description");
+                String name = json.getJSONObject(0).getJSONObject("user").getString("name");
+                String post = json.getJSONObject(0).getJSONObject("Gift").getString("date");
+                String from = json.getJSONObject(0).getJSONObject("Gift").getString("from");
+                String category = json.getJSONObject(0).getJSONObject("category").getString("cat_name");
+                String gift_name = json.getJSONObject(0).getJSONObject("Gift").getString("gift_name");
+                String received_date = json.getJSONObject(0).getJSONObject("Gift").getString("receive_date");
+                String id = json.getJSONObject(0).getJSONObject("Gift").getString("id");
+                gift = new Gift(name,post,from,description,category,gift_name,id,received_date);
         }catch (Exception e){
             e.printStackTrace();
         }
         return gift;
     }
-
-
-
 
 }

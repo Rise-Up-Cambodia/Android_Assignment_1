@@ -46,7 +46,7 @@ public class UserLogin extends Activity {
             public void onClick(View view) {
 
                 userOperation.login(username.getText().toString(), password.getText().toString(), new IOperationListener() {
-                        @Override
+                    @Override
                     public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                         UserDataConverter userDataConverter = new UserDataConverter();
@@ -63,21 +63,15 @@ public class UserLogin extends Activity {
                                 Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
                             } else {
 
-
-                                SharedPreferences sh = getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences sh = getSharedPreferences("username", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor edt = sh.edit();
-                                edt.putString("name", name1);
-
+                                edt.putString("username", name1);
                                 edt.commit();
-
                                 Intent e = new Intent();
-
                                 e.setClass(UserLogin.this, GiftHome.class);
 
                                 startActivity(e);
-
                             }
-
                         }
                     }
 

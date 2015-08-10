@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
@@ -40,19 +41,19 @@ import java.util.Random;
 /*
 * Created by Sreyleak 06/08/2015
 * */
-public class ShareGift extends ActionBarActivity{
-    GiftOperation giftOperation = new GiftOperation();
-    Button btnshare, btnchoose;
-    ImageView calendarimage, giftimage;
-    EditText description, received_date;
+public class ShareGift extends ActionBarActivity {
+    GiftOperation GiftOperation = new GiftOperation();
+    Button btnShare, btnChoose;
+    ImageView calendarImage, giftImage;
+    EditText description, receivedDate;
     Spinner category, from;
     private int serverResponseCode = 0;
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath = null;
     private ProgressDialog dialog = null;
-    String image_path = "no image";
-    String[] categories = {"Select a category","Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
-    String[] fromwho = {"From whom","Other", "Friend", "Lover", "Co-Worker", "Family"};
+    String imagePath = "no image";
+    String[] arrCategories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
+    String[] arrFrom = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
@@ -62,21 +63,22 @@ public class ShareGift extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_gift);
 
+        getSupportActionBar().setTitle("Share Gift");
 
-        btnshare = (Button) findViewById(R.id.btnshare);
-        btnchoose = (Button)findViewById(R.id.btnchooseimage);
-        description = (EditText)findViewById(R.id.description);
-        received_date = (EditText)findViewById(R.id.receive_date);
-        calendarimage = (ImageView)findViewById(R.id.imgcalendar);
-        giftimage = (ImageView)findViewById(R.id.giftimage);
-        category = (Spinner)findViewById(R.id.category);
-        from = (Spinner)findViewById(R.id.from);
-        ArrayAdapter<String> cat1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, categories);
-        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
+        btnShare = (Button) findViewById(R.id.btnshare);
+        btnChoose = (Button) findViewById(R.id.btnchooseimage);
+        description = (EditText) findViewById(R.id.description);
+        receivedDate = (EditText) findViewById(R.id.receive_date);
+        calendarImage = (ImageView) findViewById(R.id.imgcalendar);
+        giftImage = (ImageView) findViewById(R.id.giftimage);
+        category = (Spinner) findViewById(R.id.category);
+        from = (Spinner) findViewById(R.id.from);
+        ArrayAdapter<String> cat1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrCategories);
+        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrFrom);
         category.setAdapter(cat1);
         from.setAdapter(fr1);
 
-        btnchoose.setOnClickListener(new View.OnClickListener() {
+        btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -86,8 +88,8 @@ public class ShareGift extends ActionBarActivity{
             }
         });
 
-         //pop up datepicker when click on edit text view
-        calendarimage.setOnClickListener(new View.OnClickListener() {
+        //pop up datepicker when click on edit text view
+        calendarImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -99,7 +101,7 @@ public class ShareGift extends ActionBarActivity{
                 mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker = new DatePickerDialog(ShareGift.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        updateDisplay(selectedyear, selectedmonth, selectedday);
+                        setDateToBox(selectedyear, selectedmonth, selectedday);
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -108,7 +110,7 @@ public class ShareGift extends ActionBarActivity{
             }
         });
 
-        btnshare.setOnClickListener(new View.OnClickListener() {
+        btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int CategoryNumber = 0;
@@ -116,8 +118,8 @@ public class ShareGift extends ActionBarActivity{
                     Toast.makeText(ShareGift.this, "Please, select an image", Toast.LENGTH_LONG).show();
                 } else {
                     if (description.getText().toString().equals("") || from.getSelectedItem().toString().equals("") ||
-                            category.getSelectedItem().toString().equals("") || received_date.getText().toString().equals("")||
-                            category.getSelectedItem().toString().equals("Select a category")||
+                            category.getSelectedItem().toString().equals("") || receivedDate.getText().toString().equals("") ||
+                            category.getSelectedItem().toString().equals("Select a category") ||
                             from.getSelectedItem().toString().equals("From whom")) {
                         Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -147,15 +149,16 @@ public class ShareGift extends ActionBarActivity{
 
                         //to get current date of post
                         Date d = new Date();
-                        String  crrentdate = new SimpleDateFormat("yyyy-MM-dd").format(d);
+                        String crrentDate = new SimpleDateFormat("yyyy-MM-dd").format(d);
 
                         String des = description.getText().toString();
-                        String rdate = received_date.getText().toString();
+                        String rdate = receivedDate.getText().toString();
 
-                        giftOperation.shareGift(des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentdate,rdate,image_path, new IOperationListener() {
+                        GiftOperation.shareGift(des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentDate, rdate, imagePath, new IOperationListener() {
                             @Override
                             public void success(JSONObject json) {
-                                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                                Intent intentToHome = new Intent(ShareGift.this, GiftHome.class);
+                                startActivity(intentToHome);
                             }
 
                             @Override
@@ -181,18 +184,16 @@ public class ShareGift extends ActionBarActivity{
                             }).start();
                         }
 
-                  }
-
+                    }
                 }
-
             }
         });
     }
 
     // select selected date in to edit text
-    private void updateDisplay(int year, int month, int day) {
+    private void setDateToBox(int year, int month, int day) {
         final Calendar cal = Calendar.getInstance();
-        received_date.setText(
+        receivedDate.setText(
                 new StringBuilder()
                         .append(year).append("-")
                         .append(month + 1).append("-")
@@ -226,7 +227,7 @@ public class ShareGift extends ActionBarActivity{
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                giftimage.setImageURI(selectedImageUri);
+                giftImage.setImageURI(selectedImageUri);
 
                 Cursor cursor = getContentResolver().query(
                         selectedImageUri, filePathColumn, null, null, null);
@@ -244,7 +245,7 @@ public class ShareGift extends ActionBarActivity{
                 String newpath = filepath + newName;
                 //img=(ImageView)findViewById(R.id.image1);
                 File imgFile = new File(newpath);
-                image_path = imgFile.getName();
+                imagePath = imgFile.getName();
 //                Bitmap myBitmap = BitmapFactory.decodeFile(newpath);
             }
         }

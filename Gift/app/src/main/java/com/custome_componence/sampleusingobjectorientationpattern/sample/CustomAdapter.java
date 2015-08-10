@@ -28,16 +28,13 @@ public class CustomAdapter extends ArrayAdapter<String> {
     private ArrayList<String> from;
     private ArrayList<String> category;
     private ArrayList<String> posts;
-//    private ArrayList<String> id;
-//    private ArrayList<String> fulldescription;
-//    private ArrayList<String> image_name;
-//    private ArrayList<Bitmap> giftimage;
     private ArrayList<Bitmap> im;
-      private ArrayList<String> names;
-      private ArrayList<String> gift_path;
+    private ArrayList<String> names;
+    private ArrayList<String> giftPaths;
+    private ArrayList<String> id;
 
     public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
-            froms,ArrayList<String> descriptions, ArrayList<String> gift_path,  ArrayList<Bitmap> im) {
+            froms,ArrayList<String> descriptions, ArrayList<String> giftPaths,  ArrayList<Bitmap> im, ArrayList<String> id) {
 
         super(activity, R.layout.gift_item, names);
         this.activity = activity;
@@ -46,8 +43,9 @@ public class CustomAdapter extends ArrayAdapter<String> {
         this.from = froms;
         this.category = categories;
         this.description = descriptions;
-        this.gift_path = gift_path;
+        this.giftPaths = giftPaths;
         this.im = im;
+        this.id = id;
     }
 
 
@@ -59,6 +57,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
         TextView Name = (TextView) rowView.findViewById(R.id.name);
         TextView Posts = (TextView) rowView.findViewById(R.id.post);
         TextView From = (TextView) rowView.findViewById(R.id.from);
+        TextView giftid = (TextView) rowView.findViewById(R.id.giftid);
         TextView Category = (TextView) rowView.findViewById(R.id.category);
         TextView Description = (TextView) rowView.findViewById(R.id.description);
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView3);
@@ -67,6 +66,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
         Posts.setText("Posted "+ (posts.get(position)));
         From.setText("From "+ (from.get(position)));
         Category.setText("For "+ (category.get(position)));
+        giftid.setText(id.get(position));
         image.setImageBitmap(im.get(position));
         Description.setText(description.get(position));
         loadBitmap(im.get(position), image);
