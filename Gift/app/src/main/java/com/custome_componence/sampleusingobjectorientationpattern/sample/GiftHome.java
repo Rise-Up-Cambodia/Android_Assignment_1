@@ -152,7 +152,6 @@ public class GiftHome extends ActionBarActivity{
         getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
