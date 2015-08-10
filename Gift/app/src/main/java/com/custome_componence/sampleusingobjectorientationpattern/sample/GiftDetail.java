@@ -27,8 +27,10 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 
+/*
+* Created by Sreyleak 10/08/2015
+* */
 public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     TextView description, date, receivedDate, username, from, category;
@@ -38,16 +40,18 @@ public class GiftDetail extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gift_detail);
-        description = (TextView)findViewById(R.id.description);
-        from = (TextView)findViewById(R.id.from);
-        date = (TextView)findViewById(R.id.date);
-        receivedDate = (TextView)findViewById(R.id.receive_date);
-        username = (TextView)findViewById(R.id.username);
-        category = (TextView)findViewById(R.id.category);
+        description = (TextView) findViewById(R.id.description);
+        from = (TextView) findViewById(R.id.from);
+        date = (TextView) findViewById(R.id.date);
+        receivedDate = (TextView) findViewById(R.id.receive_date);
+        username = (TextView) findViewById(R.id.username);
+        category = (TextView) findViewById(R.id.category);
+
+        getSupportActionBar().setTitle("Gift Detail");
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
-        GiftOperation.getGiftById(id,new IOperationListener() {
+        GiftOperation.getGiftById(id, new IOperationListener() {
             @Override
             public void success(JSONObject json) {
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
@@ -73,7 +77,7 @@ public class GiftDetail extends ActionBarActivity {
                 date.setText(date1);
                 category.setText(category1);
                 receivedDate.setText(receivedDate1);
-                new DownloadImageTask().execute(Constant.BASE_URL1+"app/webroot/img/" + giftName);
+                new DownloadImageTask().execute(Constant.BASE_URL1 + "app/webroot/img/" + giftName);
             }
 
             @Override
@@ -82,6 +86,7 @@ public class GiftDetail extends ActionBarActivity {
             }
         });
     }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         int position;

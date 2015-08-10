@@ -18,12 +18,12 @@ import android.widget.Toast;
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
-
 import org.json.JSONObject;
-
 import java.util.Calendar;
 import java.util.Random;
-
+/*
+* Created by Sreyleak 10/08/2015
+* */
 public class UpdateGift extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     Button btnShare, btnChoose;
@@ -35,8 +35,8 @@ public class UpdateGift extends ActionBarActivity {
     private String selectedImagePath = null;
     private ProgressDialog dialog = null;
     String imagePath = "no image";
-    String[] categories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
-    String[] fromWho = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
+    String[] arrCategories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
+    String[] arrFrom = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
 
     //random number for concatenate image name before upload
     Random random = new Random();
@@ -47,6 +47,8 @@ public class UpdateGift extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_gift);
 
+        getSupportActionBar().setTitle("Update Gift");
+
         btnShare = (Button) findViewById(R.id.btnshare);
         btnChoose = (Button) findViewById(R.id.btnchooseimage);
         description = (EditText) findViewById(R.id.description);
@@ -55,8 +57,8 @@ public class UpdateGift extends ActionBarActivity {
         giftImage = (ImageView) findViewById(R.id.giftimage);
         category = (Spinner) findViewById(R.id.category);
         from = (Spinner) findViewById(R.id.from);
-        ArrayAdapter<String> cat1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, categories);
-        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromWho);
+        ArrayAdapter<String> cat1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrCategories);
+        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrFrom);
         category.setAdapter(cat1);
         from.setAdapter(fr1);
 

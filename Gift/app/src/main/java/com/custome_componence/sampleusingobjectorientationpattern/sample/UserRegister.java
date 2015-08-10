@@ -1,14 +1,24 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,8 +32,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
+import com.custome_componence.sampleusingobjectorientationpattern.model.User;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
 
 import org.json.JSONObject;
 
@@ -34,6 +47,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -41,19 +55,19 @@ import java.util.Random;
 /*
 * Created by Sreyleak 06/08/2015
 * */
-public class ShareGift extends ActionBarActivity {
-    GiftOperation GiftOperation = new GiftOperation();
-    Button btnShare, btnChoose;
-    ImageView calendarImage, giftImage;
-    EditText description, receivedDate;
-    Spinner category, from;
+public class UserRegister extends ActionBarActivity{
+    UserOperation userOperation = new UserOperation();
+    Button btnshare, btnchoose;
+    ImageView  giftimage;
+    EditText username,email,password;
+    Spinner from;
     private int serverResponseCode = 0;
     private static final int SELECT_PICTURE = 1;
     private String selectedImagePath = null;
     private ProgressDialog dialog = null;
-    String imagePath = "no image";
-    String[] arrCategories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
-    String[] arrFrom = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
+    public static ArrayList<User> users = null;
+    String image_path = "no image";
+    String[] fromwho = {"Gender","Male","Female"};
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
@@ -61,24 +75,29 @@ public class ShareGift extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_share_gift);
+        setContentView(R.layout.activity_user_register);
 
-        getSupportActionBar().setTitle("Share Gift");
 
-        btnShare = (Button) findViewById(R.id.btnshare);
-        btnChoose = (Button) findViewById(R.id.btnchooseimage);
-        description = (EditText) findViewById(R.id.description);
-        receivedDate = (EditText) findViewById(R.id.receive_date);
-        calendarImage = (ImageView) findViewById(R.id.imgcalendar);
-        giftImage = (ImageView) findViewById(R.id.giftimage);
-        category = (Spinner) findViewById(R.id.category);
-        from = (Spinner) findViewById(R.id.from);
-        ArrayAdapter<String> cat1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrCategories);
-        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrFrom);
-        category.setAdapter(cat1);
+        btnshare = (Button) findViewById(R.id.btnshare);
+        btnchoose = (Button)findViewById(R.id.btnchooseimage);
+        username = (EditText)findViewById(R.id.name);
+        email = (EditText)findViewById(R.id.email);
+        password = (EditText)findViewById(R.id.password);
+       giftimage = (ImageView)findViewById(R.id.image);
+        from = (Spinner)findViewById(R.id.from);
+
+
+
+        // set circle bitmap
+
+
+
+
+
+        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
         from.setAdapter(fr1);
 
-        btnChoose.setOnClickListener(new View.OnClickListener() {
+        btnchoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -88,117 +107,118 @@ public class ShareGift extends ActionBarActivity {
             }
         });
 
-        //pop up datepicker when click on edit text view
-        calendarImage.setOnClickListener(new View.OnClickListener() {
 
+        btnshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int mYear, mMonth, mDay;
-                Calendar mcurrentDate = Calendar.getInstance();
 
-                mYear = mcurrentDate.get(Calendar.YEAR);
-                mMonth = mcurrentDate.get(Calendar.MONTH);
-                mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog mDatePicker = new DatePickerDialog(ShareGift.this, new DatePickerDialog.OnDateSetListener() {
-                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        setDateToBox(selectedyear, selectedmonth, selectedday);
-                    }
-                }, mYear, mMonth, mDay);
-                mDatePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
-                mDatePicker.setTitle("Select date");
-                mDatePicker.show();
-            }
-        });
 
-        btnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int CategoryNumber = 0;
-                if (selectedImagePath == null) {
-                    Toast.makeText(ShareGift.this, "Please, select an image", Toast.LENGTH_LONG).show();
-                } else {
-                    if (description.getText().toString().equals("") || from.getSelectedItem().toString().equals("") ||
-                            category.getSelectedItem().toString().equals("") || receivedDate.getText().toString().equals("") ||
-                            category.getSelectedItem().toString().equals("Select a category") ||
-                            from.getSelectedItem().toString().equals("From whom")) {
-                        Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        //to insert category number into database base on spinner gift_item selected
-                        switch (category.getSelectedItem().toString()) {
-                            case "Other":
-                                CategoryNumber = 2;
-                                break;
-                            case "Christmas":
-                                CategoryNumber = 4;
-                                break;
-                            case "Birthday":
-                                CategoryNumber = 1;
-                                break;
-                            case "Anniversary":
-                                CategoryNumber = 3;
-                                break;
-                            case "Graduate":
-                                CategoryNumber = 6;
-                                break;
-                            case "Marriage":
-                                CategoryNumber = 5;
-                                break;
-                            default:
-                                CategoryNumber = 7;
-                        }
 
-                        //to get current date of post
-                        Date d = new Date();
-                        String crrentDate = new SimpleDateFormat("yyyy-MM-dd").format(d);
 
-                        String des = description.getText().toString();
-                        String rdate = receivedDate.getText().toString();
 
-                        GiftOperation.shareGift(des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentDate, rdate, imagePath, new IOperationListener() {
-                            @Override
-                            public void success(JSONObject json) {
-                                Intent intentToHome = new Intent(ShareGift.this, GiftHome.class);
-                                startActivity(intentToHome);
-                            }
 
-                            @Override
-                            public void fail(int statusCode, String responseBody) {
-                                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                userOperation.convertJSONAuthenticatedSignup(email.getText().toString(), password.getText().toString(), new IOperationListener() {
+                    @Override
+                    public void success(JSONObject json) {
+                        /* These two line of code will be use next time */
+                        UserDataConverter userDataConverter = new UserDataConverter();
+                        users = userDataConverter.convertJSONAuthenticatedSignup(json);
+                        // if(gift != "")
 
-                        if (selectedImagePath.equals("")) {
 
+
+
+                        String name = username.getText().toString();
+                        String emails = email.getText().toString();
+                        String passwords = password.getText().toString();
+
+                        if (selectedImagePath == null) {
+                            Toast.makeText(UserRegister.this, "Please, select photo", Toast.LENGTH_LONG).show();
                         } else {
-                            dialog = ProgressDialog.show(ShareGift.this, "", "Uploading file...", true);
-                            new Thread(new Runnable() {
-                                public void run() {
-                                    runOnUiThread(new Runnable() {
-                                        public void run() {
-                                            System.out.println("is loading");
-                                        }
-                                    });
-                                    int response = uploadFile(selectedImagePath);
-                                    System.out.println("RES : " + response);
-                                }
-                            }).start();
-                        }
+                            if (username.getText().toString().equals("") || email.getText().toString().equals("") || password .getText().toString().equals("") ||
+                                    from.getSelectedItem().toString().equals("Gender")) {
+                                Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                String email1 = "";
+                                for (int i = 0; i < users.size(); i++) {
 
+
+                                email1 = users.get(i).getParam();
+
+
+
+
+                                    if (email1 == "Not duplicate user") {
+
+                                ///
+
+
+
+                                        //to insert category number into database base on spinner gift_item selected
+
+
+
+
+                                        userOperation.registerUser(name,emails,passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
+                                            @Override
+                                            public void success(JSONObject json) {
+                                                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            @Override
+                                            public void fail(int statusCode, String responseBody) {
+                                                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                        if (selectedImagePath.equals("")) {
+
+                                        } else {
+                                            dialog = ProgressDialog.show(UserRegister.this, "", "Registering ...", true);
+                                            new Thread(new Runnable() {
+                                                public void run() {
+                                                    runOnUiThread(new Runnable() {
+                                                        public void run() {
+                                                            System.out.println("is loading");
+                                                        }
+                                                    });
+                                                    int response = uploadFile(selectedImagePath);
+                                                    System.out.println("RES : " + response);
+                                                }
+                                            }).start();
+                                        }
+
+                                    }else{
+                                        Toast.makeText(getApplicationContext(),"Email already existed!", Toast.LENGTH_LONG).show();
+
+                                }
+
+
+
+                            }
+
+
+
+                            }
+
+                        }
                     }
-                }
+
+
+
+                    @Override
+                    public void fail(int statusCode, String responseBody) {
+                        Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+
+
             }
         });
     }
 
-    // select selected date in to edit text
-    private void setDateToBox(int year, int month, int day) {
-        final Calendar cal = Calendar.getInstance();
-        receivedDate.setText(
-                new StringBuilder()
-                        .append(year).append("-")
-                        .append(month + 1).append("-")
-                        .append(day));
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -227,7 +247,8 @@ public class ShareGift extends ActionBarActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                giftImage.setImageURI(selectedImageUri);
+               giftimage.setImageURI(selectedImageUri);
+
 
                 Cursor cursor = getContentResolver().query(
                         selectedImageUri, filePathColumn, null, null, null);
@@ -245,7 +266,7 @@ public class ShareGift extends ActionBarActivity {
                 String newpath = filepath + newName;
                 //img=(ImageView)findViewById(R.id.image1);
                 File imgFile = new File(newpath);
-                imagePath = imgFile.getName();
+                image_path = imgFile.getName();
 //                Bitmap myBitmap = BitmapFactory.decodeFile(newpath);
             }
         }
@@ -253,7 +274,7 @@ public class ShareGift extends ActionBarActivity {
 
     public int uploadFile(String sourceFileUri) {
 
-        String upLoadServerUri = "http://192.168.1.113:8585/Android_Assignment_1/GiftApi/app/webroot/upload.php";
+        String upLoadServerUri = "http://192.168.1.15:8585/Android_Assignment_1/GiftApi/app/webroot/user_register.php";
         String filePth = sourceFileUri;
         //============================================= rename image name before upload===
         int dotCnt = filePth.indexOf(".");
@@ -332,13 +353,13 @@ public class ShareGift extends ActionBarActivity {
         } catch (MalformedURLException ex) {
             dialog.dismiss();
             ex.printStackTrace();
-            Toast.makeText(ShareGift.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserRegister.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
             Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
         } catch (Exception e) {
             dialog.dismiss();
             e.printStackTrace();
-            Toast.makeText(ShareGift.this, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("Upload file Exception", "Exception : " + e.getMessage(), e);
+            Toast.makeText(UserRegister.this, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Upload file to server", "Exception : " + e.getMessage(), e);
         }
         dialog.dismiss();
         return serverResponseCode;
