@@ -131,7 +131,37 @@ public class GiftDetail extends ActionBarActivity {
             case R.id.update:
                 return true;
             case R.id.delete:
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GiftDetail.this);
+                alertDialog.setTitle("Delete Confirmation");
+                alertDialog.setMessage("Are you sure want to delete this item?");
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent1 = getIntent();
+                        String id1 = intent1.getStringExtra("id");
+                        GiftOperation.deleteGift(id1, new IOperationListener() {
+                            @Override
+                            public void success(JSONObject json) {
+                                Intent intentToHome = new Intent(GiftDetail.this, GiftHome.class);
+                                startActivity(intentToHome);
+                            }
 
+                            @Override
+                            public void fail(int statusCode, String responseBody) {
+                                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Intent it1 = new Intent(GiftDetail.this, GiftDetail.class);
+                        startActivity(it1);
+                    }
+                });
+
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
                 return true;
 
             case R.id.cancel:
