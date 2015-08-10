@@ -15,15 +15,22 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+
             android:name=".sample.UserLogin"
             android:label="@string/app_name" >
         </activity>
-        <!--<activity-->
-            <!--android:name=".sample.GiftHome"-->
-            <!--android:label="@string/app_name" >-->
-        <!--</activity>-->
-        <activity
+      <activity
             android:name=".sample.GiftHome"
+            android:label="@string/app_name" >
+        </activity>
+      <activity 
+            android:name=".sample.ShareGift"
+            android:label="@string/app_name"
+            android:parentActivityName=".sample.GiftHome">
+        </activity>
+
+        <activity
+            android:name=".sample.UserRegister"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
