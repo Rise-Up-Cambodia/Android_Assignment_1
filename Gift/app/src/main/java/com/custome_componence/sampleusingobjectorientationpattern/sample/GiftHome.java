@@ -161,7 +161,11 @@ public class GiftHome extends ActionBarActivity{
                 startActivity(intentToShareGift);
                 return true;
             case R.id.logout:
-            
+                SharedPreferences logout = getApplicationContext()
+                        .getSharedPreferences("AuthenticationLogout", Context.MODE_PRIVATE);
+                logout.edit().clear().commit();
+                Intent intentToUserLogin = new Intent(GiftHome.this, UserLogin.class);
+                startActivity(intentToUserLogin);
             return true;
             case R.id.cancel:
                 closeOptionsMenu();
