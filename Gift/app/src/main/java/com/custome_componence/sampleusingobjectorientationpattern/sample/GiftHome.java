@@ -161,7 +161,7 @@ public class GiftHome extends ActionBarActivity{
                 startActivity(intentToShareGift);
                 return true;
             case R.id.logout:
-            
+             
             return true;
             case R.id.cancel:
                 closeOptionsMenu();
