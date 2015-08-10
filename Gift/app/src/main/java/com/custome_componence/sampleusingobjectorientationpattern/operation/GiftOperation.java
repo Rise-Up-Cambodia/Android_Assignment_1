@@ -124,12 +124,11 @@ public class GiftOperation implements IOperation {
 
         });
     }
-
     /*
     * Created by Sreyleak 07/08/2015
     * */
-    public void deleteGift(final IOperationListener iOperationListener) {
-        Giftclient.delete(Constant.BASE_URL1 + "gifts/10.json", new AsyncHttpResponseHandler() {
+    public void deleteGift(String giftId, final IOperationListener iOperationListener) {
+        Giftclient.delete(Constant.BASE_URL1 + "gifts/"+giftId+".json", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

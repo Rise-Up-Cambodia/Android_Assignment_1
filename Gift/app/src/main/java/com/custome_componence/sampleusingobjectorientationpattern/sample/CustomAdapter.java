@@ -30,11 +30,11 @@ public class CustomAdapter extends ArrayAdapter<String> {
     private ArrayList<String> posts;
     private ArrayList<Bitmap> im;
     private ArrayList<String> names;
-    private ArrayList<String> gift_path;
+    private ArrayList<String> giftPaths;
     private ArrayList<String> id;
 
     public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
-            froms,ArrayList<String> descriptions, ArrayList<String> gift_path,  ArrayList<Bitmap> im, ArrayList<String> id) {
+            froms,ArrayList<String> descriptions, ArrayList<String> giftPaths,  ArrayList<Bitmap> im, ArrayList<String> id) {
 
         super(activity, R.layout.gift_item, names);
         this.activity = activity;
@@ -43,7 +43,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
         this.from = froms;
         this.category = categories;
         this.description = descriptions;
-        this.gift_path = gift_path;
+        this.giftPaths = giftPaths;
         this.im = im;
         this.id = id;
     }
