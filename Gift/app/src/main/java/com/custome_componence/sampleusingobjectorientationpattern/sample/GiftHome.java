@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -39,8 +40,6 @@ public class GiftHome extends Activity{
 
 
     public static ArrayList<Gift> gifts = null;
-
-
     ArrayList<String> names = new ArrayList<String>();
     ArrayList<String> posts = new ArrayList<String>();
     ArrayList<String> froms = new ArrayList<String>();
@@ -91,6 +90,12 @@ public class GiftHome extends Activity{
 
                 CustomAdapter adt = new CustomAdapter(GiftHome.this, names, posts, categories, froms, descriptions, gift_path,Image);
                 lv.setAdapter(adt);
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                });
 
             }
 
@@ -136,14 +141,6 @@ public class GiftHome extends Activity{
         }
     }
 
-
-
-
-
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -163,6 +160,4 @@ public class GiftHome extends Activity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
