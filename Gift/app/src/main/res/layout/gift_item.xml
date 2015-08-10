@@ -65,4 +65,15 @@
         android:layout_above="@+id/imageView3"
         android:layout_toRightOf="@+id/imageView2"
         android:layout_toEndOf="@+id/imageView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/giftid"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/name"
+        android:layout_toEndOf="@+id/name"
+        android:layout_marginBottom="51dp" />
 </RelativeLayout>

@@ -1,9 +1,5 @@
 package com.custome_componence.sampleusingobjectorientationpattern.model;
 
-import android.graphics.Bitmap;
-
-import java.util.ArrayList;
-
 /**
  * Created by Channy on 8/3/2015.
  */
@@ -16,15 +12,17 @@ public class Gift implements IDataModel {
     private  String password = "";
     private  String category = "";
     private  String im = "";
+    private String id = "";
 
 
-    public Gift(String name,String post,String from,String description,String category, String im) {
+    public Gift(String name,String post,String from,String description,String category, String im, String id) {
         this.description = description;
         this.from = from;
         this.post = post;
         this.name = name;
         this.category = category;
         this.im = im;
+        this.setId(id);
 
     }
     public Gift(String name){
@@ -35,6 +33,7 @@ public class Gift implements IDataModel {
         this.name = name;
         this.password = password;
     }
+
 
     public String getDescription() {
         return description;
@@ -87,5 +86,11 @@ public class Gift implements IDataModel {
     }
 
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }
