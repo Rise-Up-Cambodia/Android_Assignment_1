@@ -1,7 +1,9 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +40,7 @@ import java.util.ArrayList;
 /**
  * Created by riseupcambodia on 8/7/2015.
  */
-public class GiftHome extends Activity{
+public class GiftHome extends ActionBarActivity{
 
     public static ArrayList<Gift> gifts = null;
     ArrayList<String> names = new ArrayList<String>();
@@ -59,10 +62,8 @@ public class GiftHome extends Activity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String gid = ((TextView) view.findViewById(R.id.giftid)).getText().toString();
-                SharedPreferences sh = getSharedPreferences("id", Context.MODE_PRIVATE);
-                SharedPreferences.Editor edt = sh.edit();
-                edt.putString("id", gid);
                 Intent intent = new Intent(GiftHome.this, GiftDetail.class);
+                intent.putExtra("id", gid);
                 startActivity(intent);
             }
         });
@@ -101,13 +102,7 @@ public class GiftHome extends Activity{
 
                 CustomAdapter adt = new CustomAdapter(GiftHome.this, names, posts, categories, froms, descriptions, gift_path,Image,giftid);
                 lv.setAdapter(adt);
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    }
-                });
-
+                lv.deferNotifyDataSetChanged();
             }
 
             @Override
@@ -152,23 +147,27 @@ public class GiftHome extends Activity{
         }
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar gift_item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        switch (item.getItemId()) {
+            case R.id.post:
+                Intent intentToShareGift = new Intent(GiftHome.this, ShareGift.class);
+                startActivity(intentToShareGift);
+                return true;
+            case R.id.logout:
+
             return true;
+            case R.id.cancel:
+                closeOptionsMenu();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
