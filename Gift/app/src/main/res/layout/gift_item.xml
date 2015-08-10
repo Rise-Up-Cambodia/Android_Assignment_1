@@ -53,6 +53,7 @@
         android:text="Description"
         android:id="@+id/description"
         android:layout_below="@+id/category"
+        android:maxLines="1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

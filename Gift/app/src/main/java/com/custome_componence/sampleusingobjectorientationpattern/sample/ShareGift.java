@@ -183,9 +183,9 @@ public class ShareGift extends ActionBarActivity {
                         }
 
                     }
-
                 }
-
+                Intent intentToHome = new Intent(ShareGift.this, GiftHome.class);
+                startActivity(intentToHome);
             }
         });
     }

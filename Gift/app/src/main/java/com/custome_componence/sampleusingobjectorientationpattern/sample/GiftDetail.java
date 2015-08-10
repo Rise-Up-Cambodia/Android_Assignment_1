@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
 import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
@@ -21,38 +25,55 @@ import com.custome_componence.sampleusingobjectorientationpattern.operation.IOpe
 
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
-    TextView description, date, receivedDate;
-    public static ArrayList<Gift> gifts = null;
+    TextView description, date, receivedDate, username, from, category;
+    public static Gift gifts = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gift_detail);
         description = (TextView)findViewById(R.id.description);
-        SharedPreferences sh = getSharedPreferences("id", Context.MODE_PRIVATE);
-        String id = sh.getString("id","");
+        from = (TextView)findViewById(R.id.from);
+        date = (TextView)findViewById(R.id.date);
+        receivedDate = (TextView)findViewById(R.id.receive_date);
+        username = (TextView)findViewById(R.id.username);
+        category = (TextView)findViewById(R.id.category);
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
         GiftOperation.getGiftById(id,new IOperationListener() {
             @Override
             public void success(JSONObject json) {
-                        /* These two line of code will be use next time */
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
-                gifts = giftDataConverter.convertJSONToAllGift(json);
-
+                gifts = giftDataConverter.convertJSONToGiftDetail(json);
                 String description1 = "";
-                for (int i = 0; i < gifts.size(); i++) {
-                    String name1 = gifts.get(i).getName();
-                    String post = gifts.get(i).getPost();
-                    String category = gifts.get(i).getCategory();
-                    String from = gifts.get(i).getFrom();
-                     description1 = gifts.get(i).getDescription();
-                    String id = gifts.get(i).getId();
-                    String gift_name = gifts.get(i).getIm();
-                }
+                String name1 = "";
+                String date1 = "";
+                String category1 = "";
+                String from1 = "";
+                String receivedDate1 = "";
+                String giftName = "";
+                name1 = gifts.getName();
+                date1 = gifts.getPost();
+                category1 = gifts.getCategory();
+                from1 = gifts.getFrom();
+                receivedDate1 = gifts.getReceiveDate();
+                description1 = gifts.getDescription();
+                giftName = gifts.getIm();
+
                 description.setText(description1);
+                from.setText(from1);
+                username.setText(name1);
+                date.setText(date1);
+                category.setText(category1);
+                receivedDate.setText(receivedDate1);
+                new DownloadImageTask().execute(Constant.BASE_URL1+"app/webroot/img/" + giftName);
             }
 
             @Override
@@ -60,6 +81,39 @@ public class GiftDetail extends ActionBarActivity {
 
             }
         });
+    }
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+
+        int position;
+
+        protected Bitmap doInBackground(String... urls) {
+
+            return loadImageFromNetwork(urls[0]);
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            try {
+                ImageView iv = (ImageView) findViewById(R.id.giftimage);
+                iv.setImageBitmap(result);
+
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    private Bitmap loadImageFromNetwork(String url) {
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(url).getContent());
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -73,32 +127,21 @@ public class GiftDetail extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.update:
-//                Intent intent1 = new Intent(GiftDetail.this, UpdateGift.class);
-//                intent1.putExtra("giftid", gid);
-//                intent1.putExtra("description", description);
-//                intent1.putExtra("from", from);
-//                intent1.putExtra("category", category);
-//                intent1.putExtra("image_path", image_path);
-//                intent1.putExtra("received_date", date);
-//                startActivity(intent1);
                 return true;
-
             case R.id.delete:
-
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(GiftDetail.this);
                 alertDialog.setTitle("Delete Confirmation");
                 alertDialog.setMessage("Are you sure want to delete this item?");
-
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent ii1 = getIntent();
-                        String gfid1 = ii1.getStringExtra("giftid");
-                        String url1 = "http://192.168.1.5:8585/RestCakephp/gifts/delete/" + gfid1 + ".json";
-                        GiftOperation.deleteGift(new IOperationListener() {
+                        Intent intent1 = getIntent();
+                        String id1 = intent1.getStringExtra("id");
+                        GiftOperation.deleteGift(id1, new IOperationListener() {
                             @Override
                             public void success(JSONObject json) {
-                                Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                                Intent intentToHome = new Intent(GiftDetail.this, GiftHome.class);
+                                startActivity(intentToHome);
                             }
 
                             @Override
@@ -117,7 +160,6 @@ public class GiftDetail extends ActionBarActivity {
                     }
                 });
                 alertDialog.show();
-
                 return true;
 
             case R.id.cancel:
