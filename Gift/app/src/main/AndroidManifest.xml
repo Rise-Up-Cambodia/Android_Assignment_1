@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -33,11 +32,13 @@
         </activity>
         <activity
             android:name=".sample.GiftDetail"
-            android:label="@string/title_activity_gift_detail" >
+            android:label="@string/title_activity_gift_detail"
+            android:parentActivityName=".sample.GiftHome">
         </activity>
         <activity
             android:name=".sample.UpdateGift"
-            android:label="@string/title_activity_update_gift" >
+            android:label="@string/title_activity_update_gift"
+            android:parentActivityName=".sample.UpdateGift">
         </activity>
     </application>
 
