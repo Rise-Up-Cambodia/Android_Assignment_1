@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by riseupcambodia on 8/7/2015.
+ * Created by Vanda on 7/8/2015.
  */
 public class UserOperation implements IOperation {
 
@@ -22,6 +22,78 @@ public class UserOperation implements IOperation {
 
 
         Userclient.get(Constant.BASE_URL + "users/view/"+username+"/"+password+".json",new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject obj = new JSONObject(data);
+                        iOperationListener.success(obj);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    iOperationListener.fail(statusCode, data);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+    public void convertJSONAuthenticatedSignup (String email, String password,final IOperationListener iOperationListener){
+        RequestParams requestParams = new RequestParams();
+
+
+        Userclient.get(Constant.BASE_URL + "users/signupauthentication/"+email+"/"+password+".json",new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    try {
+                        JSONObject obj = new JSONObject(data);
+                        iOperationListener.success(obj);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                try {
+                    String data = new String(responseBody, "UTF-8");
+                    iOperationListener.fail(statusCode, data);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+    }
+
+
+
+    public void registerUser (String name,String email, String password,  String from,
+                           String image_path, final IOperationListener iOperationListener){
+        RequestParams requestParams = new RequestParams();
+        requestParams.add("name", name);
+        requestParams.add("email", email);
+        requestParams.add("password", password);
+        requestParams.add("gender", from);
+        requestParams.add("user_profile",image_path );
+
+        Userclient.post(Constant.BASE_URL1 + "users/signup.json",requestParams,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
