@@ -17,7 +17,7 @@ public class GiftOperation implements IOperation {
 
     public void getAllGift(final IOperationListener iOperationListener){
         RequestParams requestParams = new RequestParams();
-        Giftclient.get(Constant.BASE_URL + "gifts.json",new AsyncHttpResponseHandler() {
+        Giftclient.get(Constant.BASE_URL + "gifts/index/3.json",new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -96,7 +96,7 @@ public class GiftOperation implements IOperation {
         requestParams.add("receive_date", receive_date);
         requestParams.add("gift_name", image_path);
 
-        Giftclient.post(Constant.BASE_URL1 + "gifts.json", requestParams, new AsyncHttpResponseHandler() {
+        Giftclient.post(Constant.BASE_URL + "gifts.json", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
