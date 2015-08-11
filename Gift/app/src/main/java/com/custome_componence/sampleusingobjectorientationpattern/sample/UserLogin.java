@@ -52,20 +52,19 @@ public class UserLogin extends Activity {
                         UserDataConverter userDataConverter = new UserDataConverter();
                         gifts = userDataConverter.convertJSONToLogin(json);
                         // if(gift != "")
-
                         String name1 = "", password = "";
-
-
+                        int userId = 0;
                         for (int i = 0; i < gifts.size(); i++) {
                             name1 = gifts.get(i).getParam();
+                            userId = gifts.get(i).getUserId();
 
                             if (name1 == "username password are not match!") {
                                 Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
                             } else {
-
                                 SharedPreferences sh = getSharedPreferences("username", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor edt = sh.edit();
                                 edt.putString("username", name1);
+                                edt.putInt("userId", userId);
                                 edt.commit();
                                 Intent e = new Intent();
                                 e.setClass(UserLogin.this, GiftHome.class);
