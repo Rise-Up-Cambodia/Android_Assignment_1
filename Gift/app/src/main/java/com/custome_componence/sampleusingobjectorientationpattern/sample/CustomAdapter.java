@@ -35,7 +35,6 @@ public class CustomAdapter extends ArrayAdapter<String> {
 
     public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
             froms,ArrayList<String> descriptions, ArrayList<String> giftPaths,  ArrayList<Bitmap> im, ArrayList<String> id) {
-
         super(activity, R.layout.gift_item, names);
         this.activity = activity;
         this.names = names;

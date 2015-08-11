@@ -9,9 +9,6 @@ import com.custome_componence.sampleusingobjectorientationpattern.config.Constan
 
 import java.io.UnsupportedEncodingException;
 
-/**
- * Created by sreyeleak 05/08/2015
- */
 public class GiftOperation implements IOperation {
     AsyncHttpClient Giftclient = new AsyncHttpClient();
 
@@ -84,13 +81,13 @@ public class GiftOperation implements IOperation {
     /*
     * Created by Sreyleak 07/08/2015
     * */
-    public void shareGift(String description, String from, String category, String date, String receive_date,
+    public void shareGift(int userId, String description, String from, String category, String date, String receive_date,
                           String image_path, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("description", description);
         requestParams.add("from", from);
         requestParams.add("cat_id", category);
-        requestParams.add("user_id", "1");
+        requestParams.add("user_id", String.valueOf(userId));
         requestParams.add("status", "1");
         requestParams.add("date", date);
         requestParams.add("receive_date", receive_date);
@@ -158,28 +155,18 @@ public class GiftOperation implements IOperation {
     }
 
     /*
-    * Created by Sreyleak 07/08/2015
+    * Created by Sreyleak 11/08/2015
     * */
-    public void updateGift(final IOperationListener iOperationListener) {
-//        RequestParams requestParams = new RequestParams();
-//        requestParams.add("description", description);
-//        requestParams.add("from", from);
-//        requestParams.add("cat_id", category);
-//        requestParams.add("user_id", "1");
-//        requestParams.add("status", "1");
-//        requestParams.add("date", date);
-//        requestParams.add("receive_date", receive_date);
-//        requestParams.add("gift_name",image_path );
+    public void updateGift(String id, String description, String from, String category, String date, String receive_date,
+                           String image_path,final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
-        requestParams.add("description", "aa");
-        requestParams.add("from", "friend");
-        requestParams.add("cat_id", "1");
-        requestParams.add("user_id", "1");
-        requestParams.add("status", "1");
-        requestParams.add("date", "2015-08-04");
-        requestParams.add("receive_date", "2015-08-04");
-        requestParams.add("gift_name", "aa.jpg");
-        Giftclient.put(Constant.BASE_URL1 + "gifts/9.json", requestParams, new AsyncHttpResponseHandler() {
+        requestParams.add("description", description);
+        requestParams.add("from", from);
+        requestParams.add("cat_id", category);
+        requestParams.add("date", date);
+        requestParams.add("receive_date", receive_date);
+        requestParams.add("gift_name",image_path );
+        Giftclient.put(Constant.BASE_URL1 + "gifts/"+ id +".json", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

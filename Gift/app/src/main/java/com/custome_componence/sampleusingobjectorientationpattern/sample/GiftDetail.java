@@ -34,8 +34,15 @@ public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     TextView description, date, receivedDate, username, from, category;
     public static Gift gifts = null;
-    private  String  name1;
-    private String getName1 = "";
+    private  String  userName = "";
+    String description1 = "";
+    String date1 = "";
+    String category1 = "";
+    String from1 = "";
+    String receivedDate1 = "";
+    String giftName = "";
+    String username1 = "";
+    String id = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,20 +57,14 @@ public class GiftDetail extends ActionBarActivity {
         getSupportActionBar().setTitle("Gift Detail");
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
-        name1 = intent.getStringExtra("username");
+        id = intent.getStringExtra("id");
+        userName = intent.getStringExtra("username");
         GiftOperation.getGiftById(id,new IOperationListener() {
             @Override
             public void success(JSONObject json) {
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
                 gifts = giftDataConverter.convertJSONToGiftDetail(json);
-                String description1 = "";
-                String date1 = "";
-                String category1 = "";
-                String from1 = "";
-                String receivedDate1 = "";
-                String giftName = "";
-                String username1 = gifts.getName();
+                username1 = gifts.getName();
                 date1 = gifts.getPost();
                 category1 = gifts.getCategory();
                 from1 = gifts.getFrom();
@@ -124,9 +125,8 @@ public class GiftDetail extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SharedPreferences sh = getSharedPreferences("username",Context.MODE_PRIVATE);
-        String test = name1;
-        String username2 = sh.getString("name", "");
-        if (!test.equals(username2)){
+        String username2 = sh.getString("username", "");
+        if (!userName.equals(username2)){
 
         }
         else {
@@ -135,11 +135,20 @@ public class GiftDetail extends ActionBarActivity {
 
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.update:
+                Intent intentToUpdateActivity = new Intent(GiftDetail.this, UpdateGift.class);
+                intentToUpdateActivity.putExtra("description",description1);
+                intentToUpdateActivity.putExtra("date",date1);
+                intentToUpdateActivity.putExtra("receiveDate",receivedDate1);
+                intentToUpdateActivity.putExtra("username",username1);
+                intentToUpdateActivity.putExtra("from",from1);
+                intentToUpdateActivity.putExtra("category",category1);
+                intentToUpdateActivity.putExtra("giftName",giftName);
+                intentToUpdateActivity.putExtra("id",id);
+                startActivity(intentToUpdateActivity);
                 return true;
             case R.id.delete:
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(GiftDetail.this);

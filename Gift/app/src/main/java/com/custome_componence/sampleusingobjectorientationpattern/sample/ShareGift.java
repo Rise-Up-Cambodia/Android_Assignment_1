@@ -3,7 +3,9 @@ package com.custome_componence.sampleusingobjectorientationpattern.sample;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -22,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 
@@ -52,11 +55,14 @@ public class ShareGift extends ActionBarActivity {
     private String selectedImagePath = null;
     private ProgressDialog dialog = null;
     String imagePath = "no image";
+    String nameUser = "";
+    int idUser = 0;
     String[] arrCategories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
     String[] arrFrom = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +70,6 @@ public class ShareGift extends ActionBarActivity {
         setContentView(R.layout.activity_share_gift);
 
         getSupportActionBar().setTitle("Share Gift");
-
         btnShare = (Button) findViewById(R.id.btnshare);
         btnChoose = (Button) findViewById(R.id.btnchooseimage);
         description = (EditText) findViewById(R.id.description);
@@ -77,6 +82,10 @@ public class ShareGift extends ActionBarActivity {
         ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, arrFrom);
         category.setAdapter(cat1);
         from.setAdapter(fr1);
+
+        SharedPreferences shPreference = getSharedPreferences("username", Context.MODE_PRIVATE);
+        nameUser = shPreference.getString("username","");
+        idUser = shPreference.getInt("userId",0);
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,9 +161,9 @@ public class ShareGift extends ActionBarActivity {
                         String crrentDate = new SimpleDateFormat("yyyy-MM-dd").format(d);
 
                         String des = description.getText().toString();
-                        String rdate = receivedDate.getText().toString();
+                        String receiDate = receivedDate.getText().toString();
 
-                        GiftOperation.shareGift(des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentDate, rdate, imagePath, new IOperationListener() {
+                        GiftOperation.shareGift(idUser,des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentDate, receiDate, imagePath, new IOperationListener() {
                             @Override
                             public void success(JSONObject json) {
                                 Intent intentToHome = new Intent(ShareGift.this, GiftHome.class);
@@ -228,7 +237,6 @@ public class ShareGift extends ActionBarActivity {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 giftImage.setImageURI(selectedImageUri);
-
                 Cursor cursor = getContentResolver().query(
                         selectedImageUri, filePathColumn, null, null, null);
                 cursor.moveToFirst();
@@ -253,12 +261,12 @@ public class ShareGift extends ActionBarActivity {
 
     public int uploadFile(String sourceFileUri) {
 
-        String upLoadServerUri = "http://192.168.1.113:8585/Android_Assignment_1/GiftApi/app/webroot/upload.php";
+        String upLoadServerUri = Constant.BASE_URL1 + "app/webroot/upload_gift.php";
         String filePth = sourceFileUri;
         //============================================= rename image name before upload===
         int dotCnt = filePth.indexOf(".");
         String filename = filePth.substring(filePth.lastIndexOf("/") + 1, dotCnt);
-        File lastfilename = new File(filename + ran + filePth.substring(dotCnt));
+        File ResultFilename = new File(filename + ran + filePth.substring(dotCnt));
 
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -288,7 +296,7 @@ public class ShareGift extends ActionBarActivity {
             dos = new DataOutputStream(conn.getOutputStream());
 
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + lastfilename + "\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + ResultFilename + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             bytesAvailable = fileInputStream.available(); // create a buffer of  maximum size
