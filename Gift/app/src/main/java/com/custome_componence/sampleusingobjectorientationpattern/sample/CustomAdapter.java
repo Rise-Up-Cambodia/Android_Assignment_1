@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -22,35 +23,47 @@ import java.util.Date;
  * Date : 28/07/2015
  */
 
-public class CustomAdapter extends ArrayAdapter<String> {
+public class CustomAdapter extends ArrayAdapter<Gift> {
     private Activity activity;
-    private ArrayList<String> description;
-    private ArrayList<String> from;
-    private ArrayList<String> category;
-    private ArrayList<String> posts;
-    private ArrayList<Bitmap> im;
-    private ArrayList<String> names;
-    private ArrayList<String> giftPaths;
-    private ArrayList<String> id;
 
-    public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
-            froms,ArrayList<String> descriptions, ArrayList<String> giftPaths,  ArrayList<Bitmap> im, ArrayList<String> id) {
-        super(activity, R.layout.gift_item, names);
+      ArrayList<Gift> gifts;
+
+<<<<<<< HEAD
+
+    //public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
+
+         //   froms,ArrayList<String> descriptions, ArrayList<String> giftPaths,  ArrayList<Bitmap> im, ArrayList<String> id) {
+
+
+public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
+
+        super(activity, R.layout.gift_item, gifts);
+
         this.activity = activity;
-        this.names = names;
-        this.posts = posts;
-        this.from = froms;
-        this.category = categories;
-        this.description = descriptions;
-        this.giftPaths = giftPaths;
-        this.im = im;
-        this.id = id;
-    }
+//        this.names = gifts;
+//        this.posts = posts;
+//        this.from = gifts.froms;
+//        this.category = categories;
+//        this.description = descriptions;
+//        this.giftPaths = giftPaths;
+//          this.im = im;
+//        this.id = id;
+          this.gifts = gifts;
+
+}
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.gift_item, null, true);
+
+      //  Gift giftOb =
+
+        Gift giftOb = gifts.get(position);
+
+
+
+
 
         TextView Name = (TextView) rowView.findViewById(R.id.name);
         TextView Posts = (TextView) rowView.findViewById(R.id.post);
@@ -61,14 +74,16 @@ public class CustomAdapter extends ArrayAdapter<String> {
         TextView username = (TextView) rowView.findViewById(R.id.username);
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView3);
 
-        Name.setText(names.get(position));
-        Posts.setText(posts.get(position));
-        From.setText(from.get(position));
-        Category.setText(category.get(position));
-        giftid.setText(id.get(position));
-        image.setImageBitmap(im.get(position));
-        Description.setText(description.get(position));
-        loadBitmap(im.get(position), image);
+
+        Name.setText(giftOb.getName());
+        Posts.setText("Posted "+ giftOb.getPost());
+        From.setText("From "+ (giftOb.getFrom()));
+        Category.setText("For "+ (giftOb.getCategory()));
+        giftid.setText(giftOb.getId());
+   //    image.setImageBitmap(im.get(position));
+        Description.setText(giftOb.getDescription());
+     //   loadBitmap(im.get(position), image);
+
 
         return rowView;
     }
