@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by riseupcambodia on 8/7/2015.
+ * Created by Vanda on 8/7/2015.
  */
 public class UserDataConverter implements IDataConverter{
 
@@ -29,8 +29,8 @@ public class UserDataConverter implements IDataConverter{
                     JSONObject job = json.getJSONObject(i);
                     String name = job.getJSONObject("User").getString("name");
                     String password = job.getJSONObject("User").getString("password");
-
-                    users.add(new User(name, password));
+                    int userId = job.getJSONObject("User").getInt("id");
+                    users.add(new User(name, password, userId));
                 }
             }
             if(json.length() == 0){
@@ -60,6 +60,7 @@ public class UserDataConverter implements IDataConverter{
                 for(int i = 0; i < lg; i++) {
                     JSONObject job = json.getJSONObject(i);
                     String email = job.getJSONObject("User").getString("email");
+
 
                    users.add(new User(email));
                 }

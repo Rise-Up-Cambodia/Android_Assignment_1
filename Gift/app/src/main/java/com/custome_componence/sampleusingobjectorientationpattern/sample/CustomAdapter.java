@@ -25,16 +25,10 @@ import java.util.Date;
 
 public class CustomAdapter extends ArrayAdapter<Gift> {
     private Activity activity;
-//   ArrayList<String> id;  private ArrayList<String> description;
-     private ArrayList<String> from;
-//    private ArrayList<String> category;
-//    private ArrayList<String> posts;
-    private ArrayList<Bitmap> im;
-//    private ArrayList<String> names;
-//    private ArrayList<String> giftPaths;
-//    private
+
       ArrayList<Gift> gifts;
 
+<<<<<<< HEAD
 
     //public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
 
@@ -44,6 +38,7 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
 public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
 
         super(activity, R.layout.gift_item, gifts);
+
         this.activity = activity;
 //        this.names = gifts;
 //        this.posts = posts;
@@ -56,7 +51,6 @@ public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
           this.gifts = gifts;
 
 }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -77,7 +71,9 @@ public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
         TextView giftid = (TextView) rowView.findViewById(R.id.giftid);
         TextView Category = (TextView) rowView.findViewById(R.id.category);
         TextView Description = (TextView) rowView.findViewById(R.id.description);
+        TextView username = (TextView) rowView.findViewById(R.id.username);
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView3);
+
 
         Name.setText(giftOb.getName());
         Posts.setText("Posted "+ giftOb.getPost());
@@ -87,6 +83,7 @@ public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
    //    image.setImageBitmap(im.get(position));
         Description.setText(giftOb.getDescription());
      //   loadBitmap(im.get(position), image);
+
 
         return rowView;
     }

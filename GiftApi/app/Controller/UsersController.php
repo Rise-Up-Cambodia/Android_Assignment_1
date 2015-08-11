@@ -35,7 +35,6 @@ class UsersController extends AppController{
         $users = $this->User->find('all',array(
             'conditions' => array(
                 'email' => $email
-
             )
         ));
         if ($users) {

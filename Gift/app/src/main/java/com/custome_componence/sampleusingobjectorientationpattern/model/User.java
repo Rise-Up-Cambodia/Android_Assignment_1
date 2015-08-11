@@ -7,19 +7,27 @@ public class User {
 
     private  String param = "";
     private  String password = "";
+    private  int userId = 0;
 
 
     public User(String name){
         this.param = name;
     }
 
-    public User(String param,String password){
+    public User(String param,String password,int userId){
         this.param = param;
         this.password = password;
+        this.userId = userId;
     }
 
 
+    public int getUserId() {
+        return userId;
+    }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public void setParam(String param) {
         this.param = param;
