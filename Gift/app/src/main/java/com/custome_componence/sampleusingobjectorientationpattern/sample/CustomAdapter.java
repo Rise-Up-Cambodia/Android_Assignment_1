@@ -48,7 +48,6 @@ public class CustomAdapter extends ArrayAdapter<String> {
         this.id = id;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -60,12 +59,13 @@ public class CustomAdapter extends ArrayAdapter<String> {
         TextView giftid = (TextView) rowView.findViewById(R.id.giftid);
         TextView Category = (TextView) rowView.findViewById(R.id.category);
         TextView Description = (TextView) rowView.findViewById(R.id.description);
+        TextView username = (TextView) rowView.findViewById(R.id.username);
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView3);
 
         Name.setText(names.get(position));
-        Posts.setText("Posted "+ (posts.get(position)));
-        From.setText("From "+ (from.get(position)));
-        Category.setText("For "+ (category.get(position)));
+        Posts.setText(posts.get(position));
+        From.setText(from.get(position));
+        Category.setText(category.get(position));
         giftid.setText(id.get(position));
         image.setImageBitmap(im.get(position));
         Description.setText(description.get(position));
