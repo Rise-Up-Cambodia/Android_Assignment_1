@@ -14,10 +14,11 @@ public class Gift implements IDataModel {
     private  String im = "";
     private String id = "";
     private String receiveDate = "";
+    private String userProfile = "";
 
 
     public Gift(String name,String post,String from,String description,String category, String im,
-                String id, String receiveDate) {
+                String id, String receiveDate, String userProfile) {
         this.description = description;
         this.from = from;
         this.post = post;
@@ -26,7 +27,16 @@ public class Gift implements IDataModel {
         this.im = im;
         this.setId(id);
         this.receiveDate = receiveDate;
+        this.userProfile = userProfile;
 
+    }
+
+    public void setUserProfile(String userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public String getUserProfile() {
+        return userProfile;
     }
 
     public String getReceiveDate() {

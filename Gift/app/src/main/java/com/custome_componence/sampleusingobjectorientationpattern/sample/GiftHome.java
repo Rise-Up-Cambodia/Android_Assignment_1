@@ -200,7 +200,8 @@ public class GiftHome extends ActionBarActivity {
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
                 gifts = giftDataConverter.convertJSONToAllGift(json);
 
-//                              for (int i = 0; i < gifts.size(); i++) {
+
+//                     for (int i = 0; i < gifts.size(); i++) {
 //                    String name1 = gifts.get(i).getName();
 //                    String post = gifts.get(i).getPost();
 //                    String category = gifts.get(i).getCategory();
