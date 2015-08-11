@@ -10,63 +10,73 @@
         android:layout_marginTop="@dimen/activity_field_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:src="@mipmap/flowers1"/>
+        android:src="@mipmap/christmas_18"/>
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_field_padding"
-        android:paddingBottom="@dimen/activity_field_padding"
-        android:layout_marginTop="@dimen/activity_field_margin"
+        android:layout_width="351dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_bg"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:id="@+id/btnchooseimage"
-        android:text="Choose Image Gift"/>
+        android:text="Choose Image Gift"
+        android:textColor="#fff" />
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_field_padding"
-        android:paddingBottom="@dimen/activity_field_padding"
+        android:layout_width="354dp"
+        android:layout_height="50dp"
+        android:background="@drawable/form_bg"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:id="@+id/description"
         android:hint="Description"/>
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="354dp"
         android:layout_height="50dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:id="@+id/category"/>
+        android:background="@drawable/form_bg"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:id="@+id/category"
+        android:spinnerMode="dialog" />
     <Spinner
-        android:layout_width="match_parent"
+        android:layout_width="354dp"
         android:layout_height="50dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:id="@+id/from"/>
+        android:background="@drawable/form_bg"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:id="@+id/from"
+        android:spinnerMode="dialog" />
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        android:layout_width="354dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
         <EditText
-            android:layout_width="250dp"
-            android:layout_marginTop="18dp"
+            android:layout_width="303dp"
+            android:layout_height="50dp"
+            android:background="@drawable/form_bg"
+            android:gravity="center"
             android:hint="Reveived Date"
             android:id="@+id/receive_date"
-            android:layout_height="wrap_content" />
+   />
 
         <ImageView
             android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_height="wrap_content"
             android:id="@+id/imgcalendar"
             android:src="@mipmap/calendar"/>
     </LinearLayout>
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
         android:text="Save"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_field_margin"
-        android:id="@+id/btnupdate"/>
+        android:layout_width="351dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_bg"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnupdate"
+        android:textColor="#fff" />
 
 </LinearLayout>
