@@ -105,7 +105,7 @@ public class GiftHome extends ActionBarActivity {
                     if (gift_name.equals(null) || gift_name.equals("no image")) {
 
                     } else {
-                        new DownloadImageTask().execute("http://192.168.1.15:8585/Android_Assignment_1/GiftApi/app/webroot/img/" + gift_name, String.valueOf(names.size() - 1));
+                        new DownloadImageTask().execute("http://192.168.1.11:8585/Android_Assignment_1/GiftApi/app/webroot/img/" + gift_name, String.valueOf(names.size() - 1));
                     }
 
                 }

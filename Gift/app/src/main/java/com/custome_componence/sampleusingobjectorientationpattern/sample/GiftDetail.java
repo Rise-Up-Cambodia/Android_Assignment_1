@@ -43,6 +43,7 @@ public class GiftDetail extends ActionBarActivity {
     String giftName = "";
     String username1 = "";
     String id = "";
+    String userProfile = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class GiftDetail extends ActionBarActivity {
         category = (TextView) findViewById(R.id.category);
 
         getSupportActionBar().setTitle("Gift Detail");
+
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
@@ -71,6 +73,7 @@ public class GiftDetail extends ActionBarActivity {
                 receivedDate1 = gifts.getReceiveDate();
                 description1 = gifts.getDescription();
                 giftName = gifts.getIm();
+                userProfile = gifts.getUserProfile();
 
                 description.setText(description1);
                 from.setText(from1);
@@ -78,6 +81,7 @@ public class GiftDetail extends ActionBarActivity {
                 date.setText(date1);
                 category.setText(category1);
                 receivedDate.setText(receivedDate1);
+                Toast.makeText(getApplicationContext(),userProfile,Toast.LENGTH_LONG).show();
                 new DownloadImageTask().execute(Constant.BASE_URL1 + "app/webroot/img/" + giftName);
             }
 
