@@ -28,7 +28,7 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
 
       ArrayList<Gift> gifts;
 
-<<<<<<< HEAD
+
 
     //public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
 
