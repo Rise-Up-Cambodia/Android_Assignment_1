@@ -17,20 +17,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
 import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
-
 import org.json.JSONObject;
-
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 
+/*
+* Created by Sreyleak 10/08/2015
+* */
 public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     TextView description, date, receivedDate, username, from, category;
@@ -41,12 +40,14 @@ public class GiftDetail extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gift_detail);
-        description = (TextView)findViewById(R.id.description);
-        from = (TextView)findViewById(R.id.from);
-        date = (TextView)findViewById(R.id.date);
-        receivedDate = (TextView)findViewById(R.id.receive_date);
-        username = (TextView)findViewById(R.id.username);
-        category = (TextView)findViewById(R.id.category);
+        description = (TextView) findViewById(R.id.description);
+        from = (TextView) findViewById(R.id.from);
+        date = (TextView) findViewById(R.id.date);
+        receivedDate = (TextView) findViewById(R.id.receive_date);
+        username = (TextView) findViewById(R.id.username);
+        category = (TextView) findViewById(R.id.category);
+
+        getSupportActionBar().setTitle("Gift Detail");
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
@@ -77,7 +78,7 @@ public class GiftDetail extends ActionBarActivity {
                 date.setText(date1);
                 category.setText(category1);
                 receivedDate.setText(receivedDate1);
-                new DownloadImageTask().execute(Constant.BASE_URL1+"app/webroot/img/" + giftName);
+                new DownloadImageTask().execute(Constant.BASE_URL1 + "app/webroot/img/" + giftName);
             }
 
             @Override
@@ -86,6 +87,7 @@ public class GiftDetail extends ActionBarActivity {
             }
         });
     }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         int position;
@@ -141,7 +143,37 @@ public class GiftDetail extends ActionBarActivity {
             case R.id.update:
                 return true;
             case R.id.delete:
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(GiftDetail.this);
+                alertDialog.setTitle("Delete Confirmation");
+                alertDialog.setMessage("Are you sure want to delete this item?");
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent1 = getIntent();
+                        String id1 = intent1.getStringExtra("id");
+                        GiftOperation.deleteGift(id1, new IOperationListener() {
+                            @Override
+                            public void success(JSONObject json) {
+                                Intent intentToHome = new Intent(GiftDetail.this, GiftHome.class);
+                                startActivity(intentToHome);
+                            }
 
+                            @Override
+                            public void fail(int statusCode, String responseBody) {
+                                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Intent it1 = new Intent(GiftDetail.this, GiftDetail.class);
+                        startActivity(it1);
+                    }
+                });
+
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alertDialog.show();
                 return true;
 
             case R.id.cancel:
