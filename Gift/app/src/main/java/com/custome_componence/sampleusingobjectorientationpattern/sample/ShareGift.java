@@ -261,7 +261,10 @@ public class ShareGift extends ActionBarActivity {
 
     public int uploadFile(String sourceFileUri) {
 
-        String upLoadServerUri = Constant.BASE_URL1 + "app/webroot/upload_gift.php";
+
+        String upLoadServerUri = "http://192.168.1.15:8585/Android_Assignment_1/GiftApi/app/webroot/upload_gift.php";
+
+
         String filePth = sourceFileUri;
         //============================================= rename image name before upload===
         int dotCnt = filePth.indexOf(".");

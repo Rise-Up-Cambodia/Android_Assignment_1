@@ -7,7 +7,7 @@
  //* Vanda 05/08/2015
  // Get data from database //
 
-        public function index() {
+        public function index($page) {
 
 //            $gifts = $this->Gift->find('all', array(
 //                'conditions' => array(
@@ -32,7 +32,9 @@
 
                     )),
                      'order' => array(
-                'Gift.id DESC')
+                                     'Gift.id DESC'),
+                    'limit' => $page
+
                 )
             );
             $this->set(array(
