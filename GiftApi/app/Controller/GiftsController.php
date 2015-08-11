@@ -17,7 +17,8 @@
 
             $gifts = $this->Gift->find('all',
                 array(
-                    'fields' => array('Gift.id', 'Gift.cat_id','Gift.description','Gift.from','Gift.date','Gift.status','Gift.receive_date','Gift.gift_name','category.cat_name','user.name'),
+                    'fields' => array('Gift.id', 'Gift.cat_id','Gift.description','Gift.from','Gift.date','Gift.status',
+                        'Gift.receive_date','Gift.gift_name','category.cat_name','user.name','user.user_profile'),
                     'joins' => array(array('table' => 'categories',
                         'alias' => 'category',
                         'type' => 'INNER',
@@ -49,7 +50,8 @@
         public function view($id) {
 
             $gifts =  $this->Gift->find('all',array(
-                    'fields' => array('Gift.id', 'Gift.cat_id','Gift.description','Gift.from','Gift.date','Gift.status','Gift.receive_date','Gift.gift_name','category.cat_name','user.name'),
+                    'fields' => array('Gift.id', 'Gift.cat_id','Gift.description','Gift.from','Gift.date','Gift.status',
+                        'Gift.receive_date','Gift.gift_name','category.cat_name','user.name','user.user_profile'),
                     'joins' => array(
                         array('table' => 'categories',
                         'alias' => 'category',
