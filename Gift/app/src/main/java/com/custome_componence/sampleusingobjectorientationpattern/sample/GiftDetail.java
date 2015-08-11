@@ -52,7 +52,6 @@ public class GiftDetail extends ActionBarActivity {
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
         name1 = intent.getStringExtra("username");
-        Toast.makeText(getApplicationContext(),name1, Toast.LENGTH_LONG).show();
         GiftOperation.getGiftById(id,new IOperationListener() {
             @Override
             public void success(JSONObject json) {
