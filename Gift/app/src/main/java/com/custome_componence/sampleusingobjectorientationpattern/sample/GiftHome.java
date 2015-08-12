@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.logging.Handler;
 
 /**
- * Created by Vanda on 8/7/2015.
+ * Created by Vanda on 8/7/2015
  */
 public class GiftHome extends ActionBarActivity {
 
@@ -71,7 +71,7 @@ public class GiftHome extends ActionBarActivity {
 
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
                 gifts = giftDataConverter.convertJSONToAllGift(json);
-                CustomAdapter adt = new CustomAdapter(GiftHome.this,gifts);
+                CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
                 lv.setAdapter(adt);
                 lv.refreshComplete();
                 lv.getMoreComplete();
@@ -87,8 +87,8 @@ public class GiftHome extends ActionBarActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String gid = gifts.get(position-1).getId();
-                String username = gifts.get(position-1).getName();
+                String gid = gifts.get(position - 1).getId();
+                String username = gifts.get(position - 1).getName();
                 Intent intent = new Intent(GiftHome.this, GiftDetail.class);
                 intent.putExtra("id", gid);
                 intent.putExtra("username", username);
@@ -98,8 +98,8 @@ public class GiftHome extends ActionBarActivity {
 
         lv.setOnRefreshListener(new PullListView.OnRefreshListener() {
 
-                    @Override
-                    public void onRefresh() {
+            @Override
+            public void onRefresh() {
 
                 gifts.clear();
                 giftOperation.getAllGift(new IOperationListener() {
@@ -114,6 +114,7 @@ public class GiftHome extends ActionBarActivity {
                         lv.deferNotifyDataSetChanged();
 
                     }
+
                     @Override
                     public void fail(int statusCode, String responseBody) {
 
@@ -125,9 +126,9 @@ public class GiftHome extends ActionBarActivity {
             @Override
             public void onGetMore() {
                 gifts.clear();
-                if(PAGE_NUM <= gifts.size()){
-                    PAGE_NUM += PAGE_NUM ;
-                }else {
+                if (PAGE_NUM <= gifts.size()) {
+                    PAGE_NUM += PAGE_NUM;
+                } else {
                     PAGE_NUM = gifts.size();
                 }
                 giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
@@ -141,6 +142,7 @@ public class GiftHome extends ActionBarActivity {
                         lv.getMoreComplete();
                         lv.deferNotifyDataSetChanged();
                     }
+
                     @Override
                     public void fail(int statusCode, String responseBody) {
 
@@ -151,6 +153,7 @@ public class GiftHome extends ActionBarActivity {
             }
         });
     }
+
     /*
     * Created by Sreyleak 10/08/2015
     * */

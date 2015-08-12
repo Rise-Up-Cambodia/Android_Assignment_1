@@ -35,6 +35,10 @@ public class GiftDataConverter implements IDataConverter {
         }
         return gifts;
     }
+
+    /**
+     * Created by Sreyleak on 12/08/2015
+     */
     public Gift convertJSONToGiftDetail(JSONObject jsonObject){
         //Contact contact = null;
         Gift gift = null;
