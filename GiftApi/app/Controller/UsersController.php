@@ -12,12 +12,12 @@ class UsersController extends AppController{
             '_serialize' => array('users')
         ));
     }
-    public function view($name,$password) {
+    public function view($email,$password) {
 
       //  $users =  $this->User->findById($id);
         $users = $this->User->find('all',array(
             'conditions' => array(
-                'name' => $name,
+                'email' => $email,
                 'password' => $password
             )
         ));
