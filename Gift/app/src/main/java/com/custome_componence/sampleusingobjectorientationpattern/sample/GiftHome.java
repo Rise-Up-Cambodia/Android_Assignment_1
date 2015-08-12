@@ -61,6 +61,8 @@ public class GiftHome extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gift_home);
         lv = (PullListView) findViewById(R.id.pulllistView);
+
+
         final GiftOperation giftOperation = new GiftOperation();
         lv.deferNotifyDataSetChanged();
         getSupportActionBar().setTitle("Gift Home");
@@ -143,7 +145,9 @@ public class GiftHome extends ActionBarActivity {
 
                     }
 
+
                 });
+                lv.getMoreComplete();
 
             }
         });
@@ -212,4 +216,5 @@ public class GiftHome extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

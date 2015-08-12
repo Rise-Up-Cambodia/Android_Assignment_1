@@ -1,9 +1,21 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +43,7 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
 
     private Activity activity;
     ArrayList<Gift> gifts;
+    static Context mcontext;
 
     public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
 
@@ -40,6 +53,7 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         this.gifts = gifts;
 
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -57,12 +71,16 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         ImageView userImage = (ImageView) rowView.findViewById(R.id.userimage);
 
 
+
         Name.setText(giftOb.getName());
         Posts.setText("Posted " + giftOb.getPost());
         From.setText("From " + (giftOb.getFrom()));
         Category.setText("For " + (giftOb.getCategory()));
         giftid.setText(giftOb.getId());
         Description.setText(giftOb.getDescription());
+
+
+
 
         /**
          * Author Sreyleak 12/08/2015
@@ -82,7 +100,9 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
                 super.onLoadingFailed(imageUri, view, failReason);
 
             }
+
         });
+
         /**
          * Author Sreyleak 12/08/2015
          * load user image
@@ -103,6 +123,15 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         });
         return rowView;
     }
+
+
+
+
+
+
+
+
+
 
 }
 

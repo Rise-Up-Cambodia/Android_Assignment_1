@@ -97,6 +97,10 @@ public class UserRegister extends ActionBarActivity {
        giftimage = (ImageView)findViewById(R.id.image);
         from = (Spinner)findViewById(R.id.from);
 
+        Bitmap icon = BitmapFactory.decodeResource(getResources(),R.drawable.user1);
+
+        giftimage.setImageBitmap(icon);
+
 
         // set circle bitmap
         ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
@@ -203,7 +207,7 @@ public class UserRegister extends ActionBarActivity {
                                 }
 
 
-                                    }
+
 
 
                                 @Override
