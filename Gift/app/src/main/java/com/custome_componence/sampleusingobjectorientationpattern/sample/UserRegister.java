@@ -37,6 +37,12 @@ import com.custome_componence.sampleusingobjectorientationpattern.model.User;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.json.JSONObject;
 
@@ -55,13 +61,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
-* Created by Sreyleak 06/08/2015
+* Created by Vanda 06-12/08/2015
 * */
-public class UserRegister extends ActionBarActivity{
+public class UserRegister extends ActionBarActivity {
     UserOperation userOperation = new UserOperation();
+
     Button btnRegister, btnchoose;
     ImageView  giftimage;
     EditText username,email,password;
+
     Spinner from;
     private int serverResponseCode = 0;
     private static final int SELECT_PICTURE = 1;
@@ -69,16 +77,16 @@ public class UserRegister extends ActionBarActivity{
     private ProgressDialog dialog = null;
     public static ArrayList<User> users = null;
     String image_path = "no image";
-    String[] fromwho = {"Gender","Male","Female"};
+    String[] fromwho = {"Gender", "Male", "Female"};
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
         getSupportActionBar().setTitle("User Registration");
+
 
 
         btnRegister = (Button) findViewById(R.id.btnshare);
@@ -90,13 +98,7 @@ public class UserRegister extends ActionBarActivity{
         from = (Spinner)findViewById(R.id.from);
 
 
-
         // set circle bitmap
-
-
-
-
-
         ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
         from.setAdapter(fr1);
 
@@ -109,6 +111,7 @@ public class UserRegister extends ActionBarActivity{
                 startActivityForResult(Intent.createChooser(intent, "Select A Picture"), SELECT_PICTURE);
             }
         });
+
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +137,7 @@ public class UserRegister extends ActionBarActivity{
                         } else {
 
 
+
                             userOperation.convertJSONAuthenticatedSignup(email.getText().toString(), new IOperationListener() {
                                 @Override
                                 public void success(JSONObject json) {
@@ -154,14 +158,13 @@ public class UserRegister extends ActionBarActivity{
 
                                         if (email1 == "Not duplicate user") {
 
-
                                             userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
                                                 @Override
                                                 public void success(JSONObject json) {
 
                                                     Intent e = new Intent();
                                                     e.setClass(UserRegister.this, UserLogin.class);
-
+                              
                                                     startActivity(e);
                                                 }
 
@@ -200,17 +203,19 @@ public class UserRegister extends ActionBarActivity{
                                 }
 
 
+                                    }
+
+
                                 @Override
                                 public void fail(int statusCode, String responseBody) {
                                     Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
+
                                 }
 
                             });
 
                         }
                     }
-
-
 
 
     }
@@ -225,7 +230,6 @@ public class UserRegister extends ActionBarActivity{
         Matcher matcher = pattern.matcher(emailInput);
         return matcher.matches();
     }
-
 
 
     @Override
@@ -255,7 +259,7 @@ public class UserRegister extends ActionBarActivity{
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-               giftimage.setImageURI(selectedImageUri);
+                giftimage.setImageURI(selectedImageUri);
 
 
                 Cursor cursor = getContentResolver().query(

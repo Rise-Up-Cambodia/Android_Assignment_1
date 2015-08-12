@@ -5,15 +5,8 @@
 
 
  //* Vanda 05/08/2015
- // Get data from database //
-
+ // Get gift data from database //
         public function index($page) {
-
-//            $gifts = $this->Gift->find('all', array(
-//                'conditions' => array(
-//                    'status' => 1
-//                )
-//            ));
 
             $gifts = $this->Gift->find('all',
                 array(
@@ -23,7 +16,6 @@
                         'alias' => 'category',
                         'type' => 'INNER',
                         'conditions' => array('category.id = Gift.cat_id'),
-
                     ),
                    array('table' => 'users',
                         'alias' => 'user',
@@ -31,10 +23,8 @@
                         'conditions' => array('user.id = Gift.user_id','status'=>1),
 
                     )),
-                     'order' => array(
-                                     'Gift.id DESC'),
+                    'order' => array('Gift.id DESC'),
                     'limit' => $page
-
                 )
             );
             $this->set(array(
