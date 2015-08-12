@@ -1,20 +1,8 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -34,15 +21,8 @@ import android.widget.Toast;
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
 import com.custome_componence.sampleusingobjectorientationpattern.model.User;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.json.JSONObject;
 
@@ -52,10 +32,7 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,9 +43,9 @@ import java.util.regex.Pattern;
 public class UserRegister extends ActionBarActivity {
     UserOperation userOperation = new UserOperation();
 
-    Button btnRegister, btnchoose;
-    ImageView  giftimage;
-    EditText username,email,password;
+    Button btnRegister, btnChoose;
+    ImageView giftImage;
+    EditText username, email, password;
 
     Spinner from;
     private int serverResponseCode = 0;
@@ -81,28 +58,27 @@ public class UserRegister extends ActionBarActivity {
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
         getSupportActionBar().setTitle("User Registration");
 
-
-
         btnRegister = (Button) findViewById(R.id.btnshare);
-        btnchoose = (Button)findViewById(R.id.btnchooseimage);
-        username = (EditText)findViewById(R.id.name);
-        email = (EditText)findViewById(R.id.email);
-        password = (EditText)findViewById(R.id.password);
-       giftimage = (ImageView)findViewById(R.id.image);
-        from = (Spinner)findViewById(R.id.from);
+        btnChoose = (Button) findViewById(R.id.btnchooseimage);
+        username = (EditText) findViewById(R.id.name);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+        giftImage = (ImageView) findViewById(R.id.image);
+        from = (Spinner) findViewById(R.id.from);
 
 
         // set circle bitmap
         ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
         from.setAdapter(fr1);
 
-        btnchoose.setOnClickListener(new View.OnClickListener() {
+        btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -113,13 +89,9 @@ public class UserRegister extends ActionBarActivity {
         });
 
 
-
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
 
 
                 if (selectedImagePath == null) {
@@ -130,20 +102,19 @@ public class UserRegister extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
                     } else {
 
-                 String emailInput =   email.getText().toString().trim();
+                        String emailInput = email.getText().toString().trim();
                         if (!isValidEmail(emailInput)) {
                             email.setError("Invalid Email"); /*"Invalid Text" or something like getString(R.string.Invalid)*/
                             email.requestFocus();
                         } else {
 
 
-
-                            userOperation.convertJSONAuthenticatedSignup(email.getText().toString(), new IOperationListener() {
+                            userOperation.getUserEmails(email.getText().toString(), new IOperationListener() {
                                 @Override
                                 public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                                     UserDataConverter userDataConverter = new UserDataConverter();
-                                    users = userDataConverter.convertJSONAuthenticatedSignup(json);
+                                    users = userDataConverter.convertJSONToUser(json);
 
 
                                     String email1 = "";
@@ -164,7 +135,7 @@ public class UserRegister extends ActionBarActivity {
 
                                                     Intent e = new Intent();
                                                     e.setClass(UserRegister.this, UserLogin.class);
-                              
+
                                                     startActivity(e);
                                                 }
 
@@ -199,6 +170,7 @@ public class UserRegister extends ActionBarActivity {
 
                                     }
                                 }
+
                                 @Override
                                 public void fail(int statusCode, String responseBody) {
                                     Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
@@ -211,10 +183,11 @@ public class UserRegister extends ActionBarActivity {
                     }
 
 
+                }
+            }
+        });
     }
-    }
-});
-        }
+
     private boolean isValidEmail(String emailInput) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -252,7 +225,7 @@ public class UserRegister extends ActionBarActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                giftimage.setImageURI(selectedImageUri);
+                giftImage.setImageURI(selectedImageUri);
 
 
                 Cursor cursor = getContentResolver().query(

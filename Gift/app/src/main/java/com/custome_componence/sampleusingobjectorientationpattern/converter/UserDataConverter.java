@@ -11,67 +11,59 @@ import java.util.ArrayList;
 /**
  * Created by Vanda on 8/7/2015.
  */
-public class UserDataConverter implements IDataConverter{
+public class UserDataConverter implements IDataConverter {
 
-    public ArrayList<User> convertJSONToLogin(JSONObject jsonObject){
-        //Contact contact = null;
+    public ArrayList<User> convertJSONToUsers(JSONObject jsonObject) {
         ArrayList<User> users = new ArrayList<User>();
-
         try {
-
-
             JSONArray json = jsonObject.getJSONArray("users");
-            String error = "username password are not match!";
+            String errorMessage = "username password are not match!";
 
-            if(json.length() == 1){
+            if (json.length() == 1) {
                 int lg = json.length();
-                for(int i = 0; i < lg; i++) {
-                    JSONObject job = json.getJSONObject(i);
-                    String name = job.getJSONObject("User").getString("name");
-                    String password = job.getJSONObject("User").getString("password");
-                    int userId = job.getJSONObject("User").getInt("id");
+                for (int i = 0; i < lg; i++) {
+                    JSONObject jsonObj = json.getJSONObject(i);
+                    String name = jsonObj.getJSONObject("User").getString("name");
+                    String password = jsonObj.getJSONObject("User").getString("password");
+                    int userId = jsonObj.getJSONObject("User").getInt("id");
                     users.add(new User(name, password, userId));
                 }
             }
-            if(json.length() == 0){
+            if (json.length() == 0) {
 
-                users.add(new User(error));
+                users.add(new User(errorMessage));
 
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return users;
     }
 
-    public ArrayList<User> convertJSONAuthenticatedSignup(JSONObject jsonObject){
-        //Contact contact = null;
+    public ArrayList<User> convertJSONToUser(JSONObject jsonObject) {
         ArrayList<User> users = new ArrayList<User>();
 
         try {
 
 
             JSONArray json = jsonObject.getJSONArray("users");
-            String emailMsg= "Not duplicate user";
+            String emailMessage = "Email does not exist !";
 
-            if(json.length() == 1){
+            if (json.length() == 1) {
                 int lg = json.length();
-                for(int i = 0; i < lg; i++) {
-                    JSONObject job = json.getJSONObject(i);
-                    String email = job.getJSONObject("User").getString("email");
-
-
-                   users.add(new User(email));
+                for (int i = 0; i < lg; i++) {
+                    JSONObject jsonObj = json.getJSONObject(i);
+                    String email = jsonObj.getJSONObject("User").getString("email");
+                    users.add(new User(email));
                 }
             }
-            if(json.length() == 0){
+            if (json.length() == 0) {
 
-                users.add(new User(emailMsg));
-
+                users.add(new User(emailMessage));
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return users;
