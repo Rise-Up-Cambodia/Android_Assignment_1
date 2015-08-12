@@ -88,7 +88,7 @@ public class GiftHome extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String gid = gifts.get(position-1).getId();
-                String username = gifts.get(position).getName();
+                String username = gifts.get(position-1).getName();
                 Intent intent = new Intent(GiftHome.this, GiftDetail.class);
                 intent.putExtra("id", gid);
                 intent.putExtra("username", username);
@@ -114,7 +114,6 @@ public class GiftHome extends ActionBarActivity {
                         lv.deferNotifyDataSetChanged();
 
                     }
-
                     @Override
                     public void fail(int statusCode, String responseBody) {
 

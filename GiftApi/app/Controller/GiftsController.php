@@ -106,15 +106,15 @@
 
         public function delete($id) {
             $this->Gift->id = $id;
-//            $image_name =  $this->Gift->find('all',array('fields' => "gift_name","conditions"=>array("id"=>$id)));
+            $image_name =  $this->Gift->find('all',array('fields' => "gift_name","conditions"=>array("id"=>$id)));
             if ($this->Gift->saveField('status', 0)) {
-//                $file = new File(WWW_ROOT .'img/' .$image_name[0]['Gift']['name']);
-//                if ($file->exists()) {
-//                    $dir = new Folder(WWW_ROOT . 'img/delete_image', true);
-//                    $file->copy($dir->path . DS . $file->name);
-//                }
-
-             //   $file->delete();
+                $file = new File(WWW_ROOT .'img/' .$image_name[0]['Gift']['gift_name']);
+                if ($file->exists()) {
+                    $dir = new Folder(WWW_ROOT . 'img/delete_image', true);
+                    $file->copy($dir->path . DS . $file->name);
+                }
+                // $file = new File(WWW_ROOT . 'img/'.$image_name[0]['Gift']['image_path'], false, 0777);
+                $file->delete();
                 $message =   "Deleted";
             } else {
                 $message = 'Error';

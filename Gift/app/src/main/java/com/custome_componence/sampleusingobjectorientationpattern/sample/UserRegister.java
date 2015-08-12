@@ -198,14 +198,7 @@ public class UserRegister extends ActionBarActivity {
 
 
                                     }
-
-
                                 }
-
-
-                                    }
-
-
                                 @Override
                                 public void fail(int statusCode, String responseBody) {
                                     Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();

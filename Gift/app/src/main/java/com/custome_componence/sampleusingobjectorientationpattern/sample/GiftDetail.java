@@ -134,15 +134,14 @@ public class GiftDetail extends ActionBarActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        SharedPreferences sh = getSharedPreferences("username",Context.MODE_PRIVATE);
-        String username2 = sh.getString("username", "");
+        SharedPreferences sh = getSharedPreferences("userName",Context.MODE_PRIVATE);
+        String username2 = sh.getString("userName", "");
         if (!userName.equals(username2)){
 
         }
         else {
             getMenuInflater().inflate(R.menu.menu_gift_detail, menu);
         }
-
         return true;
     }
     @Override
@@ -164,6 +163,7 @@ public class GiftDetail extends ActionBarActivity {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(GiftDetail.this);
                 alertDialog.setTitle("Delete Confirmation");
                 alertDialog.setMessage("Are you sure want to delete this item?");
+
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
