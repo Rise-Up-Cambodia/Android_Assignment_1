@@ -57,15 +57,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
 * Created by Vanda 06-12/08/2015
 * */
 public class UserRegister extends ActionBarActivity {
     UserOperation userOperation = new UserOperation();
-    Button btnshare, btnchoose;
-    ImageView giftimage;
-    EditText username, email, password;
+
+    Button btnRegister, btnchoose;
+    ImageView  giftimage;
+    EditText username,email,password;
+
     Spinner from;
     private int serverResponseCode = 0;
     private static final int SELECT_PICTURE = 1;
@@ -81,14 +85,18 @@ public class UserRegister extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
+        getSupportActionBar().setTitle("User Registration");
 
-        btnshare = (Button) findViewById(R.id.btnshare);
-        btnchoose = (Button) findViewById(R.id.btnchooseimage);
-        username = (EditText) findViewById(R.id.name);
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        giftimage = (ImageView) findViewById(R.id.image);
-        from = (Spinner) findViewById(R.id.from);
+
+
+        btnRegister = (Button) findViewById(R.id.btnshare);
+        btnchoose = (Button)findViewById(R.id.btnchooseimage);
+        username = (EditText)findViewById(R.id.name);
+        email = (EditText)findViewById(R.id.email);
+        password = (EditText)findViewById(R.id.password);
+       giftimage = (ImageView)findViewById(R.id.image);
+        from = (Spinner)findViewById(R.id.from);
+
 
         // set circle bitmap
         ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
@@ -104,100 +112,123 @@ public class UserRegister extends ActionBarActivity {
             }
         });
 
-        btnshare.setOnClickListener(new View.OnClickListener() {
+
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userOperation.convertJSONAuthenticatedSignup(email.getText().toString(), password.getText().toString(), new IOperationListener() {
-                    @Override
-                    public void success(JSONObject json) {
-                        /* These two line of code will be use next time */
-                        UserDataConverter userDataConverter = new UserDataConverter();
-                        users = userDataConverter.convertJSONAuthenticatedSignup(json);
-                        // if(gift != "")
 
 
-                        String name = username.getText().toString();
-                        String emails = email.getText().toString();
-                        String passwords = password.getText().toString();
 
-                        if (selectedImagePath == null) {
-                            Toast.makeText(UserRegister.this, "Please, select photo", Toast.LENGTH_LONG).show();
+
+
+                if (selectedImagePath == null) {
+                    Toast.makeText(UserRegister.this, "Please, select photo", Toast.LENGTH_LONG).show();
+                } else {
+                    if (username.getText().toString().equals("") || email.getText().toString().equals("") || password.getText().toString().equals("") ||
+                            from.getSelectedItem().toString().equals("Gender")) {
+                        Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                 String emailInput =   email.getText().toString().trim();
+                        if (!isValidEmail(emailInput)) {
+                            email.setError("Invalid Email"); /*"Invalid Text" or something like getString(R.string.Invalid)*/
+                            email.requestFocus();
                         } else {
-                            if (username.getText().toString().equals("") || email.getText().toString().equals("") || password.getText().toString().equals("") ||
-                                    from.getSelectedItem().toString().equals("Gender")) {
-                                Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                String email1 = "";
-                                for (int i = 0; i < users.size(); i++) {
 
 
-                                    email1 = users.get(i).getParam();
+
+                            userOperation.convertJSONAuthenticatedSignup(email.getText().toString(), new IOperationListener() {
+                                @Override
+                                public void success(JSONObject json) {
+                        /* These two line of code will be use next time */
+                                    UserDataConverter userDataConverter = new UserDataConverter();
+                                    users = userDataConverter.convertJSONAuthenticatedSignup(json);
 
 
-                                    if (email1 == "Not duplicate user") {
-
-                                        ///
-
-
-                                        //to insert category number into database base on spinner gift_item selected
+                                    String email1 = "";
+                                    for (int i = 0; i < users.size(); i++) {
 
 
-                                        userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
-                                            @Override
-                                            public void success(JSONObject json) {
-                                                // Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
-                                                Intent e = new Intent();
-                                                e.setClass(UserRegister.this, UserLogin.class);
+                                        email1 = users.get(i).getParam();
 
-                                                startActivity(e);
+                                        String name = username.getText().toString();
+                                        String emails = email.getText().toString();
+                                        String passwords = password.getText().toString();
+
+                                        if (email1 == "Not duplicate user") {
+
+                                            userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
+                                                @Override
+                                                public void success(JSONObject json) {
+
+                                                    Intent e = new Intent();
+                                                    e.setClass(UserRegister.this, UserLogin.class);
+                              
+                                                    startActivity(e);
+                                                }
+
+                                                @Override
+                                                public void fail(int statusCode, String responseBody) {
+                                                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                            if (selectedImagePath.equals("")) {
+
+                                            } else {
+                                                dialog = ProgressDialog.show(UserRegister.this, "", "Registering ...", true);
+                                                new Thread(new Runnable() {
+                                                    public void run() {
+                                                        runOnUiThread(new Runnable() {
+                                                            public void run() {
+                                                                System.out.println("is loading");
+                                                            }
+                                                        });
+                                                        int response = uploadFile(selectedImagePath);
+                                                        System.out.println("RES : " + response);
+                                                    }
+                                                }).start();
                                             }
-
-                                            @Override
-                                            public void fail(int statusCode, String responseBody) {
-                                                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-
-                                        if (selectedImagePath.equals("")) {
 
                                         } else {
-                                            dialog = ProgressDialog.show(UserRegister.this, "", "Registering ...", true);
-                                            new Thread(new Runnable() {
-                                                public void run() {
-                                                    runOnUiThread(new Runnable() {
-                                                        public void run() {
-                                                            System.out.println("is loading");
-                                                        }
-                                                    });
-                                                    int response = uploadFile(selectedImagePath);
-                                                    System.out.println("RES : " + response);
-                                                }
-                                            }).start();
+                                            Toast.makeText(getApplicationContext(), "Email already existed!", Toast.LENGTH_LONG).show();
+
                                         }
 
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Email already existed!", Toast.LENGTH_LONG).show();
 
                                     }
 
+
                                 }
 
-                            }
+
+                                    }
+
+
+                                @Override
+                                public void fail(int statusCode, String responseBody) {
+                                    Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            });
 
                         }
                     }
 
 
-                    @Override
-                    public void fail(int statusCode, String responseBody) {
-                        Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
-                    }
+    }
+    }
+});
+        }
+    private boolean isValidEmail(String emailInput) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-                });
-
-
-            }
-        });
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(emailInput);
+        return matcher.matches();
     }
 
 

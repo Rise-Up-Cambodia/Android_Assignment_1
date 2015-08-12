@@ -27,11 +27,13 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserLogin extends Activity {
 
     private Button btnAdd;
-    EditText username;
+    EditText email;
     EditText password;
     public static ArrayList<User> gifts = null;
     public static User gift = null;
@@ -43,50 +45,60 @@ public class UserLogin extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         btnAdd = (Button) findViewById(R.id.register);
-        username = (EditText) findViewById(R.id.name);
+        email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         final UserOperation userOperation = new UserOperation();
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (email.getText().toString().equals("") || password.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "All fields required!", Toast.LENGTH_SHORT).show();
 
-                userOperation.login(username.getText().toString(), password.getText().toString(), new IOperationListener() {
-                    @Override
-                    public void success(JSONObject json) {
+                } else {
+                    String emailInput = email.getText().toString().trim();
+                    if (!isValidEmail(emailInput)) {
+                        email.setError("Invalid Email"); /*"Invalid Text" or something like getString(R.string.Invalid)*/
+                        email.requestFocus();
+                    } else {
+                        userOperation.login(email.getText().toString(), password.getText().toString(), new IOperationListener() {
+                            @Override
+                            public void success(JSONObject json) {
                         /* These two line of code will be use next time */
-                        UserDataConverter userDataConverter = new UserDataConverter();
-                        gifts = userDataConverter.convertJSONToLogin(json);
-                        // if(gift != "")
-                        String name1 = "", password = "";
-                        int userId = 0;
-                        for (int i = 0; i < gifts.size(); i++) {
-                            name1 = gifts.get(i).getParam();
-                            userId = gifts.get(i).getUserId();
+                                UserDataConverter userDataConverter = new UserDataConverter();
+                                gifts = userDataConverter.convertJSONToLogin(json);
 
-                            if (name1 == "username password are not match!") {
-                                Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
-                            } else {
-                                SharedPreferences sh = getSharedPreferences("username", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor edt = sh.edit();
-                                edt.putString("username", name1);
-                                edt.putInt("userId", userId);
-                                edt.commit();
-                                Intent e = new Intent();
-                                e.setClass(UserLogin.this, GiftHome.class);
+                                String name1 = "";
+                                int userId = 0;
+                                for (int i = 0; i < gifts.size(); i++) {
+                                    name1 = gifts.get(i).getParam();
+                                    userId = gifts.get(i).getUserId();
 
-                                startActivity(e);
+                                    if (name1 == "username password are not match!") {
+                                        Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
+                                    } else {
+                                        SharedPreferences sh = getSharedPreferences("username", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor edt = sh.edit();
+                                        edt.putString("username", name1);
+                                        edt.putInt("userId", userId);
+                                        edt.commit();
+                                        Intent e = new Intent();
+                                        e.setClass(UserLogin.this, GiftHome.class);
+
+                                        startActivity(e);
+                                    }
+                                }
                             }
-                        }
+
+                            @Override
+                            public void fail(int statusCode, String responseBody) {
+                                Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
+
                     }
-
-                    @Override
-                    public void fail(int statusCode, String responseBody) {
-                        Toast.makeText(getApplicationContext(), "User name and password are not match", Toast.LENGTH_SHORT).show();
-                    }
-
-                });
-
+                }
             }
         });
 
@@ -117,6 +129,14 @@ public class UserLogin extends Activity {
                 .build();
         ImageLoader.getInstance().init(config);
 
+    }
+    private boolean isValidEmail(String emailInput) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(emailInput);
+        return matcher.matches();
     }
 
 
