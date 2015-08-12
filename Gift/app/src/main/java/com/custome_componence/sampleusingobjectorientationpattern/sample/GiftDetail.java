@@ -23,6 +23,11 @@ import com.custome_componence.sampleusingobjectorientationpattern.converter.Gift
 import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
 import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.URL;
@@ -33,6 +38,7 @@ import java.net.URL;
 public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
     TextView description, date, receivedDate, username, from, category;
+    ImageView giftImage, userImage;
     public static Gift gifts = null;
     private  String  userName = "";
     String description1 = "";
@@ -54,6 +60,8 @@ public class GiftDetail extends ActionBarActivity {
         receivedDate = (TextView) findViewById(R.id.receive_date);
         username = (TextView) findViewById(R.id.username);
         category = (TextView) findViewById(R.id.category);
+        giftImage = (ImageView)findViewById(R.id.giftimage);
+        userImage = (ImageView)findViewById(R.id.userimage);
 
         getSupportActionBar().setTitle("Gift Detail");
 
@@ -81,8 +89,42 @@ public class GiftDetail extends ActionBarActivity {
                 date.setText(date1);
                 category.setText(category1);
                 receivedDate.setText(receivedDate1);
-                Toast.makeText(getApplicationContext(),userProfile,Toast.LENGTH_LONG).show();
-                new DownloadImageTask().execute(Constant.BASE_URL1 + "app/webroot/img/" + giftName);
+                /*
+                * load gift image
+                * */
+                ImageViewAware imageViewAware = new ImageViewAware(giftImage);
+                ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/img/" +
+                        gifts.getIm(), imageViewAware, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason
+                            failReason) {
+
+                        super.onLoadingFailed(imageUri, view, failReason);
+
+                    }
+                });
+                /*
+                * load user image
+                * */
+                ImageViewAware imageViewUser = new ImageViewAware(userImage);
+                ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/user_photo/" +
+                        gifts.getUserProfile(), imageViewUser, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason
+                            failReason) {
+                        super.onLoadingFailed(imageUri, view, failReason);
+
+                    }
+                });
+
             }
 
             @Override
@@ -91,41 +133,6 @@ public class GiftDetail extends ActionBarActivity {
             }
         });
     }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-
-        int position;
-
-        protected Bitmap doInBackground(String... urls) {
-
-            return loadImageFromNetwork(urls[0]);
-        }
-
-        @Override
-        protected void onCancelled() {
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            try {
-                ImageView iv = (ImageView) findViewById(R.id.giftimage);
-                iv.setImageBitmap(result);
-
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    private Bitmap loadImageFromNetwork(String url) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(url).getContent());
-            return bitmap;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         SharedPreferences sh = getSharedPreferences("username",Context.MODE_PRIVATE);

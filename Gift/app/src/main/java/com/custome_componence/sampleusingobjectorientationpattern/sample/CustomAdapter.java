@@ -12,150 +12,96 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
 import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Author Sreyleak
- * Date : 28/07/2015
+ * Author Vanda 28/07/2015
  */
 
 public class CustomAdapter extends ArrayAdapter<Gift> {
+
     private Activity activity;
+    ArrayList<Gift> gifts;
 
-      ArrayList<Gift> gifts;
-
-
-    //public CustomAdapter(Activity activity, ArrayList<String> names,ArrayList<String> posts,ArrayList<String> categories,ArrayList<String>
-
-         //   froms,ArrayList<String> descriptions, ArrayList<String> giftPaths,  ArrayList<Bitmap> im, ArrayList<String> id) {
-
-
-public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
+    public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
 
         super(activity, R.layout.gift_item, gifts);
 
         this.activity = activity;
-//        this.names = gifts;
-//        this.posts = posts;
-//        this.from = gifts.froms;
-//        this.category = categories;
-//        this.description = descriptions;
-//        this.giftPaths = giftPaths;
-//          this.im = im;
-//        this.id = id;
-          this.gifts = gifts;
+        this.gifts = gifts;
 
-}
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.gift_item, null, true);
 
-      //  Gift giftOb =
-
         Gift giftOb = gifts.get(position);
-
-
-
-
-
         TextView Name = (TextView) rowView.findViewById(R.id.name);
         TextView Posts = (TextView) rowView.findViewById(R.id.post);
         TextView From = (TextView) rowView.findViewById(R.id.from);
         TextView giftid = (TextView) rowView.findViewById(R.id.giftid);
         TextView Category = (TextView) rowView.findViewById(R.id.category);
         TextView Description = (TextView) rowView.findViewById(R.id.description);
-        TextView username = (TextView) rowView.findViewById(R.id.username);
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView3);
+        ImageView userImage = (ImageView) rowView.findViewById(R.id.userimage);
 
 
         Name.setText(giftOb.getName());
-        Posts.setText("Posted "+ giftOb.getPost());
-        From.setText("From "+ (giftOb.getFrom()));
-        Category.setText("For "+ (giftOb.getCategory()));
+        Posts.setText("Posted " + giftOb.getPost());
+        From.setText("From " + (giftOb.getFrom()));
+        Category.setText("For " + (giftOb.getCategory()));
         giftid.setText(giftOb.getId());
-   //    image.setImageBitmap(im.get(position));
         Description.setText(giftOb.getDescription());
-     //   loadBitmap(im.get(position), image);
 
+        /**
+         * Author Sreyleak 12/08/2015
+         * load gift image
+         */
+        ImageViewAware imageViewAware = new ImageViewAware(image);
+        ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/img/" +
+                giftOb.getIm(), imageViewAware, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            }
 
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason
+                    failReason) {
+
+                super.onLoadingFailed(imageUri, view, failReason);
+
+            }
+        });
+        /**
+         * Author Sreyleak 12/08/2015
+         * load user image
+         */
+        ImageViewAware imageViewUser = new ImageViewAware(userImage);
+        ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/user_photo/" +
+                giftOb.getUserProfile(), imageViewUser, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason
+                    failReason) {
+                super.onLoadingFailed(imageUri, view, failReason);
+
+            }
+        });
         return rowView;
-    }
-    public void loadBitmap(Bitmap img, ImageView imageView) {
-        BitmapWorkerTask task = new BitmapWorkerTask(imageView);
-        task.execute(img);
-    }
-
-    class BitmapWorkerTask extends AsyncTask<Bitmap, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
-        private Bitmap data = null;
-
-        public BitmapWorkerTask(ImageView imageView) {
-            // Use a WeakReference to ensure the ImageView can be garbage collected
-            imageViewReference = new WeakReference<ImageView>(imageView);
-        }
-
-        // Decode image in background.
-        @Override
-        protected Bitmap doInBackground(Bitmap... params) {
-            data = params[0];
-            return decodeSampledBitmapFromResource(data, 250, 250);
-        }
-
-        // Once complete, see if ImageView is still around and set bitmap.
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (imageViewReference != null && bitmap != null) {
-                final ImageView imageview = imageViewReference.get();
-                if (imageview != null) {
-                    imageview.setImageBitmap(bitmap);
-                }
-            }
-        }
-
-        public Bitmap decodeSampledBitmapFromResource(Bitmap bitmap,
-                                                      int reqWidth, int reqHeight) {
-
-            // First decode with inJustDecodeBounds=true to check dimensions
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            //BitmapFactory.decodeResource(getContext().getResources(), bitmap, options);
-
-            // Calculate inSampleSize
-            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-            // Decode bitmap with inSampleSize set
-            options.inJustDecodeBounds = false;
-            return bitmap;
-        }
-
-        public int calculateInSampleSize(
-                BitmapFactory.Options options, int reqWidth, int reqHeight) {
-            // Raw height and width of image
-            final int height = options.outHeight;
-            final int width = options.outWidth;
-            int inSampleSize = 1;
-
-            if (height > reqHeight || width > reqWidth) {
-
-                final int halfHeight = height / 2;
-                final int halfWidth = width / 2;
-
-                // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-                // height and width larger than the requested height and width.
-                while ((halfHeight / inSampleSize) > reqHeight
-                        && (halfWidth / inSampleSize) > reqWidth) {
-                    inSampleSize *= 2;
-                }
-            }
-
-            return inSampleSize;
-        }
     }
 
 }

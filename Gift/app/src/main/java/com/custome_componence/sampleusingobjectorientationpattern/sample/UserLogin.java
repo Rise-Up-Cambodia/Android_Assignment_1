@@ -17,6 +17,12 @@ import com.custome_componence.sampleusingobjectorientationpattern.converter.User
 import com.custome_componence.sampleusingobjectorientationpattern.model.User;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.json.JSONObject;
 
@@ -84,8 +90,35 @@ public class UserLogin extends Activity {
             }
         });
 
+        initializeImageLoader(this);
+    }
+    /**
+     * Sreyleak 12/08/2015
+     */
+
+    public void initializeImageLoader(Context context){
+
+        // Universal Image Loader, Display Option Config
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .showImageOnLoading(R.color.material_blue_grey_800)
+                .build();
+
+        // ImageLoader config setting
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .defaultDisplayImageOptions(options)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .diskCacheSize(50 * 1024 * 1024) // 50 MiB
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .build();
+        ImageLoader.getInstance().init(config);
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
