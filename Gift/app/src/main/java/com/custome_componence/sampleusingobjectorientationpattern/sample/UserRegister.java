@@ -75,8 +75,8 @@ public class UserRegister extends ActionBarActivity {
 
 
         // set circle bitmap
-        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
-        from.setAdapter(fr1);
+        ArrayAdapter<String> adapterFrom = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
+        from.setAdapter(adapterFrom);
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,17 +117,16 @@ public class UserRegister extends ActionBarActivity {
                                     users = userDataConverter.convertJSONToUser(json);
 
 
-                                    String email1 = "";
+                                    String userEmail = "";
                                     for (int i = 0; i < users.size(); i++) {
 
-
-                                        email1 = users.get(i).getParam();
+                                        userEmail = users.get(i).getParam();
 
                                         String name = username.getText().toString();
                                         String emails = email.getText().toString();
                                         String passwords = password.getText().toString();
 
-                                        if (email1 == "Not duplicate user") {
+                                        if (userEmail == "Not duplicate user") {
 
                                             userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
                                                 @Override

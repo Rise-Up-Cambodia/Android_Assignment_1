@@ -48,7 +48,7 @@ public class UserDataConverter implements IDataConverter {
 
 
             JSONArray json = jsonObject.getJSONArray("users");
-            String emailMessage = "Email does not exist !";
+            String emailMessage = "Not duplicate user";
 
             if (json.length() == 1) {
                 int lg = json.length();

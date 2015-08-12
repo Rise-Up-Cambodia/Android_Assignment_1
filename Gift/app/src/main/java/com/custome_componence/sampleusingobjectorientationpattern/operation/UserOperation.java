@@ -9,7 +9,6 @@ import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-
 /**
  * Created by Vanda on 7/8/2015.
  */
