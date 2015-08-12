@@ -25,7 +25,7 @@ public class Gift implements IDataModel {
         this.name = name;
         this.category = category;
         this.im = im;
-        this.setId(id);
+        this.id = id;
         this.receiveDate = receiveDate;
         this.userProfile = userProfile;
 

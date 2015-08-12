@@ -77,9 +77,9 @@ public class UserLogin extends Activity {
                                     if (name1 == "username password are not match!") {
                                         Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
                                     } else {
-                                        SharedPreferences sh = getSharedPreferences("username", Context.MODE_PRIVATE);
+                                        SharedPreferences sh = getSharedPreferences("userName", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor edt = sh.edit();
-                                        edt.putString("username", name1);
+                                        edt.putString("userName", name1);
                                         edt.putInt("userId", userId);
                                         edt.commit();
                                         Intent e = new Intent();
