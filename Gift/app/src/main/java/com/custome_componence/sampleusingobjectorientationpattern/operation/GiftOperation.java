@@ -48,7 +48,6 @@ public class GiftOperation implements IOperation {
     * */
     public void getGiftById(String id, final IOperationListener iOperationListener){
         RequestParams requestParams = new RequestParams();
-        requestParams.add("id", id);
         Giftclient.get(Constant.BASE_URL + "gifts/"+id+".json",requestParams,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

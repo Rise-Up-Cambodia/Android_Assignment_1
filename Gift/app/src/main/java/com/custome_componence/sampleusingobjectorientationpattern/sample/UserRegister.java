@@ -37,6 +37,12 @@ import com.custome_componence.sampleusingobjectorientationpattern.model.User;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.json.JSONObject;
 
@@ -53,13 +59,13 @@ import java.util.Date;
 import java.util.Random;
 
 /*
-* Created by Sreyleak 06/08/2015
+* Created by Vanda 06-12/08/2015
 * */
-public class UserRegister extends ActionBarActivity{
+public class UserRegister extends ActionBarActivity {
     UserOperation userOperation = new UserOperation();
     Button btnshare, btnchoose;
-    ImageView  giftimage;
-    EditText username,email,password;
+    ImageView giftimage;
+    EditText username, email, password;
     Spinner from;
     private int serverResponseCode = 0;
     private static final int SELECT_PICTURE = 1;
@@ -67,33 +73,24 @@ public class UserRegister extends ActionBarActivity{
     private ProgressDialog dialog = null;
     public static ArrayList<User> users = null;
     String image_path = "no image";
-    String[] fromwho = {"Gender","Male","Female"};
+    String[] fromwho = {"Gender", "Male", "Female"};
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
 
-
         btnshare = (Button) findViewById(R.id.btnshare);
-        btnchoose = (Button)findViewById(R.id.btnchooseimage);
-        username = (EditText)findViewById(R.id.name);
-        email = (EditText)findViewById(R.id.email);
-        password = (EditText)findViewById(R.id.password);
-       giftimage = (ImageView)findViewById(R.id.image);
-        from = (Spinner)findViewById(R.id.from);
-
-
+        btnchoose = (Button) findViewById(R.id.btnchooseimage);
+        username = (EditText) findViewById(R.id.name);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+        giftimage = (ImageView) findViewById(R.id.image);
+        from = (Spinner) findViewById(R.id.from);
 
         // set circle bitmap
-
-
-
-
-
         ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
         from.setAdapter(fr1);
 
@@ -107,16 +104,9 @@ public class UserRegister extends ActionBarActivity{
             }
         });
 
-
         btnshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-
-
-
                 userOperation.convertJSONAuthenticatedSignup(email.getText().toString(), password.getText().toString(), new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
@@ -126,8 +116,6 @@ public class UserRegister extends ActionBarActivity{
                         // if(gift != "")
 
 
-
-
                         String name = username.getText().toString();
                         String emails = email.getText().toString();
                         String passwords = password.getText().toString();
@@ -135,7 +123,7 @@ public class UserRegister extends ActionBarActivity{
                         if (selectedImagePath == null) {
                             Toast.makeText(UserRegister.this, "Please, select photo", Toast.LENGTH_LONG).show();
                         } else {
-                            if (username.getText().toString().equals("") || email.getText().toString().equals("") || password .getText().toString().equals("") ||
+                            if (username.getText().toString().equals("") || email.getText().toString().equals("") || password.getText().toString().equals("") ||
                                     from.getSelectedItem().toString().equals("Gender")) {
                                 Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
                             } else {
@@ -143,26 +131,21 @@ public class UserRegister extends ActionBarActivity{
                                 for (int i = 0; i < users.size(); i++) {
 
 
-                                email1 = users.get(i).getParam();
-
-
+                                    email1 = users.get(i).getParam();
 
 
                                     if (email1 == "Not duplicate user") {
 
-                                ///
-
+                                        ///
 
 
                                         //to insert category number into database base on spinner gift_item selected
 
 
-
-
-                                        userOperation.registerUser(name,emails,passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
+                                        userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
                                             @Override
                                             public void success(JSONObject json) {
-                                               // Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                                                // Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
                                                 Intent e = new Intent();
                                                 e.setClass(UserRegister.this, UserLogin.class);
 
@@ -192,22 +175,17 @@ public class UserRegister extends ActionBarActivity{
                                             }).start();
                                         }
 
-                                    }else{
-                                        Toast.makeText(getApplicationContext(),"Email already existed!", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Email already existed!", Toast.LENGTH_LONG).show();
+
+                                    }
 
                                 }
-
-
-
-                            }
-
-
 
                             }
 
                         }
                     }
-
 
 
                     @Override
@@ -221,7 +199,6 @@ public class UserRegister extends ActionBarActivity{
             }
         });
     }
-
 
 
     @Override
@@ -251,7 +228,7 @@ public class UserRegister extends ActionBarActivity{
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-               giftimage.setImageURI(selectedImageUri);
+                giftimage.setImageURI(selectedImageUri);
 
 
                 Cursor cursor = getContentResolver().query(
