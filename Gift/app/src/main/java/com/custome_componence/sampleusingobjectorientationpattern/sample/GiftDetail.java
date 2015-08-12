@@ -62,7 +62,6 @@ public class GiftDetail extends ActionBarActivity {
         category = (TextView) findViewById(R.id.category);
         giftImage = (ImageView)findViewById(R.id.giftimage);
         userImage = (ImageView)findViewById(R.id.userimage);
-
         getSupportActionBar().setTitle("Gift Detail");
 
 

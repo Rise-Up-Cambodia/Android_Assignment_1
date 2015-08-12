@@ -47,7 +47,6 @@
                         'alias' => 'category',
                         'type' => 'INNER',
                         'conditions' => array('category.id = Gift.cat_id')
-
                          ),
                         array('table' => 'users',
                             'alias' => 'user',
