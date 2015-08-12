@@ -129,12 +129,11 @@ public class GiftHome extends ActionBarActivity {
                     PAGE_NUM += PAGE_NUM ;
                 }else {
                     PAGE_NUM = gifts.size();
-
                 }
                 giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
-                               /* These two line of code will be use next time */
+                        /* These two line of code will be use next time */
                         GiftDataConverter giftDataConverter = new GiftDataConverter();
                         gifts = giftDataConverter.convertJSONToAllGift(json);
                         CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
