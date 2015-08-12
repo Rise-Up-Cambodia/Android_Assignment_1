@@ -17,11 +17,11 @@ public class UserOperation implements IOperation {
 
     AsyncHttpClient Userclient = new AsyncHttpClient();
 
-    public void login(String username, String password,final IOperationListener iOperationListener){
+    public void login(String email, String password,final IOperationListener iOperationListener){
         RequestParams requestParams = new RequestParams();
 
 
-        Userclient.get(Constant.BASE_URL + "users/view/"+username+"/"+password+".json",new AsyncHttpResponseHandler() {
+        Userclient.get(Constant.BASE_URL + "users/view/"+email+"/"+password+".json",new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -49,11 +49,11 @@ public class UserOperation implements IOperation {
 
         });
     }
-    public void convertJSONAuthenticatedSignup (String email, String password,final IOperationListener iOperationListener){
+    public void convertJSONAuthenticatedSignup (String email,final IOperationListener iOperationListener){
         RequestParams requestParams = new RequestParams();
 
 
-        Userclient.get(Constant.BASE_URL + "users/signupauthentication/"+email+"/"+password+".json",new AsyncHttpResponseHandler() {
+        Userclient.get(Constant.BASE_URL + "users/signupauthentication/"+email+".json",new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

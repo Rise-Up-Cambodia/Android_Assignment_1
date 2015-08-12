@@ -1,5 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_field_margin">
+        android:layout_marginTop="@dimen/activity_field_margin"
+        android:id="@+id/relativeLayout2">
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -20,7 +21,8 @@
             android:textColor="#000"
             android:layout_marginLeft = "90dp"
             android:id="@+id/username"
-            android:text="Sreyleak"/>
+            android:text="Sreyleak"
+            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,58 +30,69 @@
             android:layout_marginLeft="90dp"
             android:id="@+id/date"
             android:text="2015-06-09"/>
-     </RelativeLayout>
+
+    </RelativeLayout>
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
         android:id="@+id/giftimage"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:src="@mipmap/flowers1"/>
+        android:src="@mipmap/flowers1"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:text="Category :"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Birthday"
-            android:layout_marginLeft="70dp"
-            android:id="@+id/category"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="30dp"
-            android:textColor="#000"
-            android:text="Received Date : "/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2015"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="30dp"
-            android:id="@+id/receive_date"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="60dp"
-            android:textColor="#000"
-            android:layout_alignParentRight="true"
-            android:text="From "/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Family"
-            android:layout_alignParentRight="true"
-            android:id="@+id/from"/>
-        </RelativeLayout>
+        android:layout_height="63dp"
+        android:id="@+id/relativeLayout"
+        android:layout_alignTop="@+id/description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="33dp">
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Birthday"
+        android:id="@+id/category"
+        android:textSize="15sp"
+        android:layout_below="@+id/giftimage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Family"
+        android:id="@+id/from"
+        android:textSize="15sp"
+        android:layout_alignTop="@+id/category"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2015z"
+        android:id="@+id/receive_date"
+        android:textSize="13sp"
+        android:layout_below="@+id/category"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/activity_field_margin"
         android:text="Hello my name is jojo"
-        android:layout_height="170dp"
-        android:id="@+id/description" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:id="@+id/description"
+        android:textSize="15sp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/receive_date"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
