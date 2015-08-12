@@ -6,9 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
@@ -29,8 +27,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
-import java.io.InputStream;
-import java.net.URL;
 
 /*
 * Created by Sreyleak 10/08/2015
@@ -40,16 +36,17 @@ public class GiftDetail extends ActionBarActivity {
     TextView description, date, receivedDate, username, from, category;
     ImageView giftImage, userImage;
     public static Gift gifts = null;
-    private  String  userName = "";
+    private String userName = "";
     String description1 = "";
     String date1 = "";
     String category1 = "";
     String from1 = "";
     String receivedDate1 = "";
     String giftName = "";
-    String username1 = "";
+    String userName1 = "";
     String id = "";
     String userProfile = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,31 +57,31 @@ public class GiftDetail extends ActionBarActivity {
         receivedDate = (TextView) findViewById(R.id.receive_date);
         username = (TextView) findViewById(R.id.username);
         category = (TextView) findViewById(R.id.category);
-        giftImage = (ImageView)findViewById(R.id.giftimage);
-        userImage = (ImageView)findViewById(R.id.userimage);
+        giftImage = (ImageView) findViewById(R.id.giftimage);
+        userImage = (ImageView) findViewById(R.id.userimage);
         getSupportActionBar().setTitle("Gift Detail");
 
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         userName = intent.getStringExtra("username");
-        GiftOperation.getGiftById(id,new IOperationListener() {
+        GiftOperation.getGiftById(id, new IOperationListener() {
             @Override
             public void success(JSONObject json) {
                 GiftDataConverter giftDataConverter = new GiftDataConverter();
-                gifts = giftDataConverter.convertJSONToGiftDetail(json);
-                username1 = gifts.getName();
+                gifts = giftDataConverter.convertJSONToOneGift(json);
+                userName1 = gifts.getName();
                 date1 = gifts.getPost();
                 category1 = gifts.getCategory();
                 from1 = gifts.getFrom();
                 receivedDate1 = gifts.getReceiveDate();
                 description1 = gifts.getDescription();
-                giftName = gifts.getIm();
+                giftName = gifts.getImageName();
                 userProfile = gifts.getUserProfile();
 
                 description.setText(description1);
                 from.setText(from1);
-                username.setText(username1);
+                username.setText(userName1);
                 date.setText(date1);
                 category.setText(category1);
                 receivedDate.setText(receivedDate1);
@@ -93,7 +90,7 @@ public class GiftDetail extends ActionBarActivity {
                 * */
                 ImageViewAware imageViewAware = new ImageViewAware(giftImage);
                 ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/img/" +
-                        gifts.getIm(), imageViewAware, new SimpleImageLoadingListener() {
+                        gifts.getImageName(), imageViewAware, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     }
@@ -132,31 +129,32 @@ public class GiftDetail extends ActionBarActivity {
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        SharedPreferences sh = getSharedPreferences("userName",Context.MODE_PRIVATE);
+        SharedPreferences sh = getSharedPreferences("userName", Context.MODE_PRIVATE);
         String username2 = sh.getString("userName", "");
-        if (!userName.equals(username2)){
+        if (!userName.equals(username2)) {
 
-        }
-        else {
+        } else {
             getMenuInflater().inflate(R.menu.menu_gift_detail, menu);
         }
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.update:
                 Intent intentToUpdateActivity = new Intent(GiftDetail.this, UpdateGift.class);
-                intentToUpdateActivity.putExtra("description",description1);
-                intentToUpdateActivity.putExtra("date",date1);
-                intentToUpdateActivity.putExtra("receiveDate",receivedDate1);
-                intentToUpdateActivity.putExtra("username",username1);
-                intentToUpdateActivity.putExtra("from",from1);
-                intentToUpdateActivity.putExtra("category",category1);
-                intentToUpdateActivity.putExtra("giftName",giftName);
-                intentToUpdateActivity.putExtra("id",id);
+                intentToUpdateActivity.putExtra("description", description1);
+                intentToUpdateActivity.putExtra("date", date1);
+                intentToUpdateActivity.putExtra("receiveDate", receivedDate1);
+                intentToUpdateActivity.putExtra("username", userName1);
+                intentToUpdateActivity.putExtra("from", from1);
+                intentToUpdateActivity.putExtra("category", category1);
+                intentToUpdateActivity.putExtra("giftName", giftName);
+                intentToUpdateActivity.putExtra("id", id);
                 startActivity(intentToUpdateActivity);
                 return true;
             case R.id.delete:

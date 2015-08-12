@@ -2,8 +2,6 @@ package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +17,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Author Vanda 28/07/2015
@@ -47,21 +43,21 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         View rowView = inflater.inflate(R.layout.gift_item, null, true);
 
         Gift giftOb = gifts.get(position);
-        TextView Name = (TextView) rowView.findViewById(R.id.name);
-        TextView Posts = (TextView) rowView.findViewById(R.id.post);
+        TextView name = (TextView) rowView.findViewById(R.id.name);
+        TextView createdDate = (TextView) rowView.findViewById(R.id.post);
         TextView From = (TextView) rowView.findViewById(R.id.from);
-        TextView giftid = (TextView) rowView.findViewById(R.id.giftid);
+        TextView giftId = (TextView) rowView.findViewById(R.id.giftid);
         TextView Category = (TextView) rowView.findViewById(R.id.category);
         TextView Description = (TextView) rowView.findViewById(R.id.description);
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView3);
         ImageView userImage = (ImageView) rowView.findViewById(R.id.userimage);
 
 
-        Name.setText(giftOb.getName());
-        Posts.setText("Posted " + giftOb.getPost());
+        name.setText(giftOb.getName());
+        createdDate.setText("Posted " + giftOb.getPost());
         From.setText("From " + (giftOb.getFrom()));
         Category.setText("For " + (giftOb.getCategory()));
-        giftid.setText(giftOb.getId());
+        giftId.setText(giftOb.getId());
         Description.setText(giftOb.getDescription());
 
         /**
@@ -70,7 +66,7 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
          */
         ImageViewAware imageViewAware = new ImageViewAware(image);
         ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/img/" +
-                giftOb.getIm(), imageViewAware, new SimpleImageLoadingListener() {
+                giftOb.getImageName(), imageViewAware, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             }

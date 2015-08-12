@@ -38,8 +38,6 @@ public class UserLogin extends Activity {
     public static ArrayList<User> gifts = null;
     public static User gift = null;
 
-    ArrayList<String> names = new ArrayList<String>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +64,7 @@ public class UserLogin extends Activity {
                             public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                                 UserDataConverter userDataConverter = new UserDataConverter();
-                                gifts = userDataConverter.convertJSONToLogin(json);
+                                gifts = userDataConverter.convertJSONToUsers(json);
 
                                 String name1 = "";
                                 int userId = 0;
@@ -104,11 +102,12 @@ public class UserLogin extends Activity {
 
         initializeImageLoader(this);
     }
+
     /**
      * Sreyleak 12/08/2015
      */
 
-    public void initializeImageLoader(Context context){
+    public void initializeImageLoader(Context context) {
 
         // Universal Image Loader, Display Option Config
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -130,6 +129,7 @@ public class UserLogin extends Activity {
         ImageLoader.getInstance().init(config);
 
     }
+
     private boolean isValidEmail(String emailInput) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
