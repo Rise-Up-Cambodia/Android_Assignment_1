@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,11 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
 import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+
 
 import org.json.JSONObject;
 
@@ -36,6 +38,8 @@ public class GiftHome extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gift_home);
         lv = (PullListView) findViewById(R.id.pulllistView);
+
+
         final GiftOperation giftOperation = new GiftOperation();
         lv.deferNotifyDataSetChanged();
         getSupportActionBar().setTitle("Gift Home");
@@ -123,16 +127,53 @@ public class GiftHome extends ActionBarActivity {
 
                     }
 
+
                 });
+                lv.getMoreComplete();
+
+            }
+        });
+
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String gid = gifts.get(position).getId();
+                String username = gifts.get(position).getName();
+                Intent intent = new Intent(GiftHome.this, GiftDetail.class);
+                intent.putExtra("id", gid);
+                intent.putExtra("username", username);
+                startActivity(intent);
+            }
+        });
+
+        giftOperation.getAllGift(new IOperationListener() {
+            @Override
+            public void success(JSONObject json) {
+
+                GiftDataConverter giftDataConverter = new GiftDataConverter();
+                gifts = giftDataConverter.convertJSONToAllGift(json);
+                CustomAdapter adt = new CustomAdapter(GiftHome.this,gifts);
+                lv.setAdapter(adt);
+                lv.refreshComplete();
+                lv.getMoreComplete();
+                lv.deferNotifyDataSetChanged();
+
+            }
+
+            @Override
+            public void fail(int statusCode, String responseBody) {
 
             }
         });
         lv.getMoreComplete();
+
     }
 
     /*
     * Created by Sreyleak 10/08/2015
     * */
+	
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
@@ -160,4 +201,5 @@ public class GiftHome extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

@@ -1,13 +1,12 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -23,17 +22,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.operation.GiftOperation;
+import com.custome_componence.Gift.operation.IOperationListener;
 
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,11 +40,11 @@ import java.util.Date;
 import java.util.Random;
 
 /*
-* Created by Sreyleak 10/08/2015
+* Created by Sreyleak 06/08/2015
 * */
-public class UpdateGift extends ActionBarActivity {
+public class ShareGift extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
-    Button btnUpdate, btnChoose;
+    Button btnShare, btnChoose;
     ImageView calendarImage, giftImage;
     EditText description, receivedDate;
     Spinner category, from;
@@ -56,10 +53,10 @@ public class UpdateGift extends ActionBarActivity {
     private String selectedImagePath = null;
     private ProgressDialog dialog = null;
     String imagePath = "no image";
+    String nameUser = "";
+    int idUser = 0;
     String[] arrCategories = {"Select a category", "Other", "Christmas", "Birthday", "Anniversary", "Graduate", "Marriage", "New Year"};
     String[] arrFrom = {"From whom", "Other", "Friend", "Lover", "Co-Worker", "Family"};
-    String imagePathForUpdate = "";
-
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
@@ -67,11 +64,10 @@ public class UpdateGift extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_gift);
+        setContentView(R.layout.activity_share_gift);
 
-        getSupportActionBar().setTitle("Update Gift");
-
-        btnUpdate = (Button) findViewById(R.id.btnupdate);
+        getSupportActionBar().setTitle("Share Gift");
+        btnShare = (Button) findViewById(R.id.btnshare);
         btnChoose = (Button) findViewById(R.id.btnchooseimage);
         description = (EditText) findViewById(R.id.description);
         receivedDate = (EditText) findViewById(R.id.receive_date);
@@ -84,31 +80,10 @@ public class UpdateGift extends ActionBarActivity {
         category.setAdapter(cat1);
         from.setAdapter(fr1);
 
-
-        // initialize default text in edit text box
-        final Intent intentFromDetailActivity = getIntent();
-        description.setText(intentFromDetailActivity.getStringExtra("description"));
-        receivedDate.setText(intentFromDetailActivity.getStringExtra("receiveDate"));
-        String categoryNumber = intentFromDetailActivity.getStringExtra("category");
-        String fromIndex = intentFromDetailActivity.getStringExtra("from");
-        imagePathForUpdate = intentFromDetailActivity.getStringExtra("giftName");
-        new DownloadImageTask().execute(Constant.BASE_URL1 + "app/webroot/img/" + imagePathForUpdate);
-
-        for (int i = 0; i < cat1.getCount(); i++) {
-            if (categoryNumber.equals(cat1.getItem(i).toString())) {
-                category.setSelection(i);
-                break;
-            }
-        }
-
-        for (int j = 0; j < fr1.getCount(); j++) {
-            if (fromIndex.equals(fr1.getItem(j).toString())) {
-                from.setSelection(j);
-                break;
-            }
-        }
-
-
+        SharedPreferences shPreference = getSharedPreferences("userName", Context.MODE_PRIVATE);
+        nameUser = shPreference.getString("userName","");
+        idUser = shPreference.getInt("userId",0);
+        Toast.makeText(getApplicationContext(),idUser+"", Toast.LENGTH_LONG).show();
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +93,7 @@ public class UpdateGift extends ActionBarActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select A Picture"), SELECT_PICTURE);
             }
         });
+
         //pop up datepicker when click on edit text view
         calendarImage.setOnClickListener(new View.OnClickListener() {
 
@@ -125,11 +101,10 @@ public class UpdateGift extends ActionBarActivity {
             public void onClick(View v) {
                 int mYear, mMonth, mDay;
                 Calendar mcurrentDate = Calendar.getInstance();
-
                 mYear = mcurrentDate.get(Calendar.YEAR);
                 mMonth = mcurrentDate.get(Calendar.MONTH);
                 mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog mDatePicker = new DatePickerDialog(UpdateGift.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog mDatePicker = new DatePickerDialog(ShareGift.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         setDateToBox(selectedyear, selectedmonth, selectedday);
                     }
@@ -140,86 +115,67 @@ public class UpdateGift extends ActionBarActivity {
             }
         });
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
+        btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String idForUpdate = intentFromDetailActivity.getStringExtra("id");
-                String descriptionForUpdate = description.getText().toString();
-                String fromForUpdate = from.getSelectedItem().toString();
-                String categoryForUpdate = category.getSelectedItem().toString();
-                String receivedDateForUpdate = receivedDate.getText().toString();
-                //to get current date of post
-                Date d = new Date();
-                String crrentDate = new SimpleDateFormat("yyyy-MM-dd").format(d);
-                //to insert category number into database base on spinner item selected
-                int CateNumber = 0;
-                switch (categoryForUpdate) {
-                    case "Other":
-                        CateNumber = 2;
-                        break;
-                    case "Christmas":
-                        CateNumber = 4;
-                        break;
-                    case "Birthday":
-                        CateNumber = 1;
-                        break;
-                    case "Anniversary":
-                        CateNumber = 3;
-                        break;
-                    case "Graduate":
-                        CateNumber = 6;
-                        break;
-                    case "Marriage":
-                        CateNumber = 5;
-                        break;
-                    default:
-                        CateNumber = 7;
-                }
+                int CategoryNumber = 0;
                 if (selectedImagePath == null) {
-                    if (descriptionForUpdate.equals("") || fromForUpdate.equals("") ||
-                            categoryForUpdate.equals("") || receivedDateForUpdate.equals("") ||
-                            categoryForUpdate.equals("Select a category") ||
-                            fromForUpdate.equals("From whom")) {
-                        Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        imagePath = imagePathForUpdate;
-                        GiftOperation.updateGift(idForUpdate, descriptionForUpdate, fromForUpdate, String.valueOf(CateNumber),
-                                crrentDate, receivedDateForUpdate, imagePath, new IOperationListener() {
-                                    @Override
-                                    public void success(JSONObject json) {
-                                        Intent intentToHome = new Intent(UpdateGift.this, GiftHome.class);
-                                        startActivity(intentToHome);
-                                    }
-
-                                    @Override
-                                    public void fail(int statusCode, String responseBody) {
-                                        Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                    }
+                    Toast.makeText(ShareGift.this, "Please, select an image", Toast.LENGTH_LONG).show();
                 } else {
-                    if (descriptionForUpdate.equals("") || fromForUpdate.equals("") ||
-                            categoryForUpdate.equals("") || receivedDateForUpdate.equals("") ||
-                            categoryForUpdate.equals("Select a category") ||
-                            fromForUpdate.equals("From whom")) {
+                    if (description.getText().toString().equals("") || from.getSelectedItem().toString().equals("") ||
+                            category.getSelectedItem().toString().equals("") || receivedDate.getText().toString().equals("") ||
+                            category.getSelectedItem().toString().equals("Select a category") ||
+                            from.getSelectedItem().toString().equals("From whom")) {
                         Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
                     } else {
+                        //to insert category number into database base on spinner gift_item selected
+                        switch (category.getSelectedItem().toString()) {
+                            case "Other":
+                                CategoryNumber = 2;
+                                break;
+                            case "Christmas":
+                                CategoryNumber = 4;
+                                break;
+                            case "Birthday":
+                                CategoryNumber = 1;
+                                break;
+                            case "Anniversary":
+                                CategoryNumber = 3;
+                                break;
+                            case "Graduate":
+                                CategoryNumber = 6;
+                                break;
+                            case "Marriage":
+                                CategoryNumber = 5;
+                                break;
+                            default:
+                                CategoryNumber = 7;
+                        }
 
-                        GiftOperation.updateGift(idForUpdate, descriptionForUpdate, fromForUpdate, String.valueOf(CateNumber),
-                                crrentDate, receivedDateForUpdate, imagePath, new IOperationListener() {
-                                    @Override
-                                    public void success(JSONObject json) {
-                                        Intent intentToHome = new Intent(UpdateGift.this, GiftHome.class);
-                                        startActivity(intentToHome);
-                                    }
+                        //to get current date of post
+                        Date d = new Date();
+                        String crrentDate = new SimpleDateFormat("yyyy-MM-dd").format(d);
 
-                                    @Override
-                                    public void fail(int statusCode, String responseBody) {
-                                        Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            dialog = ProgressDialog.show(UpdateGift.this, "", "Uploading file...", true);
+                        String des = description.getText().toString();
+                        String receiDate = receivedDate.getText().toString();
+
+                        GiftOperation.shareGift(idUser,des, from.getSelectedItem().toString(), String.valueOf(CategoryNumber), crrentDate, receiDate, imagePath, new IOperationListener() {
+                            @Override
+                            public void success(JSONObject json) {
+                                Intent intentToHome = new Intent(ShareGift.this, GiftHome.class);
+                                startActivity(intentToHome);
+                            }
+
+                            @Override
+                            public void fail(int statusCode, String responseBody) {
+                                Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        if (selectedImagePath.equals("")) {
+
+                        } else {
+                            dialog = ProgressDialog.show(ShareGift.this, "", "Uploading file...", true);
                             new Thread(new Runnable() {
                                 public void run() {
                                     runOnUiThread(new Runnable() {
@@ -231,34 +187,12 @@ public class UpdateGift extends ActionBarActivity {
                                     System.out.println("RES : " + response);
                                 }
                             }).start();
+                        }
 
                     }
                 }
             }
         });
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_update_gift, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     // select selected date in to edit text
@@ -271,38 +205,26 @@ public class UpdateGift extends ActionBarActivity {
                         .append(day));
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-
-        int position;
-
-        protected Bitmap doInBackground(String... urls) {
-
-            return loadImageFromNetwork(urls[0]);
-        }
-
-        @Override
-        protected void onCancelled() {
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            try {
-                ImageView iv = (ImageView) findViewById(R.id.giftimage);
-                iv.setImageBitmap(result);
-
-            } catch (Exception e) {
-
-            }
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_share_gift, menu);
+        return true;
     }
 
-    private Bitmap loadImageFromNetwork(String url) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(url).getContent());
-            return bitmap;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar gift_item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -311,7 +233,6 @@ public class UpdateGift extends ActionBarActivity {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 giftImage.setImageURI(selectedImageUri);
-
                 Cursor cursor = getContentResolver().query(
                         selectedImageUri, filePathColumn, null, null, null);
                 cursor.moveToFirst();
@@ -336,12 +257,15 @@ public class UpdateGift extends ActionBarActivity {
 
     public int uploadFile(String sourceFileUri) {
 
-        String upLoadServerUri = Constant.BASE_URL1 + "app/webroot/upload_gift.php";
+
+        String upLoadServerUri = "http://192.168.1.15:8585/Android_Assignment_1/GiftApi/app/webroot/upload_gift.php";
+
+
         String filePth = sourceFileUri;
         //============================================= rename image name before upload===
         int dotCnt = filePth.indexOf(".");
         String filename = filePth.substring(filePth.lastIndexOf("/") + 1, dotCnt);
-        File resultFilename = new File(filename + ran + filePth.substring(dotCnt));
+        File ResultFilename = new File(filename + ran + filePth.substring(dotCnt));
 
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -371,7 +295,7 @@ public class UpdateGift extends ActionBarActivity {
             dos = new DataOutputStream(conn.getOutputStream());
 
             dos.writeBytes(twoHyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + resultFilename + "\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + ResultFilename + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
             bytesAvailable = fileInputStream.available(); // create a buffer of  maximum size
@@ -415,12 +339,12 @@ public class UpdateGift extends ActionBarActivity {
         } catch (MalformedURLException ex) {
             dialog.dismiss();
             ex.printStackTrace();
-            Toast.makeText(UpdateGift.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ShareGift.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
             Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
         } catch (Exception e) {
             dialog.dismiss();
             e.printStackTrace();
-            Toast.makeText(UpdateGift.this, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ShareGift.this, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("Upload file Exception", "Exception : " + e.getMessage(), e);
         }
         dialog.dismiss();

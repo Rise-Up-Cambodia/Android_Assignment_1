@@ -1,11 +1,11 @@
-package com.custome_componence.sampleusingobjectorientationpattern.operation;
+package com.custome_componence.Gift.operation;
 
 import com.loopj.android.http.*;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
+import com.custome_componence.Gift.config.Constant;
 
 import java.io.UnsupportedEncodingException;
 
@@ -124,7 +124,10 @@ public class GiftOperation implements IOperation {
     * Created by Sreyleak 07/08/2015
     * */
     public void deleteGift(String giftId, final IOperationListener iOperationListener) {
-        Giftclient.delete(Constant.BASE_URL1 + "gifts/" + giftId + ".json", new AsyncHttpResponseHandler() {
+
+        Giftclient.delete(Constant.BASE_URL + "gifts/"+giftId+".json", new AsyncHttpResponseHandler() {
+
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -163,9 +166,11 @@ public class GiftOperation implements IOperation {
         requestParams.add("from", from);
         requestParams.add("cat_id", category);
         requestParams.add("date", date);
-        requestParams.add("receive_date", receiveDate);
-        requestParams.add("gift_name", image_path);
-        Giftclient.put(Constant.BASE_URL1 + "gifts/" + id + ".json", requestParams, new AsyncHttpResponseHandler() {
+
+        requestParams.add("receive_date", receive_date);
+        requestParams.add("gift_name",image_path );
+        Giftclient.put(Constant.BASE_URL + "gifts/"+ id +".json", requestParams, new AsyncHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -200,7 +205,10 @@ public class GiftOperation implements IOperation {
     public void getGiftByPage(int pageNumber, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("pageNumber", String.valueOf(pageNumber));
-        Giftclient.get(Constant.BASE_URL1 + "gifts/index/" + pageNumber + ".json", requestParams, new AsyncHttpResponseHandler() {
+
+        Giftclient.get(Constant.BASE_URL + "gifts/index/"+pageNumber+".json", requestParams, new AsyncHttpResponseHandler() {
+
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

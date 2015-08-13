@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern;
+package com.custome_componence.Gift;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern.model;
+package com.custome_componence.Gift.model;
 
 /**
  * Created by Sreyleak on 05/08/2015.

@@ -1,6 +1,7 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
-import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.config.Constant;
+import com.custome_componence.Gift.model.Gift;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -27,6 +28,7 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
 
     private Activity activity;
     ArrayList<Gift> gifts;
+    static Context mcontext;
 
     public CustomAdapter(Activity activity, ArrayList<Gift> gifts) {
 
@@ -36,6 +38,7 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         this.gifts = gifts;
 
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -53,20 +56,28 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         ImageView userImage = (ImageView) rowView.findViewById(R.id.userimage);
 
 
+
         name.setText(giftOb.getName());
         createdDate.setText("Posted " + giftOb.getPost());
+
         From.setText("From " + (giftOb.getFrom()));
         Category.setText("For " + (giftOb.getCategory()));
         giftId.setText(giftOb.getId());
         Description.setText(giftOb.getDescription());
+
+
+
 
         /**
          * Author Sreyleak 12/08/2015
          * load gift image
          */
         ImageViewAware imageViewAware = new ImageViewAware(image);
-        ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/img/" +
-                giftOb.getImageName(), imageViewAware, new SimpleImageLoadingListener() {
+
+        ImageLoader.getInstance().displayImage(Constant.BASE_URL + "app/webroot/img/" +
+                giftOb.getIm(), imageViewAware, new SimpleImageLoadingListener() {
+
+
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             }
@@ -78,13 +89,15 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
                 super.onLoadingFailed(imageUri, view, failReason);
 
             }
+
         });
+
         /**
          * Author Sreyleak 12/08/2015
          * load user image
          */
         ImageViewAware imageViewUser = new ImageViewAware(userImage);
-        ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/user_photo/" +
+        ImageLoader.getInstance().displayImage(Constant.BASE_URL + "app/webroot/user_photo/" +
                 giftOb.getUserProfile(), imageViewUser, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -99,6 +112,15 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         });
         return rowView;
     }
+
+
+
+
+
+
+
+
+
 
 }
 

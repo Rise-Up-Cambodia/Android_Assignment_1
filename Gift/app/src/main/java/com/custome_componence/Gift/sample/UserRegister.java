@@ -1,8 +1,12 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,11 +22,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
-import com.custome_componence.sampleusingobjectorientationpattern.model.User;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
+
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.converter.UserDataConverter;
+import com.custome_componence.Gift.model.User;
+import com.custome_componence.Gift.operation.IOperationListener;
+import com.custome_componence.Gift.operation.UserOperation;
+
+
 
 import org.json.JSONObject;
 
@@ -72,6 +79,10 @@ public class UserRegister extends ActionBarActivity {
         password = (EditText) findViewById(R.id.password);
         giftImage = (ImageView) findViewById(R.id.image);
         from = (Spinner) findViewById(R.id.from);
+
+        Bitmap icon = BitmapFactory.decodeResource(getResources(),R.drawable.user1);
+
+        giftimage.setImageBitmap(icon);
 
 
         // set circle bitmap
@@ -169,6 +180,7 @@ public class UserRegister extends ActionBarActivity {
 
                                     }
                                 }
+
 
                                 @Override
                                 public void fail(int statusCode, String responseBody) {

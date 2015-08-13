@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.custome_componence.sampleusingobjectorientationpattern.sample.UpdateGift">
+    tools:context="com.custome_componence.Gift.sample.UpdateGift">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"

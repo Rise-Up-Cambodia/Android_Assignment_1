@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,11 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
-import com.custome_componence.sampleusingobjectorientationpattern.model.User;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.converter.UserDataConverter;
+import com.custome_componence.Gift.model.User;
+import com.custome_componence.Gift.operation.IOperationListener;
+import com.custome_componence.Gift.operation.UserOperation;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
