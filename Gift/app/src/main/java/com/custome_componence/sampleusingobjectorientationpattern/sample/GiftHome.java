@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Vanda on 8/7/2015
+ * Created by Vanda on 4/8/2015
  */
 public class GiftHome extends ActionBarActivity {
 
@@ -71,6 +71,10 @@ public class GiftHome extends ActionBarActivity {
             }
         });
 
+        /**
+         * Pull to refresh
+         */
+
         lv.setOnRefreshListener(new PullListView.OnRefreshListener() {
 
             @Override
@@ -95,6 +99,11 @@ public class GiftHome extends ActionBarActivity {
                 });
             }
         });
+
+        /**
+         * Pagination
+         */
+
         lv.setOnGetMoreListener(new PullListView.OnGetMoreListener() {
             @Override
             public void onGetMore() {
@@ -165,6 +174,11 @@ public class GiftHome extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
         return true;
     }
+
+    /*
+    * Option menu in Home Page
+    * */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

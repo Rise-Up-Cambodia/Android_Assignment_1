@@ -43,14 +43,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
-* Created by Vanda 06-12/08/2015
+* Created by Vanda 07/08/2015
 * */
 public class UserRegister extends ActionBarActivity {
     UserOperation userOperation = new UserOperation();
 
     Button btnRegister, btnChoose;
     ImageView giftImage;
-    EditText username, email, password;
+    EditText username;
+    EditText email;
+    EditText password;
 
     Spinner from;
     private int serverResponseCode = 0;
@@ -84,6 +86,7 @@ public class UserRegister extends ActionBarActivity {
 
 
         // set circle bitmap
+
         ArrayAdapter<String> adapterFrom = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
 
         from.setAdapter(adapterFrom);
@@ -139,7 +142,7 @@ public class UserRegister extends ActionBarActivity {
                                         String passwords = password.getText().toString();
                                         if (userEmail == "Not duplicate user") {
                                             userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
-                                                @Override
+                                                    @Override
                                                 public void success(JSONObject json) {
                                                     Intent e = new Intent(UserRegister.this, UserLogin.class);
                                                     startActivity(e);
@@ -193,6 +196,10 @@ public class UserRegister extends ActionBarActivity {
             }
         });
     }
+    /**
+     * Author Vanda 12/8/2015
+     * Email Validation
+     */
 
     private boolean isValidEmail(String emailInput) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -256,9 +263,11 @@ public class UserRegister extends ActionBarActivity {
         }
     }
 
+
+
     public int uploadFile(String sourceFileUri) {
 
-        String upLoadServerUri = "http://192.168.1.15:8585/Android_Assignment_1/GiftApi/app/webroot/user_register.php";
+        String upLoadServerUri = "http://192.168.1.22:8585/Android_Assignment_1/GiftApi/app/webroot/user_register.php";
         String filePth = sourceFileUri;
         //============================================= rename image name before upload===
         int dotCnt = filePth.indexOf(".");

@@ -20,7 +20,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.util.ArrayList;
 
 /**
- * Author Vanda 28/07/2015
+ * Author Vanda 4/08/2015
  */
 
 public class CustomAdapter extends ArrayAdapter<Gift> {

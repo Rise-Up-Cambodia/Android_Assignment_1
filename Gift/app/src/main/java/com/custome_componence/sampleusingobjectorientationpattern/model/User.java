@@ -1,7 +1,7 @@
 package com.custome_componence.sampleusingobjectorientationpattern.model;
 
 /**
- * Created by Vanda on 8/7/2015.
+ * Created by Vanda on 3/8/2015.
  */
 public class User {
 

@@ -8,10 +8,10 @@ public class Gift implements IDataModel {
     private String description = "";
     private String from = "";
     private String post = "";
-    private  String name = "";
-    private  String password = "";
-    private  String category = "";
-    private  String imageName = "";
+    private String name = "";
+    private String password = "";
+    private String category = "";
+    private String imageName = "";
     private String id = "";
     private String receiveDate = "";
     private String userProfile = "";

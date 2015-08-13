@@ -33,7 +33,12 @@ import org.json.JSONObject;
 * */
 public class GiftDetail extends ActionBarActivity {
     GiftOperation GiftOperation = new GiftOperation();
-    TextView description, date, receivedDate, username, from, category;
+    TextView description;
+    TextView date;
+    TextView  receivedDate;
+    TextView username;
+    TextView from;
+    TextView category;
     ImageView giftImage, userImage;
     public static Gift gifts = null;
     private String userName = "";
@@ -120,7 +125,6 @@ public class GiftDetail extends ActionBarActivity {
 
                     }
                 });
-
             }
 
             @Override
