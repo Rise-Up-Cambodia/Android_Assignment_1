@@ -1,7 +1,9 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -122,17 +124,14 @@ public class UserRegister extends ActionBarActivity {
 
                                         userEmail = users.get(i).getParam();
 
-                                        String name = username.getText().toString();
+                                       final String name = username.getText().toString();
                                         String emails = email.getText().toString();
                                         String passwords = password.getText().toString();
-
                                         if (userEmail == "Not duplicate user") {
-
                                             userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
                                                 @Override
                                                 public void success(JSONObject json) {
-
-                                                    Intent e = new Intent(UserRegister.this, GiftHome.class);
+                                                    Intent e = new Intent(UserRegister.this, UserLogin.class);
                                                     startActivity(e);
                                                 }
 
