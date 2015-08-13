@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.custome_componence.Gift.sample.UpdateGift">
+    tools:context="com.custome_componence.sampleusingobjectorientationpattern.sample.UpdateGift">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -58,9 +58,9 @@
             android:layout_height="50dp"
             android:background="@drawable/form_bg"
             android:gravity="center"
+            android:editable="false"
             android:hint="Reveived Date"
-            android:id="@+id/receive_date"
-   />
+            android:id="@+id/receive_date" />
 
         <ImageView
             android:layout_width="65dp"

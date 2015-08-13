@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1">
-
-    <com.custome_componence.Gift.sample.Circle
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+    <com.custome_componence.sampleusingobjectorientationpattern.sample.Circle
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/image"
+        android:src="@mipmap/user1"
         android:layout_gravity="center_horizontal" />
-
     <Button
         android:layout_width="351dp"
         android:layout_height="50dp"
@@ -18,7 +17,7 @@
         android:id="@+id/btnchooseimage"
         android:text="Choose User Photo"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#fff" />
 
     <EditText
@@ -27,7 +26,6 @@
         android:background="@drawable/form_bg"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginTop="10dp"
         android:id="@+id/name"
         android:hint="Name"/>
 
@@ -54,7 +52,8 @@
 
         android:id="@+id/from"
         android:textAlignment="gravity"
-        android:spinnerMode="dialog" />
+        android:spinnerMode="dropdown"
+        />
 
 
         <EditText
