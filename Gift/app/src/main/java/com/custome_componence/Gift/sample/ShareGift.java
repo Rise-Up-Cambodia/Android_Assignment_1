@@ -61,7 +61,6 @@ public class ShareGift extends ActionBarActivity {
     Random random = new Random();
     int ran = random.nextInt(1000);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +80,10 @@ public class ShareGift extends ActionBarActivity {
         category.setAdapter(cat1);
         from.setAdapter(fr1);
 
-        SharedPreferences shPreference = getSharedPreferences("username", Context.MODE_PRIVATE);
-        nameUser = shPreference.getString("username","");
+        SharedPreferences shPreference = getSharedPreferences("userName", Context.MODE_PRIVATE);
+        nameUser = shPreference.getString("userName","");
         idUser = shPreference.getInt("userId",0);
-
+        Toast.makeText(getApplicationContext(),idUser+"", Toast.LENGTH_LONG).show();
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +101,6 @@ public class ShareGift extends ActionBarActivity {
             public void onClick(View v) {
                 int mYear, mMonth, mDay;
                 Calendar mcurrentDate = Calendar.getInstance();
-
                 mYear = mcurrentDate.get(Calendar.YEAR);
                 mMonth = mcurrentDate.get(Calendar.MONTH);
                 mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);

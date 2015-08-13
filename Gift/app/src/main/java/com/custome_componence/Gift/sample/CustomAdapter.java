@@ -46,10 +46,10 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
         View rowView = inflater.inflate(R.layout.gift_item, null, true);
 
         Gift giftOb = gifts.get(position);
-        TextView Name = (TextView) rowView.findViewById(R.id.name);
-        TextView Posts = (TextView) rowView.findViewById(R.id.post);
+        TextView name = (TextView) rowView.findViewById(R.id.name);
+        TextView createdDate = (TextView) rowView.findViewById(R.id.post);
         TextView From = (TextView) rowView.findViewById(R.id.from);
-        TextView giftid = (TextView) rowView.findViewById(R.id.giftid);
+        TextView giftId = (TextView) rowView.findViewById(R.id.giftid);
         TextView Category = (TextView) rowView.findViewById(R.id.category);
         TextView Description = (TextView) rowView.findViewById(R.id.description);
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView3);
@@ -57,11 +57,12 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
 
 
 
-        Name.setText(giftOb.getName());
-        Posts.setText("Posted " + giftOb.getPost());
+        name.setText(giftOb.getName());
+        createdDate.setText("Posted " + giftOb.getPost());
+
         From.setText("From " + (giftOb.getFrom()));
         Category.setText("For " + (giftOb.getCategory()));
-        giftid.setText(giftOb.getId());
+        giftId.setText(giftOb.getId());
         Description.setText(giftOb.getDescription());
 
 
@@ -72,8 +73,11 @@ public class CustomAdapter extends ArrayAdapter<Gift> {
          * load gift image
          */
         ImageViewAware imageViewAware = new ImageViewAware(image);
+
         ImageLoader.getInstance().displayImage(Constant.BASE_URL + "app/webroot/img/" +
                 giftOb.getIm(), imageViewAware, new SimpleImageLoadingListener() {
+
+
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             }

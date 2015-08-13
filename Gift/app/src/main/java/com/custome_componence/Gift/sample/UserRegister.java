@@ -3,8 +3,10 @@ package com.custome_componence.Gift.sample;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,11 +22,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+
 import com.custome_componence.Gift.R;
 import com.custome_componence.Gift.converter.UserDataConverter;
 import com.custome_componence.Gift.model.User;
 import com.custome_componence.Gift.operation.IOperationListener;
 import com.custome_componence.Gift.operation.UserOperation;
+
+
 
 import org.json.JSONObject;
 
@@ -45,9 +50,9 @@ import java.util.regex.Pattern;
 public class UserRegister extends ActionBarActivity {
     UserOperation userOperation = new UserOperation();
 
-    Button btnRegister, btnchoose;
-    ImageView  giftimage;
-    EditText username,email,password;
+    Button btnRegister, btnChoose;
+    ImageView giftImage;
+    EditText username, email, password;
 
     Spinner from;
     private int serverResponseCode = 0;
@@ -60,21 +65,20 @@ public class UserRegister extends ActionBarActivity {
     //random number for concatenate image name before upload
     Random random = new Random();
     int ran = random.nextInt(1000);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
         getSupportActionBar().setTitle("User Registration");
 
-
-
         btnRegister = (Button) findViewById(R.id.btnshare);
-        btnchoose = (Button)findViewById(R.id.btnchooseimage);
-        username = (EditText)findViewById(R.id.name);
-        email = (EditText)findViewById(R.id.email);
-        password = (EditText)findViewById(R.id.password);
-       giftimage = (ImageView)findViewById(R.id.image);
-        from = (Spinner)findViewById(R.id.from);
+        btnChoose = (Button) findViewById(R.id.btnchooseimage);
+        username = (EditText) findViewById(R.id.name);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+        giftImage = (ImageView) findViewById(R.id.image);
+        from = (Spinner) findViewById(R.id.from);
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),R.drawable.user1);
 
@@ -82,10 +86,10 @@ public class UserRegister extends ActionBarActivity {
 
 
         // set circle bitmap
-        ArrayAdapter<String> fr1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
-        from.setAdapter(fr1);
+        ArrayAdapter<String> adapterFrom = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
+        from.setAdapter(adapterFrom);
 
-        btnchoose.setOnClickListener(new View.OnClickListener() {
+        btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -96,13 +100,9 @@ public class UserRegister extends ActionBarActivity {
         });
 
 
-
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
 
 
                 if (selectedImagePath == null) {
@@ -113,33 +113,31 @@ public class UserRegister extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "All Fields are Required!", Toast.LENGTH_SHORT).show();
                     } else {
 
-                 String emailInput =   email.getText().toString().trim();
+                        String emailInput = email.getText().toString().trim();
                         if (!isValidEmail(emailInput)) {
                             email.setError("Invalid Email"); /*"Invalid Text" or something like getString(R.string.Invalid)*/
                             email.requestFocus();
                         } else {
 
 
-
-                            userOperation.convertJSONAuthenticatedSignup(email.getText().toString(), new IOperationListener() {
+                            userOperation.getUserEmails(email.getText().toString(), new IOperationListener() {
                                 @Override
                                 public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                                     UserDataConverter userDataConverter = new UserDataConverter();
-                                    users = userDataConverter.convertJSONAuthenticatedSignup(json);
+                                    users = userDataConverter.convertJSONToUser(json);
 
 
-                                    String email1 = "";
+                                    String userEmail = "";
                                     for (int i = 0; i < users.size(); i++) {
 
-
-                                        email1 = users.get(i).getParam();
+                                        userEmail = users.get(i).getParam();
 
                                         String name = username.getText().toString();
                                         String emails = email.getText().toString();
                                         String passwords = password.getText().toString();
 
-                                        if (email1 == "Not duplicate user") {
+                                        if (userEmail == "Not duplicate user") {
 
                                             userOperation.registerUser(name, emails, passwords, from.getSelectedItem().toString(), image_path, new IOperationListener() {
                                                 @Override
@@ -147,7 +145,7 @@ public class UserRegister extends ActionBarActivity {
 
                                                     Intent e = new Intent();
                                                     e.setClass(UserRegister.this, UserLogin.class);
-                              
+
                                                     startActivity(e);
                                                 }
 
@@ -181,12 +179,7 @@ public class UserRegister extends ActionBarActivity {
 
 
                                     }
-
-
                                 }
-
-
-
 
 
                                 @Override
@@ -201,10 +194,11 @@ public class UserRegister extends ActionBarActivity {
                     }
 
 
+                }
+            }
+        });
     }
-    }
-});
-        }
+
     private boolean isValidEmail(String emailInput) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -242,7 +236,7 @@ public class UserRegister extends ActionBarActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                giftimage.setImageURI(selectedImageUri);
+                giftImage.setImageURI(selectedImageUri);
 
 
                 Cursor cursor = getContentResolver().query(

@@ -10,18 +10,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.custome_componence.Gift.R;
-import com.custome_componence.Gift.converter.GiftDataConverter;
-import com.custome_componence.Gift.model.Gift;
-import com.custome_componence.Gift.operation.GiftOperation;
-import com.custome_componence.Gift.operation.IOperationListener;
+
+import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
+import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
+import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
+import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 /**
- * Created by Vanda on 8/7/2015.
+ * Created by Vanda on 8/7/2015
  */
 public class GiftHome extends ActionBarActivity {
 
@@ -42,44 +44,49 @@ public class GiftHome extends ActionBarActivity {
         lv.deferNotifyDataSetChanged();
         getSupportActionBar().setTitle("Gift Home");
 
+        giftOperation.getAllGifts(new IOperationListener() {
+            @Override
+            public void success(JSONObject json) {
+
+                GiftDataConverter giftDataConverter = new GiftDataConverter();
+                gifts = giftDataConverter.convertJSONToGifts(json);
+                CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
+                lv.setAdapter(adt);
+                lv.refreshComplete();
+                lv.getMoreComplete();
+                lv.deferNotifyDataSetChanged();
+
+            }
+
+            @Override
+            public void fail(int statusCode, String responseBody) {
+
+            }
+        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String gid = gifts.get(position - 1).getId();
+                String username = gifts.get(position - 1).getName();
+                Intent intent = new Intent(GiftHome.this, GiftDetail.class);
+                intent.putExtra("id", gid);
+                intent.putExtra("username", username);
+                startActivity(intent);
+            }
+        });
+
         lv.setOnRefreshListener(new PullListView.OnRefreshListener() {
 
-                    @Override
-                    public void onRefresh() {
+            @Override
+            public void onRefresh() {
 
                 gifts.clear();
-                giftOperation.getAllGift(new IOperationListener() {
+                giftOperation.getAllGifts(new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                         GiftDataConverter giftDataConverter = new GiftDataConverter();
-                        gifts = giftDataConverter.convertJSONToAllGift(json);
-
-//                        for (int i = 0; i < gifts.size(); i++) {
-//
-//                            String name1 = gifts.get(i).getName();
-//                            String post = gifts.get(i).getPost();
-//                            String category = gifts.get(i).getCategory();
-//                            String from = gifts.get(i).getFrom();
-//                            String description = gifts.get(i).getDescription();
-//                            String id = gifts.get(i).getId();
-//                            String gift_name = gifts.get(i).getIm();
-//                            names.add(name1);
-//                            posts.add(post);
-//                            categories.add(category);
-//                            froms.add(from);
-//                            descriptions.add(description);
-//                            giftid.add(id);
-//                            gift_path.add(gift_name);
-//                            Image.add(BitmapFactory.decodeResource(GiftHome.this.getResources(), R.mipmap.christmas_18));
-//                            if (gift_name.equals(null) || gift_name.equals("no image")) {
-//                            } else {
-//                                new DownloadImageTask().execute("http://192.168.1.11:8585/Android_Assignment_1/GiftApi/app/webroot/img/" + gift_name, String.valueOf(names.size() - 1));
-//                            }
-//
-//                        }
-
-                      //  CustomAdapter adt = new CustomAdapter(GiftHome.this, names, posts, categories, froms, descriptions, gift_path, Image, giftid);
+                        gifts = giftDataConverter.convertJSONToGifts(json);
                         CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
                         lv.setAdapter(adt);
                         lv.refreshComplete();
@@ -98,23 +105,23 @@ public class GiftHome extends ActionBarActivity {
             @Override
             public void onGetMore() {
                 gifts.clear();
-                if(PAGE_NUM <= gifts.size()){
-                    PAGE_NUM += PAGE_NUM ;
-                }else {
+                if (PAGE_NUM <= gifts.size()) {
+                    PAGE_NUM += PAGE_NUM;
+                } else {
                     PAGE_NUM = gifts.size();
-
                 }
                 giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
-                               /* These two line of code will be use next time */
+                        /* These two line of code will be use next time */
                         GiftDataConverter giftDataConverter = new GiftDataConverter();
-                        gifts = giftDataConverter.convertJSONToAllGift(json);
+                        gifts = giftDataConverter.convertJSONToGifts(json);
                         CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
                         lv.setAdapter(adt);
                         lv.getMoreComplete();
                         lv.deferNotifyDataSetChanged();
                     }
+
                     @Override
                     public void fail(int statusCode, String responseBody) {
 
@@ -126,6 +133,7 @@ public class GiftHome extends ActionBarActivity {
 
             }
         });
+
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -158,16 +166,19 @@ public class GiftHome extends ActionBarActivity {
 
             }
         });
+        lv.getMoreComplete();
+
     }
+
     /*
     * Created by Sreyleak 10/08/2015
     * */
+	
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.custome_componence.Gift.R;
@@ -35,10 +36,9 @@ public class UserLogin extends Activity {
     private Button btnAdd;
     EditText email;
     EditText password;
+    TextView linkToSignUp;
     public static ArrayList<User> gifts = null;
     public static User gift = null;
-
-    ArrayList<String> names = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,15 @@ public class UserLogin extends Activity {
         btnAdd = (Button) findViewById(R.id.register);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        linkToSignUp = (TextView) findViewById(R.id.signuplink);
         final UserOperation userOperation = new UserOperation();
+        linkToSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentToSignUp = new Intent(UserLogin.this, UserRegister.class);
+                startActivity(intentToSignUp);
+            }
+        });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +74,7 @@ public class UserLogin extends Activity {
                             public void success(JSONObject json) {
                         /* These two line of code will be use next time */
                                 UserDataConverter userDataConverter = new UserDataConverter();
-                                gifts = userDataConverter.convertJSONToLogin(json);
+                                gifts = userDataConverter.convertJSONToUsers(json);
 
                                 String name1 = "";
                                 int userId = 0;
@@ -77,9 +85,9 @@ public class UserLogin extends Activity {
                                     if (name1 == "username password are not match!") {
                                         Toast.makeText(getApplicationContext(), name1, Toast.LENGTH_LONG).show();
                                     } else {
-                                        SharedPreferences sh = getSharedPreferences("username", Context.MODE_PRIVATE);
+                                        SharedPreferences sh = getSharedPreferences("userName", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor edt = sh.edit();
-                                        edt.putString("username", name1);
+                                        edt.putString("userName", name1);
                                         edt.putInt("userId", userId);
                                         edt.commit();
                                         Intent e = new Intent();
@@ -104,11 +112,12 @@ public class UserLogin extends Activity {
 
         initializeImageLoader(this);
     }
+
     /**
      * Sreyleak 12/08/2015
      */
 
-    public void initializeImageLoader(Context context){
+    public void initializeImageLoader(Context context) {
 
         // Universal Image Loader, Display Option Config
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -130,6 +139,7 @@ public class UserLogin extends Activity {
         ImageLoader.getInstance().init(config);
 
     }
+
     private boolean isValidEmail(String emailInput) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

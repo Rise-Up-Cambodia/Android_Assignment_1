@@ -12,9 +12,8 @@ import java.io.UnsupportedEncodingException;
 public class GiftOperation implements IOperation {
     AsyncHttpClient Giftclient = new AsyncHttpClient();
 
-    public void getAllGift(final IOperationListener iOperationListener){
-        RequestParams requestParams = new RequestParams();
-        Giftclient.get(Constant.BASE_URL + "gifts/index/3.json",new AsyncHttpResponseHandler() {
+    public void getAllGifts(final IOperationListener iOperationListener) {
+        Giftclient.get(Constant.BASE_URL1 + "gifts/index/3.json", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -46,9 +45,9 @@ public class GiftOperation implements IOperation {
     /*
     * Created by Sreyleak 07/08/2015
     * */
-    public void getGiftById(String id, final IOperationListener iOperationListener){
+    public void getGiftById(String id, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
-        Giftclient.get(Constant.BASE_URL + "gifts/"+id+".json",requestParams,new AsyncHttpResponseHandler() {
+        Giftclient.get(Constant.BASE_URL1 + "gifts/" + id + ".json", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -80,8 +79,8 @@ public class GiftOperation implements IOperation {
     /*
     * Created by Sreyleak 07/08/2015
     * */
-    public void shareGift(int userId, String description, String from, String category, String date, String receive_date,
-                          String image_path, final IOperationListener iOperationListener) {
+    public void shareGift(int userId, String description, String from, String category, String date, String receiveDate,
+                          String imagePath, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("description", description);
         requestParams.add("from", from);
@@ -89,10 +88,10 @@ public class GiftOperation implements IOperation {
         requestParams.add("user_id", String.valueOf(userId));
         requestParams.add("status", "1");
         requestParams.add("date", date);
-        requestParams.add("receive_date", receive_date);
-        requestParams.add("gift_name", image_path);
+        requestParams.add("receive_date", receiveDate);
+        requestParams.add("gift_name", imagePath);
 
-        Giftclient.post(Constant.BASE_URL + "gifts.json", requestParams, new AsyncHttpResponseHandler() {
+        Giftclient.post(Constant.BASE_URL1 + "gifts.json", requestParams, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -120,11 +119,15 @@ public class GiftOperation implements IOperation {
 
         });
     }
+
     /*
     * Created by Sreyleak 07/08/2015
     * */
     public void deleteGift(String giftId, final IOperationListener iOperationListener) {
+
         Giftclient.delete(Constant.BASE_URL + "gifts/"+giftId+".json", new AsyncHttpResponseHandler() {
+
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -156,16 +159,18 @@ public class GiftOperation implements IOperation {
     /*
     * Created by Sreyleak 11/08/2015
     * */
-    public void updateGift(String id, String description, String from, String category, String date, String receive_date,
-                           String image_path,final IOperationListener iOperationListener) {
+    public void updateGift(String id, String description, String from, String category, String date, String receiveDate,
+                           String image_path, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("description", description);
         requestParams.add("from", from);
         requestParams.add("cat_id", category);
         requestParams.add("date", date);
+
         requestParams.add("receive_date", receive_date);
         requestParams.add("gift_name",image_path );
         Giftclient.put(Constant.BASE_URL + "gifts/"+ id +".json", requestParams, new AsyncHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -193,13 +198,17 @@ public class GiftOperation implements IOperation {
 
         });
     }
+
     /*
     * Created by Sreyleak 11/08/2015
     * */
-    public void getGiftByPage(int pageNumber, final IOperationListener iOperationListener){
+    public void getGiftByPage(int pageNumber, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.add("pageNumber", String.valueOf(pageNumber));
+
         Giftclient.get(Constant.BASE_URL + "gifts/index/"+pageNumber+".json", requestParams, new AsyncHttpResponseHandler() {
+
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -227,4 +236,4 @@ public class GiftOperation implements IOperation {
 
         });
     }
- }
+}
