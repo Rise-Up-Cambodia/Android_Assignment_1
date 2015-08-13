@@ -1,7 +1,7 @@
 package com.custome_componence.sampleusingobjectorientationpattern.model;
 
 /**
- * Created by Channy on 8/3/2015.
+ * Created by Sreyleak on 05/08/2015.
  */
 public class Gift implements IDataModel {
 
@@ -11,7 +11,7 @@ public class Gift implements IDataModel {
     private  String name = "";
     private  String password = "";
     private  String category = "";
-    private  String im = "";
+    private  String imageName = "";
     private String id = "";
     private String receiveDate = "";
     private String userProfile = "";
@@ -24,8 +24,8 @@ public class Gift implements IDataModel {
         this.post = post;
         this.name = name;
         this.category = category;
-        this.im = im;
-        this.setId(id);
+        this.imageName = im;
+        this.id = id;
         this.receiveDate = receiveDate;
         this.userProfile = userProfile;
 
@@ -100,11 +100,11 @@ public class Gift implements IDataModel {
         return category;
     }
 
-    public void setIm(String im) {
-        this.im = im;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
-    public String getIm() {
-        return im;
+    public String getImageName() {
+        return imageName;
     }
 
 

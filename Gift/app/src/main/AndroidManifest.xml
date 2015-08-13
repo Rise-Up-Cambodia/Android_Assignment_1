@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.custome_componence.sampleusingobjectorientationpattern" >
+    package="com.custome_componence.sampleusingobjectorientationpattern">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,39 +12,38 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+
         <activity
             android:name=".sample.UserLogin"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-      <activity
+            </activity>
+
+        <activity
             android:name=".sample.GiftHome"
-            android:label="@string/app_name" >
-        </activity>
-      <activity
+            android:label="@string/app_name"></activity>
+        <activity
             android:name=".sample.ShareGift"
             android:label="@string/app_name"
-            android:parentActivityName=".sample.GiftHome">
-      </activity>
+            android:parentActivityName=".sample.GiftHome"></activity>
 
-      <activity android:name=".sample.UserRegister">
 
-      </activity>
+        <activity android:name=".sample.UserRegister" android:parentActivityName=".sample.UserLogin">
 
-      <activity
+        </activity>
+
+        <activity
             android:name=".sample.GiftDetail"
             android:label="@string/title_activity_gift_detail"
-            android:parentActivityName=".sample.GiftHome">
-      </activity>
-      <activity
+            android:parentActivityName=".sample.GiftHome"></activity>
+        <activity
             android:name=".sample.UpdateGift"
             android:label="@string/title_activity_update_gift"
-            android:parentActivityName=".sample.GiftDetail">
-      </activity>
+            android:parentActivityName=".sample.GiftDetail"></activity>
     </application>
 
 </manifest>
