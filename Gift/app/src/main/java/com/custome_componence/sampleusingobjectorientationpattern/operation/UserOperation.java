@@ -18,7 +18,7 @@ public class UserOperation implements IOperation {
 
     public void login(String email, String password, final IOperationListener iOperationListener) {
 
-        Userclient.get(Constant.BASE_URL + "users/view/" + email + "/" + password + ".json", new AsyncHttpResponseHandler() {
+        Userclient.get(Constant.BASE_URL1 + "users/view/" + email + "/" + password + ".json", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
@@ -51,7 +51,7 @@ public class UserOperation implements IOperation {
         RequestParams requestParams = new RequestParams();
 
 
-        Userclient.get(Constant.BASE_URL + "users/signupauthentication/" + email + ".json", new AsyncHttpResponseHandler() {
+        Userclient.get(Constant.BASE_URL1 + "users/signupauthentication/" + email + ".json", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

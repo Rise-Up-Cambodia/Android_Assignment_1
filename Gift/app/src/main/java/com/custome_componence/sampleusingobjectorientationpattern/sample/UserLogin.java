@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
@@ -35,6 +36,7 @@ public class UserLogin extends Activity {
     private Button btnAdd;
     EditText email;
     EditText password;
+    TextView linkToSignUp;
     public static ArrayList<User> gifts = null;
     public static User gift = null;
 
@@ -45,7 +47,15 @@ public class UserLogin extends Activity {
         btnAdd = (Button) findViewById(R.id.register);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        linkToSignUp = (TextView) findViewById(R.id.signuplink);
         final UserOperation userOperation = new UserOperation();
+        linkToSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentToSignUp = new Intent(UserLogin.this, UserRegister.class);
+                startActivity(intentToSignUp);
+            }
+        });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
