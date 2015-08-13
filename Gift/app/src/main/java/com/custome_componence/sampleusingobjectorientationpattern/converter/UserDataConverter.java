@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Vanda on 8/7/2015.
+ * Created by Vanda on 4/8/2015.
  */
 public class UserDataConverter implements IDataConverter {
 

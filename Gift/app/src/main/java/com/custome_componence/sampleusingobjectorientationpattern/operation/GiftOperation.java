@@ -12,6 +12,9 @@ import java.io.UnsupportedEncodingException;
 public class GiftOperation implements IOperation {
     AsyncHttpClient Giftclient = new AsyncHttpClient();
 
+    /*
+    * Created by Vanda 4/8/2015
+    * */
     public void getAllGifts(final IOperationListener iOperationListener) {
         Giftclient.get(Constant.BASE_URL1 + "gifts/index/3.json", new AsyncHttpResponseHandler() {
             @Override

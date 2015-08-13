@@ -46,7 +46,9 @@ public class UserOperation implements IOperation {
 
         });
     }
-
+    /**
+     * Created by Vanda on 6/8/2015.
+     */
     public void getUserEmails(String email, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();
 
@@ -80,7 +82,9 @@ public class UserOperation implements IOperation {
         });
     }
 
-
+    /**
+     * Created by Vanda on 7/8/2015.
+     */
     public void registerUser(String name, String email, String password, String from,
                              String imagePath, final IOperationListener iOperationListener) {
         RequestParams requestParams = new RequestParams();

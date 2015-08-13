@@ -1,7 +1,7 @@
 package com.custome_componence.sampleusingobjectorientationpattern.sample;
 
 /**
- * Created by riseupcambodia on 8/12/2015.
+ * Created by Vanda on 12/8/2015.
  */
 
 import android.content.Context;
