@@ -2,8 +2,6 @@
     App::uses('File', 'Utility');
     class GiftsController extends AppController{
        public  $components = array('RequestHandler');
-
-
  //* Vanda 05/08/2015
  // Get gift data from database //
         public function index($page) {
@@ -52,7 +50,6 @@
                             'alias' => 'user',
                             'type' => 'INNER',
                             'conditions' => array('user.id = Gift.user_id')
-
                         )
                     ),
                     'conditions' => array(
