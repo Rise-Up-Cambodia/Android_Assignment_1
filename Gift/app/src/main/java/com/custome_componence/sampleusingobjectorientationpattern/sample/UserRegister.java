@@ -3,6 +3,8 @@ package com.custome_componence.sampleusingobjectorientationpattern.sample;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -74,6 +76,10 @@ public class UserRegister extends ActionBarActivity {
         giftImage = (ImageView) findViewById(R.id.image);
         from = (Spinner) findViewById(R.id.from);
 
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.user1);
+
+        giftImage.setImageBitmap(icon);
+
 
         // set circle bitmap
         ArrayAdapter<String> adapterFrom = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
@@ -136,7 +142,7 @@ public class UserRegister extends ActionBarActivity {
                                                 @Override
                                                 public void success(JSONObject json) {
 
-                                                    Intent e = new Intent(UserRegister.this, GiftHome.class);
+                                                    Intent e = new Intent(UserRegister.this, UserLogin.class);
                                                     startActivity(e);
                                                 }
 
