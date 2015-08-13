@@ -17,6 +17,10 @@
         <activity
             android:name=".sample.UserLogin"
             android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             </activity>
 
         <activity
@@ -28,11 +32,8 @@
             android:parentActivityName=".sample.GiftHome"></activity>
 
 
-        <activity android:name=".sample.UserRegister">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".sample.UserRegister" android:parentActivityName=".sample.UserLogin">
+
         </activity>
 
         <activity
