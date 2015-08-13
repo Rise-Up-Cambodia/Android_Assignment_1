@@ -99,7 +99,7 @@ public class GiftHome extends ActionBarActivity {
             @Override
             public void onGetMore() {
 //                if (PAGE_NUM <= gifts.size()) {
-
+//                    PAGE_NUM = PAGE_NUM + 3;
 //                } else {
 //                    PAGE_NUM = gifts.size();
 //                }
@@ -107,9 +107,29 @@ public class GiftHome extends ActionBarActivity {
                     giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
                         @Override
                         public void success(JSONObject json) {
+                           PAGE_NUM = PAGE_NUM + 3;
+                            gifts.clear();
+                            GiftDataConverter giftDataConverter = new GiftDataConverter();
+                            gifts = giftDataConverter.convertJSONToGifts(json);
+                            CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
+                            lv.setAdapter(adt);
+                            lv.getMoreComplete();
+                            lv.deferNotifyDataSetChanged();
+                        }
+                        @Override
+                        public void fail(int statusCode, String responseBody) {
+
+                        }
+
+                    });
+                }else{
+
+                    giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
+                        @Override
+                        public void success(JSONObject json) {
+                            PAGE_NUM = gifts.size();
                             //gifts.clear();
                             PAGE_NUM = PAGE_NUM + 3;
-                            Toast.makeText(getApplicationContext(), PAGE_NUM + "", Toast.LENGTH_LONG).show();
                             GiftDataConverter giftDataConverter = new GiftDataConverter();
                             gifts = giftDataConverter.convertJSONToGifts(json);
                             CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
@@ -124,6 +144,7 @@ public class GiftHome extends ActionBarActivity {
                         }
 
                     });
+                    lv.setNoMore();
                 }
 
             }
