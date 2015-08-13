@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
@@ -51,7 +52,6 @@ public class GiftHome extends ActionBarActivity {
                 lv.refreshComplete();
                 lv.getMoreComplete();
                 lv.deferNotifyDataSetChanged();
-
             }
 
             @Override
@@ -80,16 +80,14 @@ public class GiftHome extends ActionBarActivity {
                 giftOperation.getAllGifts(new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
-                        /* These two line of code will be use next time */
+                        PAGE_NUM = 3;
                         GiftDataConverter giftDataConverter = new GiftDataConverter();
                         gifts = giftDataConverter.convertJSONToGifts(json);
                         CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
                         lv.setAdapter(adt);
                         lv.refreshComplete();
                         lv.deferNotifyDataSetChanged();
-
                     }
-
                     @Override
                     public void fail(int statusCode, String responseBody) {
 
@@ -100,16 +98,17 @@ public class GiftHome extends ActionBarActivity {
         lv.setOnGetMoreListener(new PullListView.OnGetMoreListener() {
             @Override
             public void onGetMore() {
-                gifts.clear();
-                if (PAGE_NUM <= gifts.size()) {
-                    PAGE_NUM += PAGE_NUM;
-                } else {
-                    PAGE_NUM = gifts.size();
-                }
+//                if (PAGE_NUM <= gifts.size()) {
+
+//                } else {
+//                    PAGE_NUM = gifts.size();
+//                }
                 giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
-                        /* These two line of code will be use next time */
+                        //gifts.clear();
+                        PAGE_NUM = PAGE_NUM + 3;
+                        Toast.makeText(getApplicationContext(),PAGE_NUM+"",Toast.LENGTH_LONG).show();
                         GiftDataConverter giftDataConverter = new GiftDataConverter();
                         gifts = giftDataConverter.convertJSONToGifts(json);
                         CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
@@ -127,7 +126,12 @@ public class GiftHome extends ActionBarActivity {
 
             }
         });
-        lv.getMoreComplete();
+
+    }
+
+    //prevent backpress button
+    @Override
+    public void onBackPressed() {
     }
 
     /*

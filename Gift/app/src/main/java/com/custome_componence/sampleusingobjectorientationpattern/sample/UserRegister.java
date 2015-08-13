@@ -132,9 +132,7 @@ public class UserRegister extends ActionBarActivity {
                                                 @Override
                                                 public void success(JSONObject json) {
 
-                                                    Intent e = new Intent();
-                                                    e.setClass(UserRegister.this, UserLogin.class);
-
+                                                    Intent e = new Intent(UserRegister.this, GiftHome.class);
                                                     startActivity(e);
                                                 }
 

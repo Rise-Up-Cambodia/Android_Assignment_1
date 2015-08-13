@@ -85,7 +85,7 @@ public class ShareGift extends ActionBarActivity {
         SharedPreferences shPreference = getSharedPreferences("userName", Context.MODE_PRIVATE);
         nameUser = shPreference.getString("userName","");
         idUser = shPreference.getInt("userId",0);
-        Toast.makeText(getApplicationContext(),idUser+"", Toast.LENGTH_LONG).show();
+
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

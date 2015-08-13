@@ -58,9 +58,9 @@
             android:layout_height="50dp"
             android:background="@drawable/form_bg"
             android:gravity="center"
+            android:editable="false"
             android:hint="Reveived Date"
-            android:id="@+id/receive_date"
-   />
+            android:id="@+id/receive_date" />
 
         <ImageView
             android:layout_width="65dp"
