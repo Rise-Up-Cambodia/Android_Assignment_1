@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -23,10 +23,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.config.Constant;
+import com.custome_componence.Gift.operation.GiftOperation;
+import com.custome_componence.Gift.operation.IOperationListener;
 
 import org.json.JSONObject;
 
@@ -92,7 +92,7 @@ public class UpdateGift extends ActionBarActivity {
         String categoryNumber = intentFromDetailActivity.getStringExtra("category");
         String fromIndex = intentFromDetailActivity.getStringExtra("from");
         imagePathForUpdate = intentFromDetailActivity.getStringExtra("giftName");
-        new DownloadImageTask().execute(Constant.BASE_URL1 + "app/webroot/img/" + imagePathForUpdate);
+        new DownloadImageTask().execute(Constant.BASE_URL + "app/webroot/img/" + imagePathForUpdate);
 
         for (int i = 0; i < cat1.getCount(); i++) {
             if (categoryNumber.equals(cat1.getItem(i).toString())) {
@@ -336,7 +336,7 @@ public class UpdateGift extends ActionBarActivity {
 
     public int uploadFile(String sourceFileUri) {
 
-        String upLoadServerUri = Constant.BASE_URL1 + "app/webroot/upload_gift.php";
+        String upLoadServerUri = Constant.BASE_URL + "app/webroot/upload_gift.php";
         String filePth = sourceFileUri;
         //============================================= rename image name before upload===
         int dotCnt = filePth.indexOf(".");

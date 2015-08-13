@@ -1,6 +1,5 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,10 +22,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.operation.GiftOperation;
+import com.custome_componence.Gift.operation.IOperationListener;
 
 import org.json.JSONObject;
 

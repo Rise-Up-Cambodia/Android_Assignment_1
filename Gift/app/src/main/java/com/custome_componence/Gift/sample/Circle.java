@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 /**
  * Created by riseupcambodia on 8/12/2015.

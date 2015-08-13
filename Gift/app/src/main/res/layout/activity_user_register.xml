@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <com.custome_componence.sampleusingobjectorientationpattern.sample.Circle
+    <com.custome_componence.Gift.sample.Circle
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:id="@+id/image"

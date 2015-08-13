@@ -1,7 +1,6 @@
-package com.custome_componence.sampleusingobjectorientationpattern.converter;
+package com.custome_componence.Gift.converter;
 
-import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
-import com.custome_componence.sampleusingobjectorientationpattern.model.User;
+import com.custome_componence.Gift.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

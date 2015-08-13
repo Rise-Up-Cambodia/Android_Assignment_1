@@ -1,49 +1,24 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
-import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
-import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
-import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
-import com.custome_componence.sampleusingobjectorientationpattern.model.User;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.UserOperation;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.converter.GiftDataConverter;
+import com.custome_componence.Gift.model.Gift;
+import com.custome_componence.Gift.operation.GiftOperation;
+import com.custome_componence.Gift.operation.IOperationListener;
 
 import org.json.JSONObject;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Handler;
 
 /**
  * Created by Vanda on 8/7/2015.

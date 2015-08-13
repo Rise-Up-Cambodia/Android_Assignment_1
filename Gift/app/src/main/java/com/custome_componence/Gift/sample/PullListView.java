@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.Gift.R;
 
 
 public class PullListView extends ListView {

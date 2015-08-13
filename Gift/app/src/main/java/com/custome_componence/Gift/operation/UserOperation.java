@@ -1,6 +1,6 @@
-package com.custome_componence.sampleusingobjectorientationpattern.operation;
+package com.custome_componence.Gift.operation;
 
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
+import com.custome_componence.Gift.config.Constant;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -93,7 +93,7 @@ public class UserOperation implements IOperation {
         requestParams.add("gender", from);
         requestParams.add("user_profile",image_path );
 
-        Userclient.post(Constant.BASE_URL1 + "users/signup.json",requestParams,new AsyncHttpResponseHandler() {
+        Userclient.post(Constant.BASE_URL + "users/signup.json",requestParams,new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {

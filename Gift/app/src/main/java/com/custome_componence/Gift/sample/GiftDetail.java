@@ -1,4 +1,4 @@
-package com.custome_componence.sampleusingobjectorientationpattern.sample;
+package com.custome_componence.Gift.sample;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -6,9 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,20 +14,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.custome_componence.sampleusingobjectorientationpattern.R;
-import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
-import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
-import com.custome_componence.sampleusingobjectorientationpattern.model.Gift;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.GiftOperation;
-import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
+import com.custome_componence.Gift.R;
+import com.custome_componence.Gift.config.Constant;
+import com.custome_componence.Gift.converter.GiftDataConverter;
+import com.custome_componence.Gift.model.Gift;
+import com.custome_componence.Gift.operation.GiftOperation;
+import com.custome_componence.Gift.operation.IOperationListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
-import java.io.InputStream;
-import java.net.URL;
 
 /*
 * Created by Sreyleak 10/08/2015
@@ -93,7 +88,7 @@ public class GiftDetail extends ActionBarActivity {
                 * load gift image
                 * */
                 ImageViewAware imageViewAware = new ImageViewAware(giftImage);
-                ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/img/" +
+                ImageLoader.getInstance().displayImage(Constant.BASE_URL + "app/webroot/img/" +
                         gifts.getIm(), imageViewAware, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -111,7 +106,7 @@ public class GiftDetail extends ActionBarActivity {
                 * load user image
                 * */
                 ImageViewAware imageViewUser = new ImageViewAware(userImage);
-                ImageLoader.getInstance().displayImage(Constant.BASE_URL1 + "app/webroot/user_photo/" +
+                ImageLoader.getInstance().displayImage(Constant.BASE_URL + "app/webroot/user_photo/" +
                         gifts.getUserProfile(), imageViewUser, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
