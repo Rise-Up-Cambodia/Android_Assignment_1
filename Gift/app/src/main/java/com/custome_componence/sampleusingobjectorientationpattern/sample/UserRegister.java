@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -75,10 +78,17 @@ public class UserRegister extends ActionBarActivity {
         giftImage = (ImageView) findViewById(R.id.image);
         from = (Spinner) findViewById(R.id.from);
 
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.user1);
+
+        giftImage.setImageBitmap(icon);
+
 
         // set circle bitmap
         ArrayAdapter<String> adapterFrom = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, fromwho);
+
         from.setAdapter(adapterFrom);
+
+
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override

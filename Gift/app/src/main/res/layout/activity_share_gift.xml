@@ -28,6 +28,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:id="@+id/description"
+        android:singleLine="true"
         android:hint="Description"/>
     <Spinner
         android:layout_width="354dp"

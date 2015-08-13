@@ -128,14 +128,14 @@ public class GiftHome extends ActionBarActivity {
                         @Override
                         public void success(JSONObject json) {
                             PAGE_NUM = gifts.size();
-                            Toast.makeText(getApplicationContext(), PAGE_NUM + "", Toast.LENGTH_LONG).show();
+                            //gifts.clear();
+                            PAGE_NUM = PAGE_NUM + 3;
                             GiftDataConverter giftDataConverter = new GiftDataConverter();
                             gifts = giftDataConverter.convertJSONToGifts(json);
                             CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
                             lv.setAdapter(adt);
                             lv.getMoreComplete();
                             lv.deferNotifyDataSetChanged();
-
                         }
 
                         @Override

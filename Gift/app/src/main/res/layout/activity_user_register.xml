@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1">
-    <ImageView
-        android:layout_width="match_parent"
+    <com.custome_componence.sampleusingobjectorientationpattern.sample.Circle
+        android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/image"
-        android:src="@mipmap/user1"/>
+        android:src="@mipmap/user1"
+        android:layout_gravity="center_horizontal" />
     <Button
         android:layout_width="351dp"
         android:layout_height="50dp"
@@ -51,7 +52,8 @@
 
         android:id="@+id/from"
         android:textAlignment="gravity"
-        android:spinnerMode="dialog" />
+        android:spinnerMode="dropdown"
+        />
 
 
         <EditText

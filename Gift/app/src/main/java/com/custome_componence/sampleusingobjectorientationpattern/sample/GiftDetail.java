@@ -170,8 +170,8 @@ public class GiftDetail extends ActionBarActivity {
                         GiftOperation.deleteGift(id1, new IOperationListener() {
                             @Override
                             public void success(JSONObject json) {
-                                Intent intentToHome = new Intent(GiftDetail.this, GiftHome.class);
-                                startActivity(intentToHome);
+                                Intent i = new Intent(getApplicationContext(), GiftHome.class);
+                                startActivity(i);
                             }
 
                             @Override
@@ -179,8 +179,7 @@ public class GiftDetail extends ActionBarActivity {
                                 Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
                             }
                         });
-                        Intent it1 = new Intent(GiftDetail.this, GiftDetail.class);
-                        startActivity(it1);
+
                     }
                 });
                 alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
