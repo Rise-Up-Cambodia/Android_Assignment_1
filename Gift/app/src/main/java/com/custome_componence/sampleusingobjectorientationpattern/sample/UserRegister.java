@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
+import com.custome_componence.sampleusingobjectorientationpattern.config.Constant;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.UserDataConverter;
 import com.custome_componence.sampleusingobjectorientationpattern.model.User;
 import com.custome_componence.sampleusingobjectorientationpattern.operation.IOperationListener;
@@ -267,7 +268,7 @@ public class UserRegister extends ActionBarActivity {
 
     public int uploadFile(String sourceFileUri) {
 
-        String upLoadServerUri = "http://192.168.1.22:8585/Android_Assignment_1/GiftApi/app/webroot/user_register.php";
+        String upLoadServerUri = Constant.BASE_URL1 +"/app/webroot/user_register.php";
         String filePth = sourceFileUri;
         //============================================= rename image name before upload===
         int dotCnt = filePth.indexOf(".");
