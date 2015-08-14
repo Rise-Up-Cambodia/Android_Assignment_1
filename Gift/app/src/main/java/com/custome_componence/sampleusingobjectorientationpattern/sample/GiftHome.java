@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.custome_componence.sampleusingobjectorientationpattern.R;
 import com.custome_componence.sampleusingobjectorientationpattern.converter.GiftDataConverter;
@@ -22,7 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Vanda on 4/8/2015
+ * Created by Vanda on 8/7/2015
  */
 public class GiftHome extends ActionBarActivity {
 
@@ -52,6 +51,7 @@ public class GiftHome extends ActionBarActivity {
                 lv.refreshComplete();
                 lv.getMoreComplete();
                 lv.deferNotifyDataSetChanged();
+
             }
 
             @Override
@@ -71,10 +71,6 @@ public class GiftHome extends ActionBarActivity {
             }
         });
 
-        /**
-         * Pull to refresh
-         */
-
         lv.setOnRefreshListener(new PullListView.OnRefreshListener() {
 
             @Override
@@ -84,14 +80,16 @@ public class GiftHome extends ActionBarActivity {
                 giftOperation.getAllGifts(new IOperationListener() {
                     @Override
                     public void success(JSONObject json) {
-                        PAGE_NUM = 3;
+                        /* These two line of code will be use next time */
                         GiftDataConverter giftDataConverter = new GiftDataConverter();
                         gifts = giftDataConverter.convertJSONToGifts(json);
                         CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
                         lv.setAdapter(adt);
                         lv.refreshComplete();
                         lv.deferNotifyDataSetChanged();
+
                     }
+
                     @Override
                     public void fail(int statusCode, String responseBody) {
 
@@ -99,86 +97,82 @@ public class GiftHome extends ActionBarActivity {
                 });
             }
         });
-
-        /**
-         * Pagination
-         */
-
         lv.setOnGetMoreListener(new PullListView.OnGetMoreListener() {
             @Override
             public void onGetMore() {
-//                if (PAGE_NUM <= gifts.size()) {
-//                    PAGE_NUM = PAGE_NUM + 3;
-//                } else {
-//                    PAGE_NUM = gifts.size();
-//                }
-                if(PAGE_NUM <= gifts.size()) {
-                    giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
-                        @Override
-                        public void success(JSONObject json) {
-                           PAGE_NUM = PAGE_NUM + 3;
-                            gifts.clear();
-                            GiftDataConverter giftDataConverter = new GiftDataConverter();
-                            gifts = giftDataConverter.convertJSONToGifts(json);
-                            CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
-                            lv.setAdapter(adt);
-                            lv.getMoreComplete();
-                            lv.deferNotifyDataSetChanged();
-                        }
-                        @Override
-                        public void fail(int statusCode, String responseBody) {
-
-                        }
-
-                    });
-                }else{
-
-                    giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
-                        @Override
-                        public void success(JSONObject json) {
-                            PAGE_NUM = gifts.size();
-                            //gifts.clear();
-                            PAGE_NUM = PAGE_NUM + 3;
-                            GiftDataConverter giftDataConverter = new GiftDataConverter();
-                            gifts = giftDataConverter.convertJSONToGifts(json);
-                            CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
-                            lv.setAdapter(adt);
-                            lv.getMoreComplete();
-                            lv.deferNotifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void fail(int statusCode, String responseBody) {
-
-                        }
-
-                    });
-                    lv.setNoMore();
+                gifts.clear();
+                if (PAGE_NUM <= gifts.size()) {
+                    PAGE_NUM += PAGE_NUM;
+                } else {
+                    PAGE_NUM = gifts.size();
                 }
+                giftOperation.getGiftByPage(PAGE_NUM, new IOperationListener() {
+                    @Override
+                    public void success(JSONObject json) {
+                        /* These two line of code will be use next time */
+                        GiftDataConverter giftDataConverter = new GiftDataConverter();
+                        gifts = giftDataConverter.convertJSONToGifts(json);
+                        CustomAdapter adt = new CustomAdapter(GiftHome.this, gifts);
+                        lv.setAdapter(adt);
+                        lv.getMoreComplete();
+                        lv.deferNotifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void fail(int statusCode, String responseBody) {
+
+                    }
+
+                });
 
             }
         });
 
-    }
 
-    //prevent backpress button
-    @Override
-    public void onBackPressed() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String gid = gifts.get(position).getId();
+                String username = gifts.get(position).getName();
+                Intent intent = new Intent(GiftHome.this, GiftDetail.class);
+                intent.putExtra("id", gid);
+                intent.putExtra("username", username);
+                startActivity(intent);
+            }
+        });
+
+        giftOperation.getAllGifts(new IOperationListener() {
+            @Override
+            public void success(JSONObject json) {
+
+                GiftDataConverter giftDataConverter = new GiftDataConverter();
+                gifts = giftDataConverter.convertJSONToGifts(json);
+                CustomAdapter adt = new CustomAdapter(GiftHome.this,gifts);
+                lv.setAdapter(adt);
+                lv.refreshComplete();
+                lv.getMoreComplete();
+                lv.deferNotifyDataSetChanged();
+
+            }
+
+            @Override
+            public void fail(int statusCode, String responseBody) {
+
+            }
+        });
+        lv.getMoreComplete();
+
     }
 
     /*
     * Created by Sreyleak 10/08/2015
     * */
+	
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_gift_home, menu);//Menu Resource, Menu
         return true;
     }
-
-    /*
-    * Option menu in Home Page
-    * */
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
